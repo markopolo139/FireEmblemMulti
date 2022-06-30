@@ -16,7 +16,7 @@ enum class CharacterClass(
             Stat.HEALTH to 25, Stat.STRENGTH to 9, Stat.MAGICK to 1, Stat.SKILL to 7,
             Stat.SPEED to 8, Stat.DEFENSE to 10, Stat.RESISTANCE to 6,
         ),
-        skills = listOf(Skill.LUNA, Skill.AEGIS)
+        skills = listOf(OffensiveSkill.LUNA, DefensiveSkill.AEGIS)
     ) {
         override val displayName: String
             get() = "Paladin"
@@ -28,7 +28,7 @@ enum class CharacterClass(
             Stat.HEALTH to 26, Stat.STRENGTH to 11, Stat.SKILL to 6,
             Stat.SPEED to 5, Stat.DEFENSE to 14, Stat.RESISTANCE to 1,
         ),
-        skills = listOf(Skill.LUNA, Skill.PAVISE)
+        skills = listOf(OffensiveSkill.LUNA, DefensiveSkill.AEGIS)
     ) {
         override val displayName: String
             get() = "Great Knight"
@@ -40,7 +40,7 @@ enum class CharacterClass(
             Stat.HEALTH to 28, Stat.STRENGTH to 12, Stat.SKILL to 7,
             Stat.SPEED to 4, Stat.DEFENSE to 15, Stat.RESISTANCE to 3,
         ),
-        skills = listOf(Skill.LUNA, Skill.PAVISE)
+        skills = listOf(OffensiveSkill.LUNA, DefensiveSkill.COUNTER)
     ) {
         override val displayName: String
             get() = "General"
@@ -52,7 +52,7 @@ enum class CharacterClass(
             Stat.HEALTH to 20, Stat.STRENGTH to 7, Stat.MAGICK to 2, Stat.SKILL to 11,
             Stat.SPEED to 13, Stat.DEFENSE to 6, Stat.RESISTANCE to 4,
         ),
-        skills = listOf(Skill.ASTRA, Skill.VANTAGE, Skill.AETHER)
+        skills = listOf(OffensiveSkill.ASTRA, OffensiveSkill.AETHER)
     ) {
         override val displayName: String
             get() = "Swordmaster"
@@ -64,7 +64,7 @@ enum class CharacterClass(
             Stat.HEALTH to 22, Stat.STRENGTH to 8, Stat.MAGICK to 1, Stat.SKILL to 11,
             Stat.SPEED to 10, Stat.DEFENSE to 8, Stat.RESISTANCE to 3,
         ),
-        skills = listOf(Skill.SOL, Skill.LUNA)
+        skills = listOf(OffensiveSkill.SOL, OffensiveSkill.LUNA)
     ) {
         override val displayName: String
             get() = "Hero"
@@ -76,7 +76,7 @@ enum class CharacterClass(
             Stat.HEALTH to 28, Stat.STRENGTH to 12, Stat.SKILL to 8,
             Stat.SPEED to 7, Stat.DEFENSE to 7, Stat.RESISTANCE to 3,
         ),
-        skills = listOf(Skill.LUNA, Skill.PAVISE)
+        skills = listOf(OffensiveSkill.LUNA, DefensiveSkill.COUNTER)
     ) {
         override val displayName: String
             get() = "Warrior"
@@ -88,7 +88,7 @@ enum class CharacterClass(
             Stat.HEALTH to 20, Stat.STRENGTH to 7, Stat.MAGICK to 1, Stat.SKILL to 15,
             Stat.SPEED to 9, Stat.DEFENSE to 10, Stat.RESISTANCE to 3,
         ),
-        skills = listOf(Skill.LETHALITY)
+        skills = listOf(OffensiveSkill.LETHALITY)
     ) {
         override val displayName: String
             get() = "Sniper"
@@ -100,7 +100,7 @@ enum class CharacterClass(
             Stat.HEALTH to 19, Stat.STRENGTH to 4, Stat.MAGICK to 4, Stat.SKILL to 12,
             Stat.SPEED to 11, Stat.DEFENSE to 3, Stat.RESISTANCE to 5,
         ),
-        skills = listOf(Skill.LETHALITY, Skill.MIRACLE)
+        skills = listOf(OffensiveSkill.LETHALITY, DefensiveSkill.MIRACLE)
     ) {
         override val displayName: String
             get() = "Trickster"
@@ -112,7 +112,7 @@ enum class CharacterClass(
             Stat.HEALTH to 20, Stat.STRENGTH to 6, Stat.MAGICK to 3, Stat.SKILL to 10,
             Stat.SPEED to 11, Stat.DEFENSE to 6, Stat.RESISTANCE to 9,
         ),
-        skills = listOf(Skill.MIRACLE, Skill.AETHER)
+        skills = listOf(DefensiveSkill.MIRACLE, OffensiveSkill.AETHER)
     ) {
         override val displayName: String
             get() = "Falcon Knight"
@@ -124,7 +124,7 @@ enum class CharacterClass(
             Stat.HEALTH to 22, Stat.STRENGTH to 9, Stat.SKILL to 10,
             Stat.SPEED to 9, Stat.DEFENSE to 8, Stat.RESISTANCE to 3,
         ),
-        skills = listOf(Skill.LUNA, Skill.SOL)
+        skills = listOf(OffensiveSkill.LUNA, DefensiveSkill.COUNTER)
     ) {
         override val displayName: String
             get() = "Griffon Rider"
@@ -136,7 +136,7 @@ enum class CharacterClass(
             Stat.HEALTH to 20, Stat.STRENGTH to 1, Stat.MAGICK to 7, Stat.SKILL to 5,
             Stat.SPEED to 7, Stat.DEFENSE to 4, Stat.RESISTANCE to 5,
         ),
-        skills = listOf(Skill.VENGEANCE, Skill.IGNIS, Skill.MIRACLE)
+        skills = listOf(OffensiveSkill.VENGEANCE, OffensiveSkill.IGNIS, DefensiveSkill.MIRACLE)
     ) {
         override val displayName: String
             get() = "Sage"
@@ -148,7 +148,7 @@ enum class CharacterClass(
             Stat.HEALTH to 25, Stat.STRENGTH to 4, Stat.MAGICK to 5, Stat.SKILL to 6,
             Stat.SPEED to 5, Stat.DEFENSE to 9, Stat.RESISTANCE to 5,
         ),
-        skills = listOf(Skill.IGNIS, Skill.AEGIS, Skill.PAVISE)
+        skills = listOf(OffensiveSkill.IGNIS, DefensiveSkill.AEGIS)
     ) {
         override val displayName: String
             get() = "Dark Knight"
@@ -160,7 +160,7 @@ enum class CharacterClass(
             Stat.HEALTH to 19, Stat.MAGICK to 5, Stat.SKILL to 4,
             Stat.SPEED to 8, Stat.DEFENSE to 3, Stat.RESISTANCE to 8,
         ),
-        skills = listOf(Skill.MIRACLE)
+        skills = listOf(DefensiveSkill.MIRACLE)
     ) {
         override val displayName: String
             get() = "Valkyrie"
