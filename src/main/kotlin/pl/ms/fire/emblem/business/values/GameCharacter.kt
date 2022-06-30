@@ -1,5 +1,6 @@
 package pl.ms.fire.emblem.business.values
 
+import pl.ms.fire.emblem.business.utlis.getStat
 import pl.ms.fire.emblem.business.values.character.CharacterClass
 import pl.ms.fire.emblem.business.values.character.Skill
 import pl.ms.fire.emblem.business.values.character.Stat
@@ -19,6 +20,11 @@ class GameCharacter(
     init {
         skills.sortedByDescending { it.priority }
     }
+
+    fun getOverallStat(stat: Stat) = stats.getStat(stat) + characterClass.boostStats.getStat(stat)
+
+    fun combineClassStatsWithCharacterStats() =
+        stats.mapValues { it.value + characterClass.boostStats.getStat(it.key) }.toMutableMap()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
