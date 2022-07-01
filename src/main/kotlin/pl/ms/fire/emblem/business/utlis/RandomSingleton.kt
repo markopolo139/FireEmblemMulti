@@ -1,7 +1,7 @@
 package pl.ms.fire.emblem.business.utlis
 
-import java.util.Random
+import kotlin.random.Random
 
 object RandomSingleton {
-    val random: Random = Random()
+    val random: Random = Random(0)
 }
