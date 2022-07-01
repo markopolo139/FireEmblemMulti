@@ -33,7 +33,8 @@ class CharacterPair(
         boostedStats = leadCharacter.combineClassStatsWithCharacterStats()
 
         if (supportCharacter != null) {
-            val supCharStats = supportCharacter!!.combineClassStatsWithCharacterStats().mapValues {
+            val supCharStats = supportCharacter!!.combineClassStatsWithCharacterStats().filter { it.key != Stat.HEALTH }
+                .mapValues {
                 when (it.value) {
                     in 1..10 -> 2
                     in 11..20 -> 4
@@ -92,4 +93,7 @@ class CharacterPair(
         updateBattleStat()
         updateBoostedStats()
     }
+
+    fun deadOfLeadCharacter() =
+        if (supportCharacter == null) null else CharacterPair(supportCharacter as GameCharacter, null)
 }
