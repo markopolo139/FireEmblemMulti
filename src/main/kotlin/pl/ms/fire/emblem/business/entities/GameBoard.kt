@@ -35,12 +35,12 @@ class GameBoard(
     }
 
     private fun getRandomTerrain() = when(RandomSingleton.random.nextInt(101)) {
-        in 0..24 -> Terrain.GRASS
-        in 25..49 -> Terrain.PLAIN
-        in 50..69 -> Terrain.FORREST
-        in 70..74 -> Terrain.MOUNTAIN
-        in 75..89 -> Terrain.SAND
-        in 90..100 -> Terrain.FORTRESS
+        in 0..29 -> Terrain.GRASS
+        in 30..59 -> Terrain.PLAIN
+        in 60..74 -> Terrain.FORREST
+        in 75..79 -> Terrain.MOUNTAIN
+        in 80..94 -> Terrain.SAND
+        in 95..100 -> Terrain.FORTRESS
         else -> Terrain.PLAIN
     }
 }
