@@ -12,10 +12,11 @@ class GameCharacter(
     var currentEquippedItem: Int,
     val equipment: List<Item>,
     val stats: Map<Stat, Int>,
-    val skills: List<Skill>,
     val characterClass: CharacterClass,
     val moved: Boolean
 ) {
+
+    val skills = characterClass.skills
 
     init {
         skills.sortedByDescending { it.priority }

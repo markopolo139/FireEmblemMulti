@@ -15,8 +15,8 @@ class CharacterPair(
     var boostedStats: MutableMap<Stat, Int> = mutableMapOf()
 
     init {
-        updateBattleStat()
         updateBoostedStats()
+        updateBattleStat()
     }
 
     fun updateBattleStat() {
