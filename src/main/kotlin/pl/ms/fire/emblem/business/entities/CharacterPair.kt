@@ -36,17 +36,16 @@ class CharacterPair(
             val supCharStats = supportCharacter!!.combineClassStatsWithCharacterStats().filter { it.key != Stat.HEALTH }
                 .mapValues {
                 when (it.value) {
-                    in 1..10 -> 2
+                    in 0..10 -> 2
                     in 11..20 -> 4
                     else -> 6
                 }
             }
 
-            boostedStats.mapValues { it.value + supCharStats.getStat(it.key)}
+            boostedStats = boostedStats.mapValues { it.value + supCharStats.getStat(it.key)}.toMutableMap()
         }
     }
 
-    //TODO: TEst if support assign is correct (if temp does not have only reference to lead)
     fun changeWithSupport() {
         if (supportCharacter == null)
             throw NoSupportCharacterException()
@@ -55,8 +54,8 @@ class CharacterPair(
         leadCharacter = supportCharacter as GameCharacter
         supportCharacter = tempCharacter
 
-        updateBattleStat()
         updateBoostedStats()
+        updateBattleStat()
     }
 
     fun separatePair(): CharacterPair {
@@ -66,8 +65,8 @@ class CharacterPair(
         val result = CharacterPair(supportCharacter as GameCharacter, null)
         supportCharacter = null
 
-        updateBattleStat()
         updateBoostedStats()
+        updateBattleStat()
 
         return result
     }
@@ -76,7 +75,7 @@ class CharacterPair(
         if (supportCharacter != null || characterPair.supportCharacter != null)
             throw PairAlreadyHaveSupportException()
 
-        return CharacterPair(characterPair.leadCharacter, leadCharacter)
+        return CharacterPair(leadCharacter, characterPair.leadCharacter)
     }
 
     fun tradeSupportCharacter(characterPair: CharacterPair) {
@@ -87,11 +86,11 @@ class CharacterPair(
         characterPair.supportCharacter = supportCharacter
         supportCharacter = temp
 
-        characterPair.updateBattleStat()
         characterPair.updateBoostedStats()
+        characterPair.updateBattleStat()
 
-        updateBattleStat()
         updateBoostedStats()
+        updateBattleStat()
     }
 
     fun deadOfLeadCharacter() =
