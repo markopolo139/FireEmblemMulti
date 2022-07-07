@@ -17,7 +17,7 @@ class BattleStatTest {
         val characterPair = CharacterPair(
             GameCharacter(
                 "Test", 30, 0,
-                listOf(
+                mutableListOf(
                     Item("Physic", 5, 100, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
                     Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
                     Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF)
