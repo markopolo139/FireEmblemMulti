@@ -10,7 +10,7 @@ class GameCharacter(
     val name: String,
     var remainingHealth: Int,
     var currentEquippedItem: Int,
-    val equipment: List<Item>,
+    val equipment: MutableList<Item>,
     val stats: Map<Stat, Int>,
     val characterClass: CharacterClass,
     val moved: Boolean
