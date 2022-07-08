@@ -35,14 +35,14 @@ class EquipmentManagementService {
 
             val tempItem = character.equipment.getOrNull(characterTradeItemIndex) ?: throw ItemDoesNotExistsException()
 
+            character.equipment.removeAt(characterTradeItemIndex)
             character.equipment.add(
                 characterTradeItemIndex,
                 tradeWithCharacter.equipment.getOrNull(tradeWithEquipmentIndex) ?: throw ItemDoesNotExistsException()
             )
 
-            tradeWithCharacter.equipment.add(
-                tradeWithEquipmentIndex, tempItem
-            )
+            tradeWithCharacter.equipment.removeAt(tradeWithEquipmentIndex)
+            tradeWithCharacter.equipment.add(tradeWithEquipmentIndex, tempItem)
 
         }
     }
