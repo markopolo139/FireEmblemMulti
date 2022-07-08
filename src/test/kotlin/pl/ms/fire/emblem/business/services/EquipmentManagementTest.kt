@@ -2,7 +2,9 @@ package pl.ms.fire.emblem.business.services
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import pl.ms.fire.emblem.business.exceptions.EquipmentLimitExceededException
 import pl.ms.fire.emblem.business.exceptions.ItemDoesNotExistsException
+import pl.ms.fire.emblem.business.exceptions.TradeEquippedItemException
 import pl.ms.fire.emblem.business.exceptions.WeaponNotAllowedException
 import pl.ms.fire.emblem.business.serices.EquipmentManagementService
 import pl.ms.fire.emblem.business.values.GameCharacter
@@ -39,30 +41,67 @@ class EquipmentManagementTest {
         false
     )
 
-    private val tradeWithCharacter = GameCharacter(
-        "Test", 30, 0,
-        mutableListOf(
-            Item("Physic", 5, 100, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-            Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-            Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-            Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF)
-        ),
-        mapOf(
-            Stat.HEALTH to 30,
-            Stat.STRENGTH to 10,
-            Stat.MAGICK to 20,
-            Stat.DEFENSE to 10,
-            Stat.RESISTANCE to 10,
-            Stat.SKILL to 15,
-            Stat.LUCK to 10,
-            Stat.SPEED to 10
-        ),
-        CharacterClass.DARK_KNIGHT,
-        false
-    )
-
     @Test
     fun `test trade item function`() {
+
+        val tradeWithCharacter = GameCharacter(
+            "Test", 30, 0,
+            mutableListOf(
+                Item("Physic", 5, 100, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF)
+            ),
+            mapOf(
+                Stat.HEALTH to 30,
+                Stat.STRENGTH to 10,
+                Stat.MAGICK to 20,
+                Stat.DEFENSE to 10,
+                Stat.RESISTANCE to 10,
+                Stat.SKILL to 15,
+                Stat.LUCK to 10,
+                Stat.SPEED to 10
+            ),
+            CharacterClass.DARK_KNIGHT,
+            false
+        )
+
+        Assertions.assertThrows(TradeEquippedItemException::class.java) {
+            equipmentService.tradeEquipment(
+                gameCharacter,tradeWithCharacter, 0, null
+            )
+        }
+
+        Assertions.assertThrows(EquipmentLimitExceededException::class.java) {
+            equipmentService.tradeEquipment(
+                gameCharacter,tradeWithCharacter, 1, null
+            )
+        }
+
+        Assertions.assertThrows(TradeEquippedItemException::class.java) {
+            equipmentService.tradeEquipment(
+                gameCharacter,tradeWithCharacter, 1, 0
+            )
+        }
+
+        Assertions.assertDoesNotThrow {
+            equipmentService.tradeEquipment(
+                gameCharacter, tradeWithCharacter, 1, 1
+            )
+        }
+
+        tradeWithCharacter.equipment.removeAt(5)
+
+        Assertions.assertDoesNotThrow {
+            equipmentService.tradeEquipment(
+                gameCharacter, tradeWithCharacter, 1, null
+            )
+        }
+
+        Assertions.assertEquals(6, tradeWithCharacter.equipment.size)
+        Assertions.assertEquals(4, gameCharacter.equipment.size)
 
     }
 

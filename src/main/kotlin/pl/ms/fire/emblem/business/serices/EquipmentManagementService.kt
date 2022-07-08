@@ -26,6 +26,8 @@ class EquipmentManagementService {
                 character.equipment.getOrNull(characterTradeItemIndex) ?: throw ItemDoesNotExistsException()
             )
 
+            character.equipment.removeAt(characterTradeItemIndex)
+
         }
         else {
             if (tradeWithCharacter.currentEquippedItem == tradeWithEquipmentIndex)
