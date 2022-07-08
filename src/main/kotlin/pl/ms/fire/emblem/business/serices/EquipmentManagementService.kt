@@ -12,13 +12,8 @@ class EquipmentManagementService {
     }
 
     fun tradeEquipment(
-        characterSpot: Spot, tradeWithSpot: Spot, characterTradeItemIndex: Int, tradeWithEquipmentIndex: Int?
+        character: GameCharacter, tradeWithCharacter: GameCharacter, characterTradeItemIndex: Int, tradeWithEquipmentIndex: Int?
     ) {
-        if (characterSpot.standingCharacter == null || tradeWithSpot.standingCharacter == null)
-            throw NoCharacterOnSpotException()
-
-        val character = characterSpot.standingCharacter!!.leadCharacter
-        val tradeWithCharacter = tradeWithSpot.standingCharacter!!.leadCharacter
 
         if (character.currentEquippedItem == characterTradeItemIndex)
             throw TradeEquippedItemException()
@@ -50,11 +45,7 @@ class EquipmentManagementService {
         }
     }
 
-    fun equipItem(characterSpot: Spot, equipItemIndex: Int) {
-        if (characterSpot.standingCharacter == null)
-            throw NoCharacterOnSpotException()
-
-        val character = characterSpot.standingCharacter!!.leadCharacter
+    fun equipItem(character: GameCharacter, equipItemIndex: Int) {
 
         validateItemToEquip(character, character.equipment[equipItemIndex])
 
