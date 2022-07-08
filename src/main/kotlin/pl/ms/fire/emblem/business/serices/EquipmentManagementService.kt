@@ -47,7 +47,7 @@ class EquipmentManagementService {
 
     fun equipItem(character: GameCharacter, equipItemIndex: Int) {
 
-        validateItemToEquip(character, character.equipment[equipItemIndex])
+        validateItemToEquip(character, character.equipment.getOrNull(equipItemIndex))
 
         character.currentEquippedItem = equipItemIndex
     }
