@@ -95,4 +95,28 @@ class CharacterPair(
 
     fun deadOfLeadCharacter() =
         if (supportCharacter == null) null else CharacterPair(supportCharacter as GameCharacter, null)
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as CharacterPair
+
+        if (leadCharacter != other.leadCharacter) return false
+        if (supportCharacter != other.supportCharacter) return false
+        if (battleStat != other.battleStat) return false
+        if (boostedStats != other.boostedStats) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = leadCharacter.hashCode()
+        result = 31 * result + (supportCharacter?.hashCode() ?: 0)
+        result = 31 * result + battleStat.hashCode()
+        result = 31 * result + boostedStats.hashCode()
+        return result
+    }
+
+
 }
