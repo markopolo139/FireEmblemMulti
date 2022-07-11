@@ -45,6 +45,8 @@ class EquipmentManagementService {
             tradeWithCharacter.equipment.add(tradeWithEquipmentIndex, tempItem)
 
         }
+
+        character.moved = true
     }
 
     fun equipItem(character: GameCharacter, equipItemIndex: Int) {

@@ -30,6 +30,8 @@ class CharacterManagementService {
             throw SeparatePairException()
 
         separateToSpot.standingCharacter = characterSpot.standingCharacter!!.separatePair()
+        characterSpot.standingCharacter!!.leadCharacter.moved = true
+        separateToSpot.standingCharacter!!.leadCharacter.moved = true
 
     }
 
@@ -38,6 +40,9 @@ class CharacterManagementService {
             throw NoCharacterOnSpotException()
 
         characterSpot.standingCharacter!!.tradeSupportCharacter(tradeWithSpot.standingCharacter!!)
+
+        characterSpot.standingCharacter!!.leadCharacter.moved = true
+        tradeWithSpot.standingCharacter!!.leadCharacter.moved = true
     }
 
 }
