@@ -11,20 +11,22 @@ class GameCharacter(
     var remainingHealth: Int,
     var currentEquippedItem: Int,
     val equipment: MutableList<Item>,
-    val stats: Map<Stat, Int>,
+    private val stats: Map<Stat, Int>,
     val characterClass: CharacterClass,
-    val moved: Boolean
+    var moved: Boolean
 ) {
 
     val skills = characterClass.skills
+    val combinedStat: MutableMap<Stat, Int>
 
     init {
         skills.sortedByDescending { it.priority }
+        combinedStat = combineClassStatsWithCharacterStats()
     }
 
     fun getOverallStat(stat: Stat) = stats.getStat(stat) + characterClass.boostStats.getStat(stat)
 
-    fun combineClassStatsWithCharacterStats() =
+    private fun combineClassStatsWithCharacterStats() =
         stats.mapValues { it.value + characterClass.boostStats.getStat(it.key) }.toMutableMap()
 
     override fun equals(other: Any?): Boolean {

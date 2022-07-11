@@ -30,10 +30,10 @@ class CharacterPair(
     }
 
     private fun updateBoostedStats() {
-        boostedStats = leadCharacter.combineClassStatsWithCharacterStats()
+        boostedStats = leadCharacter.combinedStat
 
         if (supportCharacter != null) {
-            val supCharStats = supportCharacter!!.combineClassStatsWithCharacterStats().filter { it.key != Stat.HEALTH }
+            val supCharStats = supportCharacter!!.combinedStat.filter { it.key != Stat.HEALTH }
                 .mapValues {
                 when (it.value) {
                     in 0..10 -> 2
