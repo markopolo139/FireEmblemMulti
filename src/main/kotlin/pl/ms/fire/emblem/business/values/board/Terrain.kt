@@ -2,7 +2,7 @@ package pl.ms.fire.emblem.business.values.board
 
 import pl.ms.fire.emblem.business.utlis.Displayable
 
-enum class Terrain(dmgReduction: Int, movementReduction: Int): Displayable {
+enum class Terrain(val dmgReduction: Int, val movementReduction: Int): Displayable {
     GRASS(0,1),
     PLAIN(0,1),
     FORREST(2,2),

@@ -14,10 +14,16 @@ import pl.ms.fire.emblem.business.values.character.Stat
 class BoardService {
     //TODO: Both move (create collection of spot as route to validation) if good then move pair
     fun movePair(pairSpot: Spot, destination: Spot, gameBoard: GameBoard) {
+
+        if (pairSpot.standingCharacter == null)
+            throw NoCharacterOnSpotException()
         //TODO: create 2-3 routes
     }
 
     fun movePair(pairSpot: Spot, route: Collection<Position>, gameBoard: GameBoard) {
+
+        if (pairSpot.standingCharacter == null)
+            throw NoCharacterOnSpotException()
 
     }
 
@@ -58,9 +64,18 @@ class BoardService {
         staffUser.moved = true
     }
 
-    private fun movePairValidation(pairSpot: Spot, route: Collection<Spot>) {
+    private fun routeValidation(pairSpot: Spot, route: Collection<Spot>) {
 
-        //TODO: validate standing characters, validate if character can go to destination spot via route
+        if (route.last().standingCharacter != null)
+            throw PairAlreadyOnSpotException()
 
+        var movementLeft = pairSpot.standingCharacter!!.leadCharacter.characterClass.movement
+
+        for (spot in route) {
+            movementLeft -= spot.terrain.movementReduction
+
+            if (movementLeft < 0)
+                throw NotEnoughMovementException()
+        }
     }
 }
