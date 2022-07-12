@@ -6,7 +6,7 @@ import pl.ms.fire.emblem.business.values.character.Skill
 import pl.ms.fire.emblem.business.values.character.Stat
 import pl.ms.fire.emblem.business.values.items.Item
 
-class GameCharacter(
+open class GameCharacter(
     val name: String,
     var remainingHealth: Int,
     var currentEquippedItem: Int,

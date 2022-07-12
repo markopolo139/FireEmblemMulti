@@ -2,7 +2,7 @@ package pl.ms.fire.emblem.business.values.board
 
 import pl.ms.fire.emblem.business.entities.CharacterPair
 
-class Spot(
+open class Spot(
     val position: Position,
     val terrain: Terrain,
     var standingCharacter: CharacterPair?
