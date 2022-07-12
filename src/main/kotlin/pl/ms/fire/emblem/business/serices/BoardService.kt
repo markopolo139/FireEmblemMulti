@@ -20,11 +20,18 @@ class BoardService {
         //TODO: create 2-3 routes
     }
 
-    fun movePair(pairSpot: Spot, route: Collection<Position>, gameBoard: GameBoard) {
+    fun movePair(pairSpot: Spot, route: Collection<Position>, gameBoard: GameBoard): List<Spot> {
 
         if (pairSpot.standingCharacter == null)
             throw NoCharacterOnSpotException()
 
+        routeValidation(pairSpot, mapPositionRouteToSpotRoute(route, gameBoard))
+
+        val destination = gameBoard.getSpot(route.last())
+        destination.standingCharacter = pairSpot.standingCharacter
+        pairSpot.standingCharacter = null
+
+        return listOf(pairSpot, destination)
     }
 
     fun startTurn(playerCharacters: Collection<CharacterPair>) {
@@ -78,4 +85,7 @@ class BoardService {
                 throw NotEnoughMovementException()
         }
     }
+
+    private fun mapPositionRouteToSpotRoute(route: Collection<Position>, gameBoard: GameBoard): List<Spot> =
+        route.map { gameBoard.getSpot(it) }.toList()
 }
