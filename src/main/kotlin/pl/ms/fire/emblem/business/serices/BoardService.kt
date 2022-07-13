@@ -12,14 +12,6 @@ import pl.ms.fire.emblem.business.values.category.WeaponCategory
 import pl.ms.fire.emblem.business.values.character.Stat
 
 class BoardService {
-    //TODO: Both move (create collection of spot as route to validation) if good then move pair
-    fun movePair(pairSpot: Spot, destination: Spot, gameBoard: GameBoard) {
-
-        if (pairSpot.standingCharacter == null)
-            throw NoCharacterOnSpotException()
-        //TODO: create 2-3 routes
-    }
-
     fun movePair(pairSpot: Spot, route: Collection<Position>, gameBoard: GameBoard): List<Spot> {
 
         if (pairSpot.standingCharacter == null)
@@ -83,6 +75,9 @@ class BoardService {
 
             if (movementLeft < 0)
                 throw NotEnoughMovementException()
+
+            if (spot.standingCharacter != null)
+                throw PairOnRouteException()
         }
     }
 
