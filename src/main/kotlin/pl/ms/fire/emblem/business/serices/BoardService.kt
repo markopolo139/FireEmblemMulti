@@ -69,6 +69,7 @@ class BoardService {
             throw PairAlreadyOnSpotException()
 
         var movementLeft = pairSpot.standingCharacter!!.leadCharacter.characterClass.movement
+        var lastPosition = pairSpot.position
 
         for (spot in route) {
             movementLeft -= spot.terrain.movementReduction
@@ -78,6 +79,11 @@ class BoardService {
 
             if (spot.standingCharacter != null)
                 throw PairOnRouteException()
+
+            if (Position.checkAbsolutePosition(spot.position, lastPosition) != 1)
+                throw RouteNotConstantException()
+
+            lastPosition = spot.position
         }
     }
 
