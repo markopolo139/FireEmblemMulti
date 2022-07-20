@@ -24,6 +24,7 @@ class BattleService {
 
         if (defender.standingCharacter!!.leadCharacter.remainingHealth <= 0) {
             defender.standingCharacter = defender.standingCharacter!!.deadOfLeadCharacter()
+            attacker.standingCharacter!!.leadCharacter.moved = true
             return
         }
 
@@ -54,6 +55,8 @@ class BattleService {
             if (defender.standingCharacter!!.leadCharacter.remainingHealth <= 0)
                 defender.standingCharacter = defender.standingCharacter!!.deadOfLeadCharacter()
         }
+
+        attacker.standingCharacter!!.leadCharacter.moved = true
 
     }
 
