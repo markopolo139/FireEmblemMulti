@@ -91,6 +91,9 @@ class BattleService {
             defender.standingCharacter!!.leadCharacter.equipment.getOrNull(defender.standingCharacter!!.leadCharacter.currentEquippedItem)
                 ?: return WeaponTriangle.NORMAL
 
+        if (!defender.standingCharacter!!.leadCharacter.characterClass.allowedWeapons.contains(defenderWeapon.weaponCategory))
+            return WeaponTriangle.NORMAL
+
         return if (attackerWeapon.weaponCategory.superiorCategory == defenderWeapon.weaponCategory) {
             WeaponTriangle.ADVANTAGE
         } else {
