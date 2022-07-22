@@ -4,6 +4,6 @@ import pl.ms.fire.emblem.business.entities.CharacterPair
 
 class MissBattleCalculator: BattleCalculator {
     override fun calcDmg(playerPair: CharacterPair, enemyPair: CharacterPair): Int {
-        return 0
+        return Int.MIN_VALUE
     }
 }

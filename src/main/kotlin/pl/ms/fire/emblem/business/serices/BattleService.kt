@@ -1,6 +1,7 @@
 package pl.ms.fire.emblem.business.serices
 
 import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
+import pl.ms.fire.emblem.business.exceptions.battle.StaffInBattleException
 import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
 import pl.ms.fire.emblem.business.exceptions.item.NoItemEquippedException
 import pl.ms.fire.emblem.business.serices.battle.BattleCalculator
@@ -11,6 +12,7 @@ import pl.ms.fire.emblem.business.utlis.getStat
 import pl.ms.fire.emblem.business.values.battle.WeaponTriangle
 import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot
+import pl.ms.fire.emblem.business.values.category.WeaponCategory
 import pl.ms.fire.emblem.business.values.character.DefensiveSkill
 import pl.ms.fire.emblem.business.values.character.OffensiveSkill
 
@@ -72,6 +74,9 @@ class BattleService {
 
         val equippedWeapon = standingPair.leadCharacter.equipment.getOrNull(standingPair.leadCharacter.currentEquippedItem)
             ?: throw NoItemEquippedException()
+
+        if (equippedWeapon.weaponCategory == WeaponCategory.STAFF)
+            throw StaffInBattleException()
 
         if (Position.checkAbsolutePosition(attacker.position, defender.position) > equippedWeapon.range)
             throw OutOfRangeException()
