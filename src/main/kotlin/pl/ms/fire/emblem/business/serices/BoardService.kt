@@ -1,9 +1,16 @@
 package pl.ms.fire.emblem.business.serices
 
-import org.springframework.security.access.prepost.PostAuthorize
 import pl.ms.fire.emblem.business.entities.CharacterPair
 import pl.ms.fire.emblem.business.entities.GameBoard
-import pl.ms.fire.emblem.business.exceptions.*
+import pl.ms.fire.emblem.business.exceptions.battle.NotAllowedWeaponCategoryException
+import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
+import pl.ms.fire.emblem.business.exceptions.board.NotEnoughMovementException
+import pl.ms.fire.emblem.business.exceptions.board.PairOnRouteException
+import pl.ms.fire.emblem.business.exceptions.board.RouteNotConstantException
+import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
+import pl.ms.fire.emblem.business.exceptions.character.PairAlreadyOnSpotException
+import pl.ms.fire.emblem.business.exceptions.item.ItemDoesNotExistsException
+import pl.ms.fire.emblem.business.exceptions.item.NotStaffException
 import pl.ms.fire.emblem.business.utlis.getStat
 import pl.ms.fire.emblem.business.values.GameCharacter
 import pl.ms.fire.emblem.business.values.board.Position

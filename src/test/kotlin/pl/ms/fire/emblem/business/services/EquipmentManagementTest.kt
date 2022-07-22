@@ -2,10 +2,10 @@ package pl.ms.fire.emblem.business.services
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import pl.ms.fire.emblem.business.exceptions.EquipmentLimitExceededException
-import pl.ms.fire.emblem.business.exceptions.ItemDoesNotExistsException
-import pl.ms.fire.emblem.business.exceptions.TradeEquippedItemException
-import pl.ms.fire.emblem.business.exceptions.WeaponNotAllowedException
+import pl.ms.fire.emblem.business.exceptions.item.EquipmentLimitExceededException
+import pl.ms.fire.emblem.business.exceptions.item.ItemDoesNotExistsException
+import pl.ms.fire.emblem.business.exceptions.item.TradeEquippedItemException
+import pl.ms.fire.emblem.business.exceptions.item.WeaponNotAllowedException
 import pl.ms.fire.emblem.business.serices.EquipmentManagementService
 import pl.ms.fire.emblem.business.values.GameCharacter
 import pl.ms.fire.emblem.business.values.category.AttackCategory

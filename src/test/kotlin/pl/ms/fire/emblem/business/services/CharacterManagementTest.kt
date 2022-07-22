@@ -3,9 +3,9 @@ package pl.ms.fire.emblem.business.services
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.ms.fire.emblem.business.entities.CharacterPair
-import pl.ms.fire.emblem.business.exceptions.NoCharacterOnSpotException
-import pl.ms.fire.emblem.business.exceptions.NoSupportCharacterException
-import pl.ms.fire.emblem.business.exceptions.SeparatePairException
+import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
+import pl.ms.fire.emblem.business.exceptions.character.NoSupportCharacterException
+import pl.ms.fire.emblem.business.exceptions.character.SeparatePairException
 import pl.ms.fire.emblem.business.serices.CharacterManagementService
 import pl.ms.fire.emblem.business.values.GameCharacter
 import pl.ms.fire.emblem.business.values.board.Position

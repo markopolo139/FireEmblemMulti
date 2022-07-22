@@ -2,8 +2,8 @@ package pl.ms.fire.emblem.business.entities
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import pl.ms.fire.emblem.business.exceptions.NoSupportCharacterException
-import pl.ms.fire.emblem.business.exceptions.PairAlreadyHaveSupportException
+import pl.ms.fire.emblem.business.exceptions.character.NoSupportCharacterException
+import pl.ms.fire.emblem.business.exceptions.character.PairAlreadyHaveSupportException
 import pl.ms.fire.emblem.business.values.GameCharacter
 import pl.ms.fire.emblem.business.values.category.AttackCategory
 import pl.ms.fire.emblem.business.values.category.WeaponCategory

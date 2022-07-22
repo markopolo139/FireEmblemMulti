@@ -1,5 +1,6 @@
-package pl.ms.fire.emblem.business.exceptions
+package pl.ms.fire.emblem.business.exceptions.battle
 
+import pl.ms.fire.emblem.business.exceptions.BusinessException
 import pl.ms.fire.emblem.business.values.category.WeaponCategory
 
 class NotAllowedWeaponCategoryException(

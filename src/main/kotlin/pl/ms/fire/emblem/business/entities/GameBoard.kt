@@ -1,7 +1,7 @@
 package pl.ms.fire.emblem.business.entities
 
 import pl.ms.fire.emblem.business.exceptions.PositionOutOfBoundsException
-import pl.ms.fire.emblem.business.exceptions.SpotDoesNotExistsException
+import pl.ms.fire.emblem.business.exceptions.board.SpotDoesNotExistsException
 import pl.ms.fire.emblem.business.utlis.RandomSingleton
 import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot

@@ -1,7 +1,7 @@
 package pl.ms.fire.emblem.business.entities
 
-import pl.ms.fire.emblem.business.exceptions.NoSupportCharacterException
-import pl.ms.fire.emblem.business.exceptions.PairAlreadyHaveSupportException
+import pl.ms.fire.emblem.business.exceptions.character.NoSupportCharacterException
+import pl.ms.fire.emblem.business.exceptions.character.PairAlreadyHaveSupportException
 import pl.ms.fire.emblem.business.utlis.getStat
 import pl.ms.fire.emblem.business.values.GameCharacter
 import pl.ms.fire.emblem.business.values.character.BattleStat

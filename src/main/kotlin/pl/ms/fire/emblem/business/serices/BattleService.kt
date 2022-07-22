@@ -1,6 +1,8 @@
 package pl.ms.fire.emblem.business.serices
 
-import pl.ms.fire.emblem.business.exceptions.*
+import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
+import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
+import pl.ms.fire.emblem.business.exceptions.item.NoItemEquippedException
 import pl.ms.fire.emblem.business.serices.battle.BattleCalculator
 import pl.ms.fire.emblem.business.serices.battle.DefaultBattleCalculator
 import pl.ms.fire.emblem.business.serices.battle.MissBattleCalculator
@@ -11,7 +13,6 @@ import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot
 import pl.ms.fire.emblem.business.values.character.DefensiveSkill
 import pl.ms.fire.emblem.business.values.character.OffensiveSkill
-import pl.ms.fire.emblem.business.values.character.Stat
 
 class BattleService {
 

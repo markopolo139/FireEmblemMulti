@@ -1,7 +1,7 @@
 package pl.ms.fire.emblem.business.serices
 
-import pl.ms.fire.emblem.business.exceptions.NoCharacterOnSpotException
-import pl.ms.fire.emblem.business.exceptions.SeparatePairException
+import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
+import pl.ms.fire.emblem.business.exceptions.character.SeparatePairException
 import pl.ms.fire.emblem.business.values.board.Spot
 
 class CharacterManagementService {

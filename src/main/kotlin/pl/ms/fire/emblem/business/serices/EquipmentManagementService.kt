@@ -1,8 +1,10 @@
 package pl.ms.fire.emblem.business.serices
 
-import pl.ms.fire.emblem.business.exceptions.*
+import pl.ms.fire.emblem.business.exceptions.item.EquipmentLimitExceededException
+import pl.ms.fire.emblem.business.exceptions.item.ItemDoesNotExistsException
+import pl.ms.fire.emblem.business.exceptions.item.TradeEquippedItemException
+import pl.ms.fire.emblem.business.exceptions.item.WeaponNotAllowedException
 import pl.ms.fire.emblem.business.values.GameCharacter
-import pl.ms.fire.emblem.business.values.board.Spot
 import pl.ms.fire.emblem.business.values.items.Item
 
 class EquipmentManagementService {

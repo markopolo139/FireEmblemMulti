@@ -4,7 +4,12 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.ms.fire.emblem.business.entities.CharacterPair
 import pl.ms.fire.emblem.business.entities.GameBoard
-import pl.ms.fire.emblem.business.exceptions.*
+import pl.ms.fire.emblem.business.exceptions.battle.NotAllowedWeaponCategoryException
+import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
+import pl.ms.fire.emblem.business.exceptions.board.NotEnoughMovementException
+import pl.ms.fire.emblem.business.exceptions.board.PairOnRouteException
+import pl.ms.fire.emblem.business.exceptions.board.RouteNotConstantException
+import pl.ms.fire.emblem.business.exceptions.item.NotStaffException
 import pl.ms.fire.emblem.business.serices.BoardService
 import pl.ms.fire.emblem.business.utlis.getStat
 import pl.ms.fire.emblem.business.values.GameCharacter
