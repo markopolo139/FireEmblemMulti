@@ -82,7 +82,7 @@ enum class CharacterClass(
             get() = "Warrior"
     },
     SNIPER(
-        allowedWeapons = listOf(WeaponCategory.SWORD, WeaponCategory.LANCE),
+        allowedWeapons = listOf(WeaponCategory.BOW),
         movement = 6,
         boostStats = mapOf(
             Stat.HEALTH to 20, Stat.STRENGTH to 7, Stat.MAGICK to 1, Stat.SKILL to 15,
