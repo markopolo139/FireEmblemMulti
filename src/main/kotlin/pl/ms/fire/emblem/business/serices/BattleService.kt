@@ -8,6 +8,7 @@ import pl.ms.fire.emblem.business.serices.battle.BattleCalculator
 import pl.ms.fire.emblem.business.serices.battle.DefaultBattleCalculator
 import pl.ms.fire.emblem.business.serices.battle.MissBattleCalculator
 import pl.ms.fire.emblem.business.utlis.BattleUtils
+import pl.ms.fire.emblem.business.utlis.Displayable
 import pl.ms.fire.emblem.business.utlis.getStat
 import pl.ms.fire.emblem.business.values.battle.WeaponTriangle
 import pl.ms.fire.emblem.business.values.board.Position
@@ -18,25 +19,31 @@ import pl.ms.fire.emblem.business.values.character.OffensiveSkill
 
 class BattleService {
 
-    fun battle(attacker: Spot, defender: Spot) {
+    fun battle(attacker: Spot, defender: Spot): List<Displayable> {
         preBattleValidation(attacker, defender)
         val attackerWeaponTriangle = checkWeaponTriangle(attacker, defender)
         var calculator = setUpBattleCalculator(attacker, defender, attackerWeaponTriangle)
+        val battleCourse = mutableListOf(calculator as Displayable)
+
         var dmgDealt = calculator.calcDmg(attacker.standingCharacter!!, defender.standingCharacter!!)
-        setHealth(defender, dmgDealt, attackerWeaponTriangle)
+        setHealth(defender, dmgDealt, attackerWeaponTriangle, battleCourse)
+
 
         if (defender.standingCharacter!!.leadCharacter.remainingHealth <= 0) {
             defender.standingCharacter = defender.standingCharacter!!.deadOfLeadCharacter()
             attacker.standingCharacter!!.leadCharacter.moved = true
-            return
+            return battleCourse
         }
 
         try {
             preBattleValidation(defender, attacker)
             val defenderWeaponTriangle = checkWeaponTriangle(defender, attacker)
             calculator = setUpBattleCalculator(defender, attacker, defenderWeaponTriangle)
+            battleCourse.add(calculator as Displayable)
+
             dmgDealt = calculator.calcDmg(defender.standingCharacter!!, attacker.standingCharacter!!)
-            setHealth(attacker, dmgDealt, defenderWeaponTriangle)
+            setHealth(attacker, dmgDealt, defenderWeaponTriangle, battleCourse)
+
         }
         catch (ex: Exception) {
             when(ex) {
@@ -47,19 +54,24 @@ class BattleService {
 
         if (attacker.standingCharacter!!.leadCharacter.remainingHealth <= 0) {
             attacker.standingCharacter = attacker.standingCharacter!!.deadOfLeadCharacter()
-            return
+            return battleCourse
         }
 
         if(BattleUtils.isDoubleAttack(attacker.standingCharacter!!, defender.standingCharacter!!)) {
             calculator = setUpBattleCalculator(attacker, defender, attackerWeaponTriangle)
+            battleCourse.add(calculator as Displayable)
+
             dmgDealt = calculator.calcDmg(attacker.standingCharacter!!, defender.standingCharacter!!)
-            setHealth(defender, dmgDealt, attackerWeaponTriangle)
+            setHealth(defender, dmgDealt, attackerWeaponTriangle, battleCourse)
+
 
             if (defender.standingCharacter!!.leadCharacter.remainingHealth <= 0)
                 defender.standingCharacter = defender.standingCharacter!!.deadOfLeadCharacter()
         }
 
         attacker.standingCharacter!!.leadCharacter.moved = true
+
+        return battleCourse
 
     }
 
@@ -125,7 +137,7 @@ class BattleService {
         return DefaultBattleCalculator()
     }
 
-    private fun setHealth(defender: Spot, dmgDealt: Int, weaponTriangle: WeaponTriangle) {
+    private fun setHealth(defender: Spot, dmgDealt: Int, weaponTriangle: WeaponTriangle, battleCourse: MutableList<Displayable>) {
         var trueDmgDealt = if (dmgDealt - defender.terrain.dmgReduction + weaponTriangle.dmgDealtModifier <= 0) return
         else dmgDealt - defender.terrain.dmgReduction + weaponTriangle.dmgDealtModifier
 
@@ -135,7 +147,11 @@ class BattleService {
                 BattleUtils.skillCheck(
                     skill.percentCalc.invoke(defenderPair.boostedStats.getStat(skill.statUsedToCalculation))
                 ) && skill is DefensiveSkill
-            ) trueDmgDealt = skill.dmgModifier(trueDmgDealt, defenderPair.leadCharacter.remainingHealth)
+            ) {
+                trueDmgDealt = skill.dmgModifier(trueDmgDealt, defenderPair.leadCharacter.remainingHealth)
+                battleCourse.add(skill as Displayable)
+                break
+            }
 
         defender.standingCharacter!!.leadCharacter.remainingHealth -= trueDmgDealt
     }
