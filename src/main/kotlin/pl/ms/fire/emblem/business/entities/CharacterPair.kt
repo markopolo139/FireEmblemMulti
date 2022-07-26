@@ -11,7 +11,7 @@ class CharacterPair(
     var leadCharacter: GameCharacter,
     var supportCharacter: GameCharacter?,
 ) {
-    val battleStat: BattleStat = BattleStat(0,0,0,0)
+    val battleStat: BattleStat = BattleStat(0,0,0,0,0)
     var boostedStats: MutableMap<Stat, Int> = mutableMapOf()
 
     init {

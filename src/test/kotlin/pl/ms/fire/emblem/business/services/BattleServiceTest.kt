@@ -32,11 +32,11 @@ class BattleServiceTest {
         val attacker = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 10, 100, 10, 2, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
+                Item("Sword", 10, 100, 10, 2, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -56,11 +56,11 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 5, 100, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
+                Item("Sword", 5, 100, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -105,11 +105,11 @@ class BattleServiceTest {
         val attacker = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
+                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -129,11 +129,11 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 31, 0,
             mutableListOf(
-                Item("Axe", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.AXE),
-                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
+                Item("Axe", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.AXE, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -164,11 +164,11 @@ class BattleServiceTest {
         val attacker = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
+                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -188,11 +188,11 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 31, 0,
             mutableListOf(
-                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
+                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -230,11 +230,11 @@ class BattleServiceTest {
         val attacker = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
+                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -254,11 +254,11 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 31, 0,
             mutableListOf(
-                Item("Lance", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
-                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
+                Item("Lance", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -288,11 +288,11 @@ class BattleServiceTest {
         val attacker = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 5, 100, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
+                Item("Sword", 5, 100, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -312,11 +312,11 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 31, 0,
             mutableListOf(
-                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
+                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -346,11 +346,11 @@ class BattleServiceTest {
         val attacker = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
+                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -370,11 +370,11 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 24, 0,
             mutableListOf(
-                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
+                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -403,11 +403,11 @@ class BattleServiceTest {
         val attacker = GameCharacter(
             "Test", 1, 0,
             mutableListOf(
-                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
+                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -427,11 +427,11 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 31, 0,
             mutableListOf(
-                Item("Sword", 5, 500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
+                Item("Sword", 5, 500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -461,11 +461,11 @@ class BattleServiceTest {
         val attacker = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
+                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -485,11 +485,11 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
+                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -520,11 +520,11 @@ class BattleServiceTest {
         val attacker = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
+                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -544,11 +544,11 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 16, 0,
             mutableListOf(
-                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
+                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -584,11 +584,11 @@ class BattleServiceTest {
         val attacker = GameCharacter(
             "Test", 30, 0,
             mutableListOf(
-                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
+                Item("Sword", 5, 500, 0, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,
@@ -608,11 +608,11 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 1, 0,
             mutableListOf(
-                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF),
-                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE),
+                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
             ),
             mapOf(
                 Stat.HEALTH to 30,

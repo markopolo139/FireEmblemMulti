@@ -18,9 +18,9 @@ class BattleStatTest {
             GameCharacter(
                 "Test", 30, 0,
                 mutableListOf(
-                    Item("Physic", 5, 100, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD),
-                    Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME),
-                    Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF)
+                    Item("Physic", 5, 100, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                    Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 2),
+                    Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 3)
                 ),
                 mapOf(
                     Stat.HEALTH to 30,
@@ -37,15 +37,15 @@ class BattleStatTest {
             ), null
         )
 
-        Assertions.assertEquals(BattleStat(19, 129, 30, 18), characterPair.battleStat)
+        Assertions.assertEquals(BattleStat(19, 129, 30, 18, 16), characterPair.battleStat)
 
         characterPair.leadCharacter.currentEquippedItem = 1
         characterPair.updateBattleStat()
-        Assertions.assertEquals(BattleStat(25, 129, 30, 13), characterPair.battleStat)
+        Assertions.assertEquals(BattleStat(25, 129, 30, 13, 15), characterPair.battleStat)
 
         characterPair.leadCharacter.currentEquippedItem = 2
         characterPair.updateBattleStat()
-        Assertions.assertEquals(BattleStat(0, 0, 30, 0), characterPair.battleStat)
+        Assertions.assertEquals(BattleStat(0, 0, 30, 0, 14), characterPair.battleStat)
 
     }
 
