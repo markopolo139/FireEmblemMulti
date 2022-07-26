@@ -13,6 +13,6 @@ object BattleUtils {
     fun skillCheck(percent: Int) = RandomSingleton.random.nextInt(1, 101) <= percent
 
     fun isDoubleAttack(attackerPair: CharacterPair, defenderPair: CharacterPair): Boolean =
-        attackerPair.boostedStats.getStat(Stat.SPEED) - defenderPair.boostedStats.getStat(Stat.SPEED) >= 5
+        attackerPair.battleStat.attackSpeed - defenderPair.battleStat.attackSpeed >= 5
 
 }

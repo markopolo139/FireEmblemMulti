@@ -9,7 +9,8 @@ class BattleStat(
     var attack: Int,
     var hitRate: Int,
     var avoid: Int,
-    var critical: Int
+    var critical: Int,
+    var attackSpeed: Int
 ) {
 
     fun updateBattleStats(characterPair: CharacterPair) {
@@ -20,6 +21,7 @@ class BattleStat(
         val stats = characterPair.boostedStats
 
         avoid = (stats.getStat(Stat.SPEED) * 3 + stats.getStat(Stat.LUCK)) / 2
+        attackSpeed = stats.getStat(Stat.SPEED) - (currentEquippedWeapon?.weight ?: 0)
 
         if ((currentEquippedWeapon == null) || currentEquippedWeapon.weaponCategory == WeaponCategory.STAFF) {
             attack = 0
