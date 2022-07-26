@@ -16,11 +16,11 @@ open class GameCharacter(
     var moved: Boolean
 ) {
 
-    val skills = characterClass.skills
+    var skills = characterClass.skills
     val combinedStat: MutableMap<Stat, Int>
 
     init {
-        skills.sortedByDescending { it.priority }
+        skills = skills.sortedByDescending { it.priority }
         combinedStat = combineClassStatsWithCharacterStats()
     }
 

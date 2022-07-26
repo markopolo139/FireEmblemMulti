@@ -127,7 +127,7 @@ class BattleService {
             )
         ) return MissBattleCalculator()
 
-        for (skill in attackerPair.leadCharacter.characterClass.skills)
+        for (skill in attackerPair.leadCharacter.skills)
             if (
                 BattleUtils.skillCheck(
                     skill.percentCalc.invoke(attackerPair.boostedStats.getStat(skill.statUsedToCalculation))
