@@ -10,7 +10,8 @@ open class Item(
     val criticalPercent: Int,
     val range: Int,
     val attackCategory: AttackCategory,
-    val weaponCategory: WeaponCategory
+    val weaponCategory: WeaponCategory,
+    val weight: Int
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
