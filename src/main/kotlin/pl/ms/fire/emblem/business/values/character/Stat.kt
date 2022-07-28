@@ -10,11 +10,11 @@ enum class Stat(
     HEALTH(AttackCategory.NONE),
     STRENGTH(AttackCategory.PHYSICAL),
     DEFENSE(AttackCategory.PHYSICAL),
-    MAGICK (AttackCategory.MAGICAL),
-    RESISTANCE (AttackCategory.MAGICAL),
-    SKILL (AttackCategory.NONE),
-    LUCK (AttackCategory.NONE),
-    SPEED (AttackCategory.NONE);
+    MAGICK(AttackCategory.MAGICAL),
+    RESISTANCE(AttackCategory.MAGICAL),
+    SKILL(AttackCategory.NONE),
+    LUCK(AttackCategory.NONE),
+    SPEED(AttackCategory.NONE);
 
     override val displayName: String
         get() = name
