@@ -8,14 +8,14 @@ enum class WeaponCategory{
         override val weakCategory: WeaponCategory
             get() = LANCE
     },
-    LANCE{
+    LANCE {
         override val superiorCategory: WeaponCategory
             get() = SWORD
 
         override val weakCategory: WeaponCategory
             get() = AXE
     },
-    BOW{
+    BOW {
         override val superiorCategory: WeaponCategory
             get() = STAFF
 
@@ -29,14 +29,14 @@ enum class WeaponCategory{
         override val weakCategory: WeaponCategory
             get() = SWORD
     },
-    TOME{
+    TOME {
         override val superiorCategory: WeaponCategory
             get() = BOW
 
         override val weakCategory: WeaponCategory
             get() = STAFF
     },
-    STAFF{
+    STAFF {
         override val superiorCategory: WeaponCategory
             get() = TOME
 
