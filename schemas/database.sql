@@ -2,7 +2,7 @@ drop database if exists FireEmblemMulti;
 create database FireEmblemMulti;
 use FireEmblemMulti;
 
-create table player (
+create table players (
     player_id int primary key not null auto_increment,
     username varchar(64) not null,
     password varchar(256) not null,
@@ -14,25 +14,25 @@ create table player (
 create table player_roles (
     player_id int not null,
     role varchar(64) not null,
-    constraint role_to_player foreign key(player_id) references player(player_id)
+    constraint role_to_player foreign key(player_id) references players(player_id)
         on delete CASCADE
         on update CASCADE
 );
 
-create table board (
+create table boards (
   board_id int primary key not null auto_increment,
   player_a_id int not null,
   player_b_id int not null,
   current_player_id int not null,
   width int not null default(10),
   height int not null default(10),
-  constraint player_a_to_player foreign key(player_a_id) references player(player_id)
+  constraint player_a_to_player foreign key(player_a_id) references players(player_id)
           on delete RESTRICT
           on update CASCADE,
-  constraint player_b_to_player foreign key(player_b_id) references player(player_id)
+  constraint player_b_to_player foreign key(player_b_id) references players(player_id)
           on delete RESTRICT
           on update CASCADE,
-  constraint current_player_to_player foreign key(current_player_id) references player(player_id)
+  constraint current_player_to_player foreign key(current_player_id) references players(player_id)
           on delete RESTRICT
           on update CASCADE
 );
@@ -40,12 +40,12 @@ create table board (
 create table player_character_presets (
     preset_id int not null primary key auto_increment,
     player_id int not null,
-    constraint preset_to_player foreign key(player_id) references player(player_id)
+    constraint preset_to_player foreign key(player_id) references players(player_id)
         on delete CASCADE
         on update CASCADE
 );
 
-create table game_character (
+create table game_characters (
     game_character_id int not null primary key auto_increment,
     preset_id int not null,
     name varchar(64) not null,
@@ -65,7 +65,7 @@ create table character_stats (
     game_character_id int not null,
     stat enum('HEALTH', 'STRENGTH', 'DEFENSE', 'MAGICK', 'RESISTANCE', 'SKILL', 'LUCK', 'SPEED') not null,
     `value` int not null,
-    constraint stat_to_game_character foreign key(game_character_id) references game_character(game_character_id)
+    constraint stat_to_game_character foreign key(game_character_id) references game_characters(game_character_id)
         on delete CASCADE
         on update CASCADE
 );
@@ -79,34 +79,34 @@ create table character_items (
     `range` int not null,
     attack_category enum('PHYSICAL', 'MAGICAL', 'NONE') not null,
     weapon_category enum('SWORD', 'LANCE', 'BOW', 'AXE', 'TOME', 'STAFF') not null,
-    constraint item_to_game_character foreign key(game_character_id) references game_character(game_character_id)
+    constraint item_to_game_character foreign key(game_character_id) references game_characters(game_character_id)
         on delete CASCADE
         on update CASCADE
 );
 
-create table spot (
+create table spots (
     spot_id int not null primary key auto_increment,
     board_id int not null,
     x int not null,
     y int not null,
     terrain enum('GRASS', 'PLAIN', 'FORREST', 'MOUNTAIN', 'FORTRESS', 'SAND') not null,
-    constraint spot_to_board foreign key(board_id) references board(board_id)
+    constraint spot_to_board foreign key(board_id) references boards(board_id)
         on delete CASCADE
         on update CASCADE
 );
 
-create table character_pair (
+create table character_pairs (
     pair_id int not null primary key auto_increment,
     lead_character_id int not null,
     support_character_id int default null,
     spot_id int not null,
-    constraint lead_character_to_game_character foreign key(lead_character_id) references game_character(game_character_id)
+    constraint lead_character_to_game_character foreign key(lead_character_id) references game_characters(game_character_id)
         on delete RESTRICT
         on update CASCADE,
-    constraint support_character_to_game_character foreign key(support_character_id) references game_character(game_character_id)
+    constraint support_character_to_game_character foreign key(support_character_id) references game_characters(game_character_id)
         on delete RESTRICT
         on update CASCADE,
-    constraint pair_to_spot foreign key(spot_id) references spot(spot_id)
+    constraint pair_to_spot foreign key(spot_id) references spots(spot_id)
         on delete CASCADE
         on update CASCADE
 );
