@@ -79,6 +79,7 @@ create table character_items (
     `range` int not null,
     attack_category enum('PHYSICAL', 'MAGICAL', 'NONE') not null,
     weapon_category enum('SWORD', 'LANCE', 'BOW', 'AXE', 'TOME', 'STAFF') not null,
+    weight int not null,
     constraint item_to_game_character foreign key(game_character_id) references game_characters(game_character_id)
         on delete CASCADE
         on update CASCADE
