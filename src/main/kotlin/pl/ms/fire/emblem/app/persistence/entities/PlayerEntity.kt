@@ -26,14 +26,14 @@ class PlayerEntity(
     val currentPreset: Int,
 
     @OneToMany(mappedBy = "player", orphanRemoval = true)
-    val presets: Set<PlayerPreset>,
+    val presets: Set<PlayerPresetEntity>,
 
     @ElementCollection
     @CollectionTable(name = "player_roles", joinColumns = [JoinColumn(name = "player_id")])
     @Column(name = "role")
     val roles: Set<String>,
 
-) {
+    ) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

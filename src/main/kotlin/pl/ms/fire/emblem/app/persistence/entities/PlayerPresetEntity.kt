@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "player_character_presets")
-class PlayerPreset(
+class PlayerPresetEntity(
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "preset_id", insertable = true, nullable = false, updatable = true)
@@ -22,7 +22,7 @@ class PlayerPreset(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as PlayerPreset
+        other as PlayerPresetEntity
 
         if (id != other.id) return false
         if (player != other.player) return false

@@ -15,7 +15,7 @@ class GameCharacterEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "preset_id", nullable = false)
-    val preset: PlayerPreset,
+    val preset: PlayerPresetEntity,
 
     @Column(name = "name", insertable = true, nullable = false, updatable = true)
     val name: String,
