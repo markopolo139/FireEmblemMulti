@@ -12,11 +12,21 @@ class PlayerPresetEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id", nullable = false)
-    val player: PlayerEntity,
+    var player: PlayerEntity?,
 
     @OneToMany(mappedBy = "preset")
-    val gameCharacters: Set<GameCharacterEntity>
+    val gameCharacters: MutableSet<GameCharacterEntity>
 ) {
+
+    fun addCharacter(gameCharacterEntity: GameCharacterEntity) {
+        gameCharacters.add(gameCharacterEntity)
+        gameCharacterEntity.preset = this
+    }
+
+    fun removeCharacter(gameCharacterEntity: GameCharacterEntity) {
+        gameCharacters.remove(gameCharacterEntity)
+        gameCharacterEntity.preset = null
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

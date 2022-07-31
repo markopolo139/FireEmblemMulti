@@ -20,20 +20,30 @@ class PlayerEntity(
     val email: String,
 
     @Column(name = "game_token", insertable = true, nullable = true, updatable = true)
-    val gameToken: String?,
+    var gameToken: String?,
 
     @Column(name = "current_preset", insertable = true, nullable = false, updatable = true)
-    val currentPreset: Int,
+    var currentPreset: Int,
 
     @OneToMany(mappedBy = "player", orphanRemoval = true)
-    val presets: Set<PlayerPresetEntity>,
+    val presets: MutableSet<PlayerPresetEntity>,
 
     @ElementCollection
     @CollectionTable(name = "player_roles", joinColumns = [JoinColumn(name = "player_id")])
     @Column(name = "role")
-    val roles: Set<String>,
+    val roles: MutableSet<String>,
 
     ) {
+
+    fun addPreset(preset: PlayerPresetEntity) {
+        presets.add(preset)
+        preset.player = this
+    }
+
+    fun deletePreset(preset: PlayerPresetEntity) {
+        presets.remove(preset)
+        preset.player = null
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

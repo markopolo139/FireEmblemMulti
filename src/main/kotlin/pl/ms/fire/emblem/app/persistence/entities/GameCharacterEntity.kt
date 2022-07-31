@@ -15,7 +15,7 @@ class GameCharacterEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "preset_id", nullable = false)
-    val preset: PlayerPresetEntity,
+    var preset: PlayerPresetEntity?,
 
     @Column(name = "name", insertable = true, nullable = false, updatable = true)
     val name: String,
@@ -35,11 +35,11 @@ class GameCharacterEntity(
 
     @ElementCollection
     @CollectionTable(name = "character_stats", joinColumns = [JoinColumn(name = "game_character_id")])
-    val stats: Set<StatEmbeddable>,
+    val stats: MutableSet<StatEmbeddable>,
 
     @ElementCollection
     @CollectionTable(name = "character_items", joinColumns = [JoinColumn(name = "game_character_id")])
-    val items: Set<ItemEmbeddable>
+    val items: MutableSet<ItemEmbeddable>
 
 ) {
 
