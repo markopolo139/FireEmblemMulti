@@ -40,6 +40,9 @@ class PlayerEntity(
         preset.player = this
     }
 
+    fun addPresetList(presets: Set<PlayerPresetEntity>) =
+        presets.forEach { addPreset(it) }
+
     fun deletePreset(preset: PlayerPresetEntity) {
         presets.remove(preset)
         preset.player = null

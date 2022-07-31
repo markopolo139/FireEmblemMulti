@@ -1,7 +1,7 @@
 package pl.ms.fire.emblem.app.persistence.entities
 
 import javax.persistence.*
-
+//TODO: in converters create child with null in (manyToOne)
 @Entity
 @Table(name = "player_character_presets")
 class PlayerPresetEntity(
@@ -22,6 +22,9 @@ class PlayerPresetEntity(
         gameCharacters.add(gameCharacterEntity)
         gameCharacterEntity.preset = this
     }
+
+    fun addCharacterList(gameCharacters: Set<GameCharacterEntity>) =
+        gameCharacters.forEach { addCharacter(it) }
 
     fun removeCharacter(gameCharacterEntity: GameCharacterEntity) {
         gameCharacters.remove(gameCharacterEntity)
