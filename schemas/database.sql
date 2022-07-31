@@ -51,7 +51,7 @@ create table game_characters (
     name varchar(64) not null,
     remaining_hp int not null,
     current_equipped_item int not null default 0,
-    class enum(
+    character_class enum(
                 'PALADIN', 'GREAT_KNIGHT', 'GENERAL', 'SWORDMASTER', 'HERO', 'WARRIOR', 'SNIPER',
                 'TRICKSTER', 'FALCON_KNIGHT', 'GRIFFON_RIDER', 'SAGE', 'DARK_KNIGHT', 'VALKYRIE'
     ) not null,
