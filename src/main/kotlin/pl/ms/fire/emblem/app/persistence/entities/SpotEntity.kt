@@ -25,8 +25,7 @@ class SpotEntity(
     @Column(name = "terrain", insertable = true, nullable = false, updatable = true)
     val terrain: Terrain,
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "spot_id", referencedColumnName = "spot_id", nullable = true)
+    @OneToOne(mappedBy = "spot")
     val characterPair: CharacterPairEntity?
 
 ) {
