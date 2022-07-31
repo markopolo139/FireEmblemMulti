@@ -16,6 +16,7 @@ class PlayerPresetEntity(
 
     @OneToMany(mappedBy = "preset", cascade = [CascadeType.ALL])
     val gameCharacters: MutableSet<GameCharacterEntity>
+
 ) {
 
     fun addCharacter(gameCharacterEntity: GameCharacterEntity) {

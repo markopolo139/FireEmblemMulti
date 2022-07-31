@@ -22,11 +22,14 @@ class BoardEntity(
 
     @OneToOne(cascade = [CascadeType.MERGE], orphanRemoval = false)
     @JoinColumn(name = "player_b_id", nullable = false, insertable = true, updatable = true)
-    val playerB: PlayerEntity,
+    var playerB: PlayerEntity?,
 
     @OneToOne(cascade = [CascadeType.MERGE], orphanRemoval = false)
     @JoinColumn(name = "current_player_id", nullable = false, insertable = true, updatable = true)
-    val currentPlayer: PlayerEntity,
+    var currentPlayer: PlayerEntity?,
+
+    @OneToMany(mappedBy = "board", cascade = [CascadeType.ALL])
+    val spots: MutableSet<SpotEntity>
 
 ) {
 
