@@ -25,7 +25,7 @@ class PlayerEntity(
     @Column(name = "current_preset", insertable = true, nullable = false, updatable = true)
     var currentPreset: Int,
 
-    @OneToMany(mappedBy = "player", orphanRemoval = true)
+    @OneToMany(mappedBy = "player", orphanRemoval = true, cascade = [CascadeType.ALL])
     val presets: MutableSet<PlayerPresetEntity>,
 
     @ElementCollection
