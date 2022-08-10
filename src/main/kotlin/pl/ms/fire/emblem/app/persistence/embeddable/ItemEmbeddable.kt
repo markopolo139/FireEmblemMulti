@@ -21,7 +21,7 @@ class ItemEmbeddable(
     @Column(name = "critical_percent", nullable = false, insertable = true, updatable = true)
     val criticalPercent: Int,
 
-    @Column(name = "range", nullable = false, insertable = true)
+    @Column(name = "`range`", nullable = false, insertable = true)
     val range: Int,
 
     @Column(name = "attack_category", nullable = false, insertable = true, updatable = true) @Enumerated(EnumType.STRING)

@@ -50,7 +50,6 @@ class GameCharacterEntity(
         other as GameCharacterEntity
 
         if (id != other.id) return false
-        if (preset != other.preset) return false
         if (name != other.name) return false
         if (remainingHp != other.remainingHp) return false
         if (currentEquippedItem != other.currentEquippedItem) return false
@@ -64,7 +63,7 @@ class GameCharacterEntity(
 
     override fun hashCode(): Int {
         var result = id
-        result = 31 * result + preset.hashCode()
+        result = 31 * result + (preset?.id ?: 0)
         result = 31 * result + name.hashCode()
         result = 31 * result + remainingHp
         result = 31 * result + currentEquippedItem
