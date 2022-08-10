@@ -17,13 +17,4 @@ interface CharacterPairRepository: JpaRepository<CharacterPairEntity, Int> {
     )
     fun getAllPlayerCharacters(@Param("playerId") playerId: Int): Set<CharacterPairEntity>
 
-    fun getOnlyNotMovedCharacters(playerId: Int) =
-        getAllPlayerCharacters(playerId).filter { !it.leadCharacter.moved }.toSet()
-
-    fun getOnlyAliveCharacters(playerId: Int) =
-        getAllPlayerCharacters(playerId).filter { it.leadCharacter.remainingHp != 0 }.toSet()
-
-    fun getAliveAndNotMovedCharacters(playerId: Int) =
-        getOnlyNotMovedCharacters(playerId).filter { !it.leadCharacter.moved }.toSet()
-
 }
