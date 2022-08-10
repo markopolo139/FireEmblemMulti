@@ -28,7 +28,7 @@ class PlayerEntity(
     @OneToMany(mappedBy = "player", orphanRemoval = true, cascade = [CascadeType.ALL])
     val presets: MutableSet<PlayerPresetEntity>,
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "player_roles", joinColumns = [JoinColumn(name = "player_id")])
     @Column(name = "role")
     val roles: MutableSet<String>,
