@@ -11,7 +11,7 @@ import pl.ms.fire.emblem.app.persistence.entities.PlayerPresetEntity
 @Repository
 interface PresetRepository: JpaRepository<PlayerPresetEntity, Int> {
 
-    @Query("select p from PlayerPresetEntity p left join fetch p.gameCharacters where p.player.id = :playerId")
+    @Query("select p from PlayerPresetEntity p left join fetch p.gameCharacters join fetch p.player where p.player.id = :playerId")
     fun joinFetchByPlayerId(@Param("playerId") playerId: Int): Set<PlayerPresetEntity>
 
     @Modifying
