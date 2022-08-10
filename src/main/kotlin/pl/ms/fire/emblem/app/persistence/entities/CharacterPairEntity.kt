@@ -11,7 +11,7 @@ class CharacterPairEntity(
     val id: Int,
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lead_character_id", nullable = true)
+    @JoinColumn(name = "lead_character_id", nullable = false)
     val leadCharacter: GameCharacterEntity,
 
     @OneToOne(fetch = FetchType.LAZY)
