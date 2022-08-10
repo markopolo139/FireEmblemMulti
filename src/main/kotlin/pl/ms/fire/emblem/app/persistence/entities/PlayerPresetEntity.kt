@@ -14,7 +14,7 @@ class PlayerPresetEntity(
     @JoinColumn(name = "player_id", nullable = false)
     var player: PlayerEntity?,
 
-    @OneToMany(mappedBy = "preset", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "preset", orphanRemoval = true, cascade = [CascadeType.ALL])
     val gameCharacters: MutableSet<GameCharacterEntity>
 
 ) {
