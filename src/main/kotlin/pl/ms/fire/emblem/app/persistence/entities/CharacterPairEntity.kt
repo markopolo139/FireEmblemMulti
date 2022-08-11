@@ -10,11 +10,11 @@ class CharacterPairEntity(
     @Column(name = "pair_id", insertable = true, nullable = false, updatable = true)
     val id: Int,
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "lead_character_id", nullable = false)
     val leadCharacter: GameCharacterEntity,
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "support_character_id", nullable = true)
     val supportCharacter: GameCharacterEntity?,
 

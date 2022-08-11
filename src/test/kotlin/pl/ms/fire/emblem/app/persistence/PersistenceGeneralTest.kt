@@ -100,7 +100,13 @@ class PersistenceGeneralTest {
             mutableSetOf(ItemEmbeddable("weapon", 1, 2, 3, 1, AttackCategory.MAGICAL, WeaponCategory.AXE, 1))
         )
 
-        presets.last().addCharacterList(setOf(gameCharacter2, gameCharacter3))
+        val gameCharacter5 = GameCharacterEntity(
+            0, null, "character5", 1, 0, CharacterClass.GENERAL,
+            false, mutableSetOf(StatEmbeddable(Stat.DEFENSE, 0), StatEmbeddable(Stat.HEALTH, 11)),
+            mutableSetOf(ItemEmbeddable("weapon", 1, 2, 3, 1, AttackCategory.MAGICAL, WeaponCategory.AXE, 1))
+        )
+
+        presets.last().addCharacterList(setOf(gameCharacter2, gameCharacter3, gameCharacter5))
         presets2.last().addCharacterList(setOf(gameCharacter4))
 
         player = playerRepository.joinFetchPresets(player.id)
@@ -188,9 +194,20 @@ class PersistenceGeneralTest {
         )
         board.spots.first().characterPair = characterPairB
 
+        val characterPairC = CharacterPairEntity(
+            0, currentPresetA.gameCharacters.last(), null, board.spots.last()
+        )
+        board.spots.last().characterPair = characterPairC
+
         board.spots.add(spotA)
 
         boardRepository.save(board)
+
+        characterPairRepository.getAllPlayerCharacters(playerA.id).forEach {
+            println(
+                it.leadCharacter.id
+            )
+        }
 
     }
 

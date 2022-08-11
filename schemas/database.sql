@@ -100,7 +100,7 @@ create table character_pairs (
     pair_id int not null primary key auto_increment,
     lead_character_id int not null,
     support_character_id int default null,
-    spot_id int null,
+    spot_id int not null,
     constraint lead_character_to_game_character foreign key(lead_character_id) references game_characters(game_character_id)
         on delete RESTRICT
         on update CASCADE,
