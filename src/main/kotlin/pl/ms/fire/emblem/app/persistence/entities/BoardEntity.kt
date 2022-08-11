@@ -16,15 +16,15 @@ class BoardEntity(
     @Column(name = "height", insertable = true, nullable = false, updatable = true)
     val height: Int,
 
-    @OneToOne(cascade = [CascadeType.MERGE], orphanRemoval = false)
+    @OneToOne(orphanRemoval = false)
     @JoinColumn(name = "player_a_id", nullable = false, insertable = true, updatable = true)
     val playerA: PlayerEntity,
 
-    @OneToOne(cascade = [CascadeType.MERGE], orphanRemoval = false)
+    @OneToOne(orphanRemoval = false)
     @JoinColumn(name = "player_b_id", nullable = false, insertable = true, updatable = true)
     var playerB: PlayerEntity?,
 
-    @OneToOne(cascade = [CascadeType.MERGE], orphanRemoval = false)
+    @OneToOne(orphanRemoval = false)
     @JoinColumn(name = "current_player_id", nullable = false, insertable = true, updatable = true)
     var currentPlayer: PlayerEntity?,
 

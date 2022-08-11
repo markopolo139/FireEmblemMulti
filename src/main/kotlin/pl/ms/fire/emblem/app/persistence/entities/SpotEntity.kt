@@ -25,8 +25,8 @@ class SpotEntity(
     @Column(name = "terrain", insertable = true, nullable = false, updatable = true)
     val terrain: Terrain,
 
-    @OneToOne(mappedBy = "spot")
-    val characterPair: CharacterPairEntity?
+    @OneToOne(mappedBy = "spot", cascade = [CascadeType.ALL], optional = true)
+    var characterPair: CharacterPairEntity?
 
 ) {
 
