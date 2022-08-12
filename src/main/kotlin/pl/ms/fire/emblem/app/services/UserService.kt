@@ -38,4 +38,13 @@ class UserService: UserDetailsService{
         }
 
     }
+
+    fun loadUserByUserId(userId: Int): UserDetails = try {
+        playerRepository.findById(userId).get().toUserEntity()
+    }
+    catch (ex: NoSuchElementException) {
+        logger.error("User With given id is not found")
+        throw ex
+    }
+
 }
