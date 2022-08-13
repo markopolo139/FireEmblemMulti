@@ -14,7 +14,7 @@ class PlayerEntity(
     val username: String,
 
     @Column(name = "password", insertable = true, nullable = false, updatable = true)
-    val password: String,
+    var password: String,
 
     @Column(name = "email", insertable = true, nullable = false, updatable = true, unique = true)
     val email: String,
