@@ -43,7 +43,7 @@ class SecurityConfiguration {
             .addFilterBefore(JwtFilter(tokenService, userService), UsernamePasswordAuthenticationFilter::class.java)
             .userDetailsService(userService)
             .authorizeRequests()
-            .antMatchers("/auth", "/register", "/recoverPwd", "/fireEmblemMulti").permitAll()
+            .antMatchers("/auth", "/register", "/recoverPwd", "/fireEmblemMulti", "/api/v1/test").permitAll()
             .anyRequest().authenticated()
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
