@@ -46,8 +46,6 @@ class SecurityConfiguration {
             .antMatchers("/auth", "/register", "/recoverPwd", "/fireEmblemMulti", "/api/v1/test").permitAll()
             .anyRequest().authenticated()
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
         return http.build()
     }
 
