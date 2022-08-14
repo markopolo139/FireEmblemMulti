@@ -139,6 +139,20 @@ class PersistenceGeneralTest {
 
     @Test
     @Order(4)
+    fun `test saving gameCharacter with changed remaining hp`() {
+        val player2 = playerRepository.joinFetchPresets(playerRepository.findByEmail("test2@test.pl").get().id)
+        val gc = player2.presets.first().gameCharacters.first()
+        gc.preset?.player?.presets?.clear()
+        gc.preset?.player?.roles?.clear()
+        val gameCharacterChanged = GameCharacterEntity(
+            gc.id, gc.preset, gc.name, gc.remainingHp + 1, gc.currentEquippedItem, gc.characterClass, gc.moved, gc.stats, gc.items
+        )
+
+        gameCharacterRepository.save(gameCharacterChanged)
+    }
+
+    @Test
+    @Order(5)
     fun `test deleting player3`() {
         val player3 = playerRepository.findByEmail("test3@test.pl").get()
 
@@ -148,7 +162,7 @@ class PersistenceGeneralTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     fun `board and spots test`() {
         var board = BoardEntity(
             0, 10, 10, playerRepository.findByEmail("test1@test.pl").get(),
@@ -172,7 +186,7 @@ class PersistenceGeneralTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     fun `character pair test`() {
 
         val playerA = playerRepository.joinFetchPresets(playerRepository.findByEmail("test1@test.pl").get().id)
@@ -212,9 +226,11 @@ class PersistenceGeneralTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     fun `clean up`() {
         boardRepository.deleteAll()
-        playerRepository.deleteAll()
+        playerRepository.deleteByEmail("test1@test.pl")
+        playerRepository.deleteByEmail("test2@test.pl")
+        playerRepository.deleteByEmail("test3@test.pl")
     }
 }

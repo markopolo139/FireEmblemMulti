@@ -7,7 +7,7 @@ import pl.ms.fire.emblem.business.values.GameCharacter
 import pl.ms.fire.emblem.business.values.character.BattleStat
 import pl.ms.fire.emblem.business.values.character.Stat
 
-class CharacterPair(
+open class CharacterPair(
     var leadCharacter: GameCharacter,
     var supportCharacter: GameCharacter?,
 ) {

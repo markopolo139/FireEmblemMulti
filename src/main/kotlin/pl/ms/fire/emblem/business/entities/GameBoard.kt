@@ -7,7 +7,7 @@ import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot
 import pl.ms.fire.emblem.business.values.board.Terrain
 
-class GameBoard(
+open class GameBoard(
     val spots: MutableMap<Position, Spot>,
     val maxHeight: Int,
     val maxWidth: Int
