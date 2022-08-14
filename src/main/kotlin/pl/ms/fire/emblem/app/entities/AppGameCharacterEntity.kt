@@ -8,7 +8,7 @@ import pl.ms.fire.emblem.business.values.items.Item
 
 class AppGameCharacterEntity(
     val id: Int,
-    val preset: AppPresetEntity,
+    val preset: AppPresetEntity?,
     name: String,
     remainingHp: Int,
     currentEquippedItem: Int,
