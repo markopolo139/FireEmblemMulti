@@ -21,7 +21,7 @@ class GameCharacterEntity(
     val name: String,
 
     @Column(name = "remaining_hp", insertable = true, nullable = false, updatable = true)
-    var remainingHp: Int,
+    val remainingHp: Int,
 
     @Column(name = "current_equipped_item", insertable = true, nullable = false, updatable = true)
     val currentEquippedItem: Int,
