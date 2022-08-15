@@ -11,7 +11,7 @@ open class GameCharacter(
     var remainingHealth: Int,
     var currentEquippedItem: Int,
     val equipment: MutableList<Item>,
-    private val stats: Map<Stat, Int>,
+    val stats: Map<Stat, Int>,
     val characterClass: CharacterClass,
     var moved: Boolean
 ) {

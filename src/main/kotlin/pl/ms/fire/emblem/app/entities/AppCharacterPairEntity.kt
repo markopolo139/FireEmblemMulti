@@ -6,5 +6,5 @@ class AppCharacterPairEntity(
     val id: Int,
     leadCharacter: AppGameCharacterEntity,
     supportCharacter: AppGameCharacterEntity?,
-    val spot: AppSpotEntity?
+    var spot: AppSpotEntity?
 ): CharacterPair(leadCharacter, supportCharacter)

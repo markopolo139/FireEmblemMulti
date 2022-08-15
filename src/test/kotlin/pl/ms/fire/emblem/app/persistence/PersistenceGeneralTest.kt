@@ -144,6 +144,7 @@ class PersistenceGeneralTest {
         val gc = player2.presets.first().gameCharacters.first()
         gc.preset?.player?.presets?.clear()
         gc.preset?.player?.roles?.clear()
+        gc.preset?.gameCharacters?.clear()
         val gameCharacterChanged = GameCharacterEntity(
             gc.id, gc.preset, gc.name, gc.remainingHp + 1, gc.currentEquippedItem, gc.characterClass, gc.moved, gc.stats, gc.items
         )

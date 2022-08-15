@@ -10,15 +10,15 @@ class CharacterPairEntity(
     @Column(name = "pair_id", insertable = true, nullable = false, updatable = true)
     val id: Int,
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = [CascadeType.MERGE])
     @JoinColumn(name = "lead_character_id", nullable = false)
     val leadCharacter: GameCharacterEntity,
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = [CascadeType.MERGE])
     @JoinColumn(name = "support_character_id", nullable = true)
     val supportCharacter: GameCharacterEntity?,
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "spot_id", nullable = false)
     var spot: SpotEntity?
 

@@ -5,5 +5,5 @@ import pl.ms.fire.emblem.app.configuration.security.UserEntity
 class AppPresetEntity(
     val id: Int,
     val player: UserEntity?,
-    val gameCharacterEntity: MutableSet<AppGameCharacterEntity>
+    val gameCharacterEntities: MutableSet<AppGameCharacterEntity>
 )
