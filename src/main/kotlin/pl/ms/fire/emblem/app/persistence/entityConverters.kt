@@ -83,14 +83,21 @@ fun AppSpotEntity.toSimpleEntity() =
 fun SpotEntity.toSimpleAppEntity() =
     AppSpotEntity(id, board?.toSimpleAppEntity(), Position(x, y), terrain, null)
 
-fun CharacterPairEntity.toAppEntity() =
-    AppCharacterPairEntity(id, leadCharacter.toAppEntity(), supportCharacter?.toAppEntity(), spot?.toSimpleAppEntity())
+fun CharacterPairEntity.toAppEntity(): AppCharacterPairEntity {
+    val pair = AppCharacterPairEntity(id, leadCharacter.toAppEntity(), supportCharacter?.toAppEntity(), spot?.toSimpleAppEntity())
+    pair.spot?.standingCharacter = pair
+    return pair
+}
 
-fun AppCharacterPairEntity.toEntity() =
-    CharacterPairEntity(
+fun AppCharacterPairEntity.toEntity(): CharacterPairEntity {
+    val pair = CharacterPairEntity(
         id, (leadCharacter as AppGameCharacterEntity).toEntity(),
         (supportCharacter as? AppGameCharacterEntity)?.toEntity(), spot?.toSimpleEntity()
     )
+    pair.spot?.characterPair = pair
+    return pair
+}
+
 
 fun BoardEntity.toSimpleAppEntity() =
     AppBoardEntity(id, height, width, playerA.toUserEntity(), playerB?.toUserEntity(), currentPlayer?.toUserEntity(), mutableMapOf())
