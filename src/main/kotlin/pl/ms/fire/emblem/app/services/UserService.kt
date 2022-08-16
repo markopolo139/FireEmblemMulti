@@ -47,4 +47,6 @@ class UserService: UserDetailsService{
         throw ex
     }
 
+    //TODO: create user(create registry model), delete user, delete user(admin)
+
 }
