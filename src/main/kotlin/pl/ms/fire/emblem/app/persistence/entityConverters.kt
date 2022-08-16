@@ -64,17 +64,14 @@ fun AppPresetEntity.toSimpleEntity() =
 fun PlayerPresetEntity.toSimpleAppEntity() =
     AppPresetEntity(id, player?.toUserEntity(), mutableSetOf())
 
-fun AppSpotEntity.toEntity(): SpotEntity {
-    val spot = SpotEntity(id, board?.toSimpleEntity(), position.x, position.y, terrain, (standingCharacter as? AppCharacterPairEntity)?.toEntity())
-    spot.characterPair?.spot = spot
-    return spot
-}
+fun AppSpotEntity.toEntity(): SpotEntity =
+    SpotEntity(id, board?.toSimpleEntity(), position.x, position.y, terrain,
+        (standingCharacter as? AppCharacterPairEntity)?.toEntity())
 
-fun SpotEntity.toAppEntity(): AppSpotEntity {
-    val spot = AppSpotEntity(id, board?.toSimpleAppEntity(), Position(x, y), terrain, characterPair?.toAppEntity())
-    (spot.standingCharacter as? AppCharacterPairEntity)?.spot = spot
-    return spot
-}
+
+fun SpotEntity.toAppEntity(): AppSpotEntity =
+    AppSpotEntity(id, board?.toSimpleAppEntity(), Position(x, y), terrain, characterPair?.toAppEntity())
+
 
 fun AppSpotEntity.toSimpleEntity() =
     SpotEntity(id, board?.toSimpleEntity(), position.x, position.y, terrain, null)

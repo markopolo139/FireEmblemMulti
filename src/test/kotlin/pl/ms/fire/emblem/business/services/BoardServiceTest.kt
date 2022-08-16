@@ -21,6 +21,7 @@ import pl.ms.fire.emblem.business.values.category.WeaponCategory
 import pl.ms.fire.emblem.business.values.character.CharacterClass
 import pl.ms.fire.emblem.business.values.character.Stat
 import pl.ms.fire.emblem.business.values.items.Item
+import java.util.LinkedList
 
 class BoardServiceTest {
 
@@ -172,7 +173,7 @@ class BoardServiceTest {
 
         val startSpot =  Spot(Position(1,1), Terrain.FORREST, CharacterPair(gameCharacter, null))
 
-        val route = listOf(
+        val route = linkedSetOf(
             Position(1,2),
             Position(2,2),
             Position(2,3),
@@ -180,33 +181,33 @@ class BoardServiceTest {
             Position(3,4),
         )
 
-        val forrestRoute = listOf(
+        val forrestRoute = linkedSetOf(
             Position(1,2),
             Position(2,2),
             Position(2,3),
         )
 
-        val sandRoute = listOf(
+        val sandRoute = linkedSetOf(
             Position(1,2),
             Position(2,2),
             Position(2,3),
         )
 
-        val tooFarForrestRoute = listOf(
-            Position(1,2),
-            Position(2,2),
-            Position(2,3),
-            Position(3,3),
-        )
-
-        val tooFarSandRoute = listOf(
+        val tooFarForrestRoute = linkedSetOf(
             Position(1,2),
             Position(2,2),
             Position(2,3),
             Position(3,3),
         )
 
-        val tooFarRoute = listOf(
+        val tooFarSandRoute = linkedSetOf(
+            Position(1,2),
+            Position(2,2),
+            Position(2,3),
+            Position(3,3),
+        )
+
+        val tooFarRoute = linkedSetOf(
             Position(1,2),
             Position(2,2),
             Position(2,3),
@@ -215,7 +216,7 @@ class BoardServiceTest {
             Position(4,4),
         )
 
-        val notConstantRoute = listOf(
+        val notConstantRoute = linkedSetOf(
             Position(1,2),
             Position(2,2),
             Position(2,3),

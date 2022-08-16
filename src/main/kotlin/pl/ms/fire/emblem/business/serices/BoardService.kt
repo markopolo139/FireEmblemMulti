@@ -17,9 +17,10 @@ import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot
 import pl.ms.fire.emblem.business.values.category.WeaponCategory
 import pl.ms.fire.emblem.business.values.character.Stat
+import java.util.LinkedList
 
 class BoardService {
-    fun movePair(pairSpot: Spot, route: Collection<Position>, gameBoard: GameBoard): List<Spot> {
+    fun movePair(pairSpot: Spot, route: LinkedHashSet<Position>, gameBoard: GameBoard): List<Spot> {
 
         if (pairSpot.standingCharacter == null)
             throw NoCharacterOnSpotException()
