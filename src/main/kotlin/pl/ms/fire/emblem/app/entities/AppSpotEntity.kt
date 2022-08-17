@@ -6,7 +6,7 @@ import pl.ms.fire.emblem.business.values.board.Terrain
 
 class AppSpotEntity(
     val id: Int,
-    val board: AppBoardEntity?,
+    var board: AppBoardEntity?,
     position: Position,
     terrain: Terrain,
     standingCharacter: AppCharacterPairEntity?

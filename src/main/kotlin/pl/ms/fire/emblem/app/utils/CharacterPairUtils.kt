@@ -1,4 +1,4 @@
-package pl.ms.fire.emblem.app.persistence.utils
+package pl.ms.fire.emblem.app.utils
 
 //fun getOnlyNotMovedCharacters(playerId: Int) =
 //    getAllPlayerCharacters(playerId).filter { !it.leadCharacter.moved }.toSet()

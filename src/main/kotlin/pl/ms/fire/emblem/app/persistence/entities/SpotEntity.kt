@@ -13,7 +13,7 @@ class SpotEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = false, insertable = true, updatable = true)
-    val board: BoardEntity?,
+    var board: BoardEntity?,
 
     @Column(name = "x", insertable = true, nullable = false, updatable = true)
     val x: Int,
