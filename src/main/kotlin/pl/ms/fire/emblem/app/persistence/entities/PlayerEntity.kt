@@ -10,7 +10,7 @@ class PlayerEntity(
     @Column(name = "player_id", insertable = true, nullable = false, updatable = true)
     val id: Int,
 
-    @Column(name = "username", insertable = true, nullable = false, updatable = true)
+    @Column(name = "username", insertable = true, nullable = false, updatable = true, unique = true)
     val username: String,
 
     @Column(name = "password", insertable = true, nullable = false, updatable = true)

@@ -4,7 +4,7 @@ use FireEmblemMulti;
 
 create table players (
     player_id int primary key not null auto_increment,
-    username varchar(64) not null,
+    username varchar(64) unique not null,
     password varchar(256) not null,
     email varchar(128) unique not null,
     game_token varchar(256) null,
