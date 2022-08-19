@@ -1,4 +1,5 @@
 package pl.ms.fire.emblem.app.websocket.messages.models
 
-class GameCharacterModel {
+class GameCharacterModel(val id: Int) {
+
 }

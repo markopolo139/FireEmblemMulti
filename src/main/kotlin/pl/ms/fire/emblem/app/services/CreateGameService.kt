@@ -8,18 +8,19 @@ import pl.ms.fire.emblem.app.configuration.security.TokenService
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
 import pl.ms.fire.emblem.app.entities.AppSpotEntity
-import pl.ms.fire.emblem.app.exceptions.BoardConfigurationException
-import pl.ms.fire.emblem.app.exceptions.BoardNotFoundException
-import pl.ms.fire.emblem.app.exceptions.UserInGameException
-import pl.ms.fire.emblem.app.exceptions.UserNotFoundException
+import pl.ms.fire.emblem.app.exceptions.*
 import pl.ms.fire.emblem.app.persistence.entities.BoardEntity
 import pl.ms.fire.emblem.app.persistence.entities.PlayerEntity
 import pl.ms.fire.emblem.app.persistence.repositories.BoardRepository
 import pl.ms.fire.emblem.app.persistence.repositories.GameCharacterRepository
 import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository
+import pl.ms.fire.emblem.app.persistence.repositories.SpotRepository
+import pl.ms.fire.emblem.app.persistence.toAppEntity
 import pl.ms.fire.emblem.app.persistence.toEntity
+import pl.ms.fire.emblem.app.websocket.messages.models.GameCharacterModel
 import pl.ms.fire.emblem.business.entities.GameBoard
 import pl.ms.fire.emblem.business.utlis.getStat
+import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot
 import pl.ms.fire.emblem.business.values.character.Stat
 import kotlin.random.Random
@@ -29,6 +30,11 @@ class CreateGameService {
 
     companion object {
         private val logger = LogManager.getLogger()
+        private const val PLAYER_Y_LIMIT = 2
+        private const val MIN_HEIGHT = 8
+        private const val MAX_HEIGHT = 20
+        private const val MIN_WIDTH = 8
+        private const val MAX_WIDTH = 20
     }
 
     @Autowired
@@ -43,21 +49,26 @@ class CreateGameService {
     @Autowired
     private lateinit var gameCharacterRepository: GameCharacterRepository
 
+    @Autowired
+    private lateinit var spotRepository: SpotRepository
+
     private val userId: Int
         get() = (SecurityContextHolder.getContext().authentication.principal as UserEntity).id
 
     fun createJoinGameToken(height: Int, width: Int): String {
         validateIfUserInGame(userId)
+        validateBoardSize(height, width)
         return tokenService.createJoinGameToken(userId, height, width)
     }
 
     fun joinGame(token: String) {
         val playerA = playerRepository.joinFetchPresets(userId)
-        val playerB = playerRepository.joinFetchPresets(tokenService.extractIdFromToken(token) ?: throw UserNotFoundException())
+        val playerB =
+            playerRepository.joinFetchPresets(tokenService.extractIdFromToken(token) ?: throw UserNotFoundException())
         val boardConf = tokenService.getBoardConfigurationFromToken(token)
         if (boardConf == null) {
             logger.debug("Invalid board configuration from $token token")
-            throw BoardConfigurationException()
+            throw BoardConfigurationException("Can't read board configuration from given join game token")
         }
 
         validateIfUserInGame(playerA.id)
@@ -89,6 +100,32 @@ class CreateGameService {
         )
     }
 
+    fun setUpCharacters(characters: Map<Position, GameCharacterModel>) {
+        validateStartPositions(characters.keys)
+        val boardEntity = boardRepository.joinFetchSpots(
+            boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }.id
+        )
+        val spots = boardEntity.toAppEntity().spots
+        val editedSpots = mutableListOf<AppSpotEntity>()
+
+        characters.forEach {
+            spots[it.key]?.standingCharacter = AppCharacterPairEntity(
+                0, gameCharacterRepository.getById(it.value.id).toAppEntity(), null,
+                spots[it.key] as? AppSpotEntity
+            )
+            editedSpots.add(spots[it.key] as? AppSpotEntity ?: throw InvalidSpotException())
+        }
+
+        spotRepository.saveAll(
+            editedSpots.map { spot -> spot.toEntity().apply { board = boardEntity } }.toList()
+        )
+    }
+
+    private fun validateBoardSize(height: Int, width: Int) {
+        if (height < MIN_HEIGHT || width < MIN_WIDTH || height > MAX_HEIGHT || width > MAX_WIDTH)
+            throw BoardConfigurationException("Invalid board size")
+    }
+
     private fun validateIfUserInGame(userId: Int) {
         if (boardRepository.findByPlayerId(userId).isPresent) {
             logger.debug("User with given id $userId is in game")
@@ -102,11 +139,36 @@ class CreateGameService {
 
     private fun setRemainingHp(player: PlayerEntity) {
         val characters = player.presets.elementAt(player.currentPreset).gameCharacters
-        characters.map {
-                    character -> character.remainingHp = character.stats.first { it.stat == Stat.HEALTH }.value +
-                        character.characterClass.boostStats.getStat(Stat.HEALTH)
+        characters.map { character ->
+            character.remainingHp = character.stats.first { it.stat == Stat.HEALTH }.value +
+                    character.characterClass.boostStats.getStat(Stat.HEALTH)
         }
         gameCharacterRepository.saveAll(characters)
     }
+
+    private fun isPlayerA(): Boolean =
+        boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }.playerA.id == userId
+
+    private fun getPlayerByLimit() =
+        boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }.height - PLAYER_Y_LIMIT
+
+    private fun getYRange(): IntRange =
+        if (isPlayerA()) 0..1 else (getPlayerByLimit() + 1)..getPlayerByLimit() + PLAYER_Y_LIMIT
+
+    private fun getXRange(): IntRange {
+        val width = boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }.width
+        return (width/2) - 2..(width/2) + 2
+    }
+
+    private fun validateStartPositions(positions: Set<Position>) {
+        val xRange = getXRange()
+        val yRange = getYRange()
+
+        positions.forEach {
+            if (it.x !in xRange || it.y !in yRange)
+                throw InvalidStartPositionException()
+        }
+    }
+
 }
 

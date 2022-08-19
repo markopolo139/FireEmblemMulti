@@ -198,6 +198,14 @@ class PersistenceGeneralTest {
 
         val board = boardRepository.joinFetchSpots(boardRepository.findByPlayerId(playerA.id).get().id)
 
+        val boardSpot = SpotEntity(0, board, 1,7, Terrain.SAND, null)
+        val characterPairD = CharacterPairEntity(
+            0, currentPresetA.gameCharacters.last(), null, boardSpot
+        )
+        boardSpot.characterPair = characterPairD
+
+        spotRepository.save(boardSpot)
+
         val spotA = SpotEntity(0, board, 5, 1, Terrain.SAND, null)
         val characterPairA = CharacterPairEntity(
             0, currentPresetA.gameCharacters.first(), currentPresetA.gameCharacters.last(), spotA
