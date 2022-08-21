@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
+import pl.ms.fire.emblem.app.entities.AppSpotEntity
 import pl.ms.fire.emblem.app.exceptions.BoardNotFoundException
 import pl.ms.fire.emblem.app.exceptions.InvalidCharacterPairException
 import pl.ms.fire.emblem.app.exceptions.UsernameNotFoundException
@@ -42,12 +43,12 @@ class GameStatusService {
             }.id
         ).isEmpty()
 
-    fun getCurrentBoard(): List<SpotModel> =
+    fun getCurrentBoard(): List<AppSpotEntity> =
         boardRepository.joinFetchSpots(boardRepository.findByPlayerId(userId).orElseThrow {
             logger.debug("Logged in user is not in game")
             BoardNotFoundException()
         }.id)
-            .spots.map { it.toAppEntity().toModel() }.toList()
+            .spots.map { it.toAppEntity() }.toList()
 
     fun getCurrentPlayer(): String =
         boardRepository.findByPlayerId(userId).orElseThrow {
@@ -55,19 +56,19 @@ class GameStatusService {
             BoardNotFoundException()
         }.currentPlayer?.username!!
 
-    fun getAliveNotMovedPairs(): List<SpotModel> =
+    fun getAliveNotMovedPairs(): List<AppSpotEntity> =
         getAliveAndNotMovedCharacters(userId).map {
-            it.spot?.toAppEntity()?.toModel() ?: throw InvalidCharacterPairException()
+            it.spot?.toAppEntity() ?: throw InvalidCharacterPairException()
         }
 
-    fun getAliveCharacters(): List<SpotModel> =
+    fun getAliveCharacters(): List<AppSpotEntity> =
         getOnlyAliveCharacters(userId).map {
-            it.spot?.toAppEntity()?.toModel() ?: throw InvalidCharacterPairException()
+            it.spot?.toAppEntity() ?: throw InvalidCharacterPairException()
         }
 
-    fun getAllCharacters(): List<SpotModel> =
+    fun getAllCharacters(): List<AppSpotEntity> =
         characterPairRepository.getAllPlayerCharacters(userId).map {
-            it.spot?.toAppEntity()?.toModel() ?: throw InvalidCharacterPairException()
+            it.spot?.toAppEntity() ?: throw InvalidCharacterPairException()
         }
 
 

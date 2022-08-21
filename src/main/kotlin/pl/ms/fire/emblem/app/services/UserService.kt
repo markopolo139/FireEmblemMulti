@@ -62,15 +62,15 @@ class UserService: UserDetailsService{
         throw ex
     }
 
-    fun createPlayer(registryModel: RegistryModel) {
+    fun createPlayer(email: String, username: String, password: String) {
 
-        if(playerRepository.findByEmail(registryModel.email).isPresent) {
-            logger.debug("User with given email ${registryModel.email} already exists in database")
+        if(playerRepository.findByEmail(email).isPresent) {
+            logger.debug("User with given email $email already exists in database")
             throw UserEmailAlreadyExistsException()
         }
 
         val playerEntity = PlayerEntity(
-            0, registryModel.username, passwordEncoder.encode(registryModel.password), registryModel.email,
+            0, username, passwordEncoder.encode(password), email,
             null, 0, mutableSetOf(), mutableSetOf("USER")
         )
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.TokenService
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
+import pl.ms.fire.emblem.app.entities.AppGameCharacterEntity
 import pl.ms.fire.emblem.app.entities.AppSpotEntity
 import pl.ms.fire.emblem.app.exceptions.*
 import pl.ms.fire.emblem.app.persistence.entities.BoardEntity
@@ -101,7 +102,7 @@ class CreateGameService {
         )
     }
 
-    fun setUpCharacters(characters: Map<Position, RequestGameCharacterModel>) {
+    fun setUpCharacters(characters: Map<Position, AppGameCharacterEntity>) {
         validateStartPositions(characters.keys)
         val boardEntity = boardRepository.joinFetchSpots(
             boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }.id
@@ -111,7 +112,7 @@ class CreateGameService {
 
         characters.forEach {
             spots[it.key]?.standingCharacter = AppCharacterPairEntity(
-                0, gameCharacterRepository.getById(it.value.id).toAppEntity(), null,
+                0, it.value, null,
                 spots[it.key] as? AppSpotEntity
             )
             editedSpots.add(spots[it.key] as? AppSpotEntity ?: throw InvalidSpotException())

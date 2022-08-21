@@ -26,6 +26,7 @@ class PlayerEntity(
     var currentPreset: Int,
 
     @OneToMany(mappedBy = "player", orphanRemoval = true, cascade = [CascadeType.ALL])
+    @OrderBy("preset_id")
     val presets: MutableSet<PlayerPresetEntity>,
 
     @ElementCollection(fetch = FetchType.EAGER)
