@@ -26,9 +26,6 @@ fun RequestGameCharacterModel.toAppModel() =
         equipment.map { it.toApp() }.toMutableList()
     )
 
-fun AppGameCharacterEntity.toModel() =
-    GameCharacterModel(id, name, remainingHealth, currentEquippedItem, characterClass, moved, stats, equipment)
-
 fun AppCharacterPairEntity.toModel() =
     CharacterPairModel((leadCharacter as AppGameCharacterEntity).toModel(), (supportCharacter as? AppGameCharacterEntity)?.toModel())
 
