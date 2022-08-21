@@ -23,6 +23,7 @@ import pl.ms.fire.emblem.business.utlis.getStat
 import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot
 import pl.ms.fire.emblem.business.values.character.Stat
+import pl.ms.fire.emblem.web.model.request.RequestGameCharacterModel
 import kotlin.random.Random
 
 @Service
@@ -100,7 +101,7 @@ class CreateGameService {
         )
     }
 
-    fun setUpCharacters(characters: Map<Position, GameCharacterModel>) {
+    fun setUpCharacters(characters: Map<Position, RequestGameCharacterModel>) {
         validateStartPositions(characters.keys)
         val boardEntity = boardRepository.joinFetchSpots(
             boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }.id
