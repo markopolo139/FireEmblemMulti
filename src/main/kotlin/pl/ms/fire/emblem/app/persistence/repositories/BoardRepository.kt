@@ -14,6 +14,9 @@ interface BoardRepository: JpaRepository<BoardEntity, Int> {
     @Query("select be from BoardEntity be where be.playerA.id = :playerId or be.playerB.id = :playerId")
     fun findByPlayerId(@Param("playerId") playerId: Int): Optional<BoardEntity>
 
+    @Query("select be.id from BoardEntity be where be.playerA.id = :playerId or be.playerB.id = :playerId")
+    fun findIdByPlayerId(@Param("playerId") playerId: Int): Int
+
     @Query("select be from BoardEntity be left join fetch be.spots where be.id = :boardId")
     fun joinFetchSpots(@Param("boardId") boardId: Int): BoardEntity
 }
