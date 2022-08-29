@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppGameCharacterEntity
 import pl.ms.fire.emblem.app.entities.AppPresetEntity
-import pl.ms.fire.emblem.app.exceptions.InvalidNumberOfPresetsException
+import pl.ms.fire.emblem.app.exceptions.InvalidNumberOfCharactersInPresetException
 import pl.ms.fire.emblem.app.exceptions.InvalidStatForCharacterException
 import pl.ms.fire.emblem.app.exceptions.PresetDoesNotExistsException
 import pl.ms.fire.emblem.app.exceptions.PresetLimitExceededException
@@ -37,8 +37,10 @@ class PlayerPresetService {
 
     fun createPreset(preset: AppPresetEntity) {
         val player = playerRepository.joinFetchPresets(userId)
-        if (player.presets.size + 1 > PRESET_LIMIT)
+        if (player.presets.size + 1 > PRESET_LIMIT) {
+            logger.debug("Preset limit exceeded (limit $PRESET_LIMIT, given ${player.presets.size + 1}")
             throw PresetLimitExceededException(PRESET_LIMIT)
+        }
 
         validateDataForPreset(preset.gameCharacterEntities)
 
@@ -51,8 +53,10 @@ class PlayerPresetService {
 
     fun createPresets(presets: List<AppPresetEntity>) {
         val player = playerRepository.joinFetchPresets(userId)
-        if (player.presets.size + presets.size > PRESET_LIMIT)
+        if (player.presets.size + presets.size > PRESET_LIMIT){
+            logger.debug("Preset limit exceeded (limit $PRESET_LIMIT, given ${player.presets.size + presets.size}")
             throw PresetLimitExceededException(PRESET_LIMIT)
+        }
 
         presets.forEach{ validateDataForPreset(it.gameCharacterEntities) }
 
@@ -95,18 +99,26 @@ class PlayerPresetService {
     private fun getUserPresets(): Set<AppPresetEntity> =
         playerRepository.joinFetchPresets(userId).presets.map { it.toAppEntity() }.toSet()
 
-    private fun validatePresetExists(id: Int) =
-        getUserPresets().elementAtOrNull(id) ?: throw PresetDoesNotExistsException(id)
+    private fun validatePresetExists(id: Int) {
+        if (getUserPresets().elementAtOrNull(id) == null) {
+            logger.debug("Preset does not exists with $id id for $userId user id")
+            throw PresetDoesNotExistsException(id)
+        }
+    }
 
     private fun validateDataForPreset(characterList: Set<AppGameCharacterEntity>) {
-        if (characterList.size != CHARACTER_IN_PRESET)
-            throw InvalidNumberOfPresetsException(CHARACTER_IN_PRESET)
+        if (characterList.size != CHARACTER_IN_PRESET) {
+            logger.debug("Invalid number of characters in preset (limit $CHARACTER_IN_PRESET, given ${characterList.size})")
+            throw InvalidNumberOfCharactersInPresetException(CHARACTER_IN_PRESET)
+        }
 
         characterList.forEach { validateCharacter(it) }
     }
 
     private fun validateCharacter(character: AppGameCharacterEntity) {
-        if (character.stats.map { it.value }.sum() > CHARACTER_STAT_VALUE_LIMIT)
+        if (character.stats.map { it.value }.sum() > CHARACTER_STAT_VALUE_LIMIT){
+            logger.debug("Invalid number of stats for character (limit $CHARACTER_STAT_VALUE_LIMIT)")
             throw InvalidStatForCharacterException(CHARACTER_STAT_VALUE_LIMIT)
+        }
     }
 }

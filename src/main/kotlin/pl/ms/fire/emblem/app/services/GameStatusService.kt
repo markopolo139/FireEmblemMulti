@@ -58,17 +58,29 @@ class GameStatusService {
 
     fun getAliveNotMovedPairs(): List<AppSpotEntity> =
         getAliveAndNotMovedCharacters(userId).map {
-            it.spot?.toAppEntity() ?: throw InvalidCharacterPairException()
+            if (it.spot == null) {
+                logger.debug("Character does not have spot (InvalidCharacterPair)")
+                throw InvalidCharacterPairException()
+            }
+            it.spot!!.toAppEntity()
         }
 
     fun getAliveCharacters(): List<AppSpotEntity> =
         getOnlyAliveCharacters(userId).map {
-            it.spot?.toAppEntity() ?: throw InvalidCharacterPairException()
+            if (it.spot == null) {
+                logger.debug("Character does not have spot (InvalidCharacterPair)")
+                throw InvalidCharacterPairException()
+            }
+            it.spot!!.toAppEntity()
         }
 
     fun getAllCharacters(): List<AppSpotEntity> =
         characterPairRepository.getAllPlayerCharacters(userId).map {
-            it.spot?.toAppEntity() ?: throw InvalidCharacterPairException()
+            if (it.spot == null) {
+                logger.debug("Character does not have spot (InvalidCharacterPair)")
+                throw InvalidCharacterPairException()
+            }
+            it.spot!!.toAppEntity()
         }
 
 
