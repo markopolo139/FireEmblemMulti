@@ -7,6 +7,7 @@ import pl.ms.fire.emblem.business.values.items.Item
 
 class GameCharacterModel(
     val id: Int,
+    val presetId: Int,
     val name: String,
     val remainingHp: Int,
     val currentEquippedItem: Int,

@@ -22,7 +22,7 @@ fun List<StatModel>.toMap() = associate { Stat.valueOf(it.stat) to it.value }
 
 fun RequestGameCharacterModel.toAppModel() =
     GameCharacterModel(
-        id, name, remainingHp, currentEquippedItem, CharacterClass.valueOf(characterClass), moved, stats.toMap(),
+        id, presetId, name, remainingHp, currentEquippedItem, CharacterClass.valueOf(characterClass), moved, stats.toMap(),
         equipment.map { it.toApp() }.toMutableList()
     )
 

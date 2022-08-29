@@ -21,19 +21,19 @@ class UserController {
     private lateinit var userService: UserService
 
     @PostMapping("/api/v1/user/create")
-    fun createUser(@RequestBody registryModel: RegistryModel) {
+    fun createUser(@RequestBody @Valid registryModel: RegistryModel) {
         userService.createPlayer(
             registryModel.email, registryModel.username, registryModel.password
         )
     }
 
     @PostMapping("/api/v1/user/delete")
-    fun createUser() {
+    fun deleteUser() {
         userService.deleteUser()
     }
 
-    @PostMapping("/api/v1/user/delete")
-    fun createUser(@RequestParam @Valid @Email email: String) {
+    @PostMapping("/api/v1/admin/delete/user")
+    fun adminDeleteUser(@RequestParam @Valid @Email email: String) {
         userService.deleteUser(email)
     }
 

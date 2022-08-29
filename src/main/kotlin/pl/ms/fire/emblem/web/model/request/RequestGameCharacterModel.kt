@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull
 
 class RequestGameCharacterModel(
     @field:NotNull @field:Min(0) val id: Int,
+    @field:NotNull @field:Min(0) val presetId: Int,
     @field:NotBlank val name: String,
     @field:NotNull @field:Min(0) val remainingHp: Int,
     @field:NotNull @field:Min(0) val currentEquippedItem: Int,
