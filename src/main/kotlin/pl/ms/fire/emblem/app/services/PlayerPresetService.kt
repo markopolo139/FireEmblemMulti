@@ -97,7 +97,6 @@ class PlayerPresetService {
     fun getAllPresets(): List<AppPresetEntity> =
         playerRepository.joinFetchPresets(userId).presets.map { it.toAppEntity() }
 
-
     private fun getUserPresets(): Set<AppPresetEntity> =
         playerRepository.joinFetchPresets(userId).presets.map { it.toAppEntity() }.toSet()
 

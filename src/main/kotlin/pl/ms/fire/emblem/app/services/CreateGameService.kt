@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.TokenService
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
-import pl.ms.fire.emblem.app.entities.AppGameCharacterEntity
 import pl.ms.fire.emblem.app.entities.AppSpotEntity
 import pl.ms.fire.emblem.app.exceptions.*
 import pl.ms.fire.emblem.app.persistence.entities.BoardEntity
@@ -18,13 +17,11 @@ import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository
 import pl.ms.fire.emblem.app.persistence.repositories.SpotRepository
 import pl.ms.fire.emblem.app.persistence.toAppEntity
 import pl.ms.fire.emblem.app.persistence.toEntity
-import pl.ms.fire.emblem.app.websocket.messages.models.GameCharacterModel
 import pl.ms.fire.emblem.business.entities.GameBoard
 import pl.ms.fire.emblem.business.utlis.getStat
 import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot
 import pl.ms.fire.emblem.business.values.character.Stat
-import pl.ms.fire.emblem.web.model.request.RequestGameCharacterModel
 import kotlin.random.Random
 
 @Service

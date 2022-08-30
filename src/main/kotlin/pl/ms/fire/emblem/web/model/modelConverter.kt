@@ -12,24 +12,33 @@ import pl.ms.fire.emblem.business.values.category.WeaponCategory
 import pl.ms.fire.emblem.business.values.character.CharacterClass
 import pl.ms.fire.emblem.business.values.character.Stat
 import pl.ms.fire.emblem.business.values.items.Item
-import pl.ms.fire.emblem.web.model.request.RequestGameCharacterModel
+import pl.ms.fire.emblem.web.model.request.WebGameCharacterModel
 
 fun ItemModel.toApp() =
     Item(name, mt, hitPercent, criticalPercent, range, AttackCategory.valueOf(attackCategory),
         WeaponCategory.valueOf(weaponCategory), weight)
 
+fun Item.toWeb() =
+    ItemModel(name, mt, hitPercent, criticalPercent, range, attackCategory.name, weaponCategory.name, weight)
+
 fun List<StatModel>.toMap() = associate { Stat.valueOf(it.stat) to it.value }
 
-fun RequestGameCharacterModel.toAppModel() =
+fun WebGameCharacterModel.toAppModel() =
     GameCharacterModel(
         id, presetId, name, remainingHp, currentEquippedItem, CharacterClass.valueOf(characterClass), moved, stats.toMap(),
         equipment.map { it.toApp() }.toMutableList()
     )
 
-fun RequestGameCharacterModel.toEntityNoPreset() =
+fun WebGameCharacterModel.toEntityNoPreset() =
     AppGameCharacterEntity(
         id, null, name, remainingHp, currentEquippedItem, CharacterClass.valueOf(characterClass), moved,
         stats.associate { Stat.valueOf(it.stat) to it.value }, equipment.map { it.toApp() }.toMutableList()
+    )
+
+fun GameCharacterModel.toWebModel() =
+    WebGameCharacterModel(
+        id, presetId, name, remainingHp, currentEquippedItem, characterClass.name, moved,
+        stats.map { StatModel(it.key.name, it.value) }, equipment.map { it.toWeb() }
     )
 
 fun AppCharacterPairEntity.toModel() =
