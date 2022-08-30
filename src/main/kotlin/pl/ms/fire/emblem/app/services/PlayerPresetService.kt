@@ -11,6 +11,7 @@ import pl.ms.fire.emblem.app.exceptions.InvalidNumberOfCharactersInPresetExcepti
 import pl.ms.fire.emblem.app.exceptions.InvalidStatForCharacterException
 import pl.ms.fire.emblem.app.exceptions.PresetDoesNotExistsException
 import pl.ms.fire.emblem.app.exceptions.PresetLimitExceededException
+import pl.ms.fire.emblem.app.persistence.entities.PlayerPresetEntity
 import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository
 import pl.ms.fire.emblem.app.persistence.repositories.PresetRepository
 import pl.ms.fire.emblem.app.persistence.toAppEntity
@@ -35,34 +36,35 @@ class PlayerPresetService {
     private val userId: Int
         get() = (SecurityContextHolder.getContext().authentication.principal as UserEntity).id
 
-    fun createPreset(preset: AppPresetEntity) {
+    fun createPreset(characters: Set<AppGameCharacterEntity>) {
         val player = playerRepository.joinFetchPresets(userId)
         if (player.presets.size + 1 > PRESET_LIMIT) {
             logger.debug("Preset limit exceeded (limit $PRESET_LIMIT, given ${player.presets.size + 1}")
             throw PresetLimitExceededException(PRESET_LIMIT)
         }
 
-        validateDataForPreset(preset.gameCharacterEntities)
+        validateDataForPreset(characters)
 
-        val savePreset = preset.toEntity()
+        val savePreset = PlayerPresetEntity(0, player, characters.map { it.toEntity() }.toMutableSet())
+        savePreset.gameCharacters.forEach { apply { it.preset = savePreset } }
         player.presets.add(savePreset)
-        savePreset.player = player
 
         playerRepository.save(player)
     }
 
-    fun createPresets(presets: List<AppPresetEntity>) {
+    fun createPresets(charactersList: List<Set<AppGameCharacterEntity>>) {
         val player = playerRepository.joinFetchPresets(userId)
-        if (player.presets.size + presets.size > PRESET_LIMIT){
-            logger.debug("Preset limit exceeded (limit $PRESET_LIMIT, given ${player.presets.size + presets.size}")
+        if (player.presets.size + charactersList.size > PRESET_LIMIT){
+            logger.debug("Preset limit exceeded (limit $PRESET_LIMIT, given ${player.presets.size + charactersList.size}")
             throw PresetLimitExceededException(PRESET_LIMIT)
         }
 
-        presets.forEach{ validateDataForPreset(it.gameCharacterEntities) }
+        charactersList.forEach{ validateDataForPreset(it) }
 
-        val savePresets = presets.map {
-            it.toEntity().apply { this.player = player }
+        val savePresets = charactersList.map {
+                characterEntities -> PlayerPresetEntity(0, player, characterEntities.map { it.toEntity() }.toMutableSet())
         }
+        savePresets.forEach { currentPreset -> currentPreset.gameCharacters.forEach { apply { it.preset = currentPreset } }}
         player.presets.addAll(savePresets)
 
         playerRepository.save(player)

@@ -26,6 +26,12 @@ fun RequestGameCharacterModel.toAppModel() =
         equipment.map { it.toApp() }.toMutableList()
     )
 
+fun RequestGameCharacterModel.toEntityNoPreset() =
+    AppGameCharacterEntity(
+        id, null, name, remainingHp, currentEquippedItem, CharacterClass.valueOf(characterClass), moved,
+        stats.associate { Stat.valueOf(it.stat) to it.value }, equipment.map { it.toApp() }.toMutableList()
+    )
+
 fun AppCharacterPairEntity.toModel() =
     CharacterPairModel((leadCharacter as AppGameCharacterEntity).toModel(), (supportCharacter as? AppGameCharacterEntity)?.toModel())
 
