@@ -76,6 +76,11 @@ class CreateGameService {
         validateIfUserInGame(playerA.id)
         validateIfUserInGame(playerB.id)
 
+        if(playerA.presets.isEmpty() || playerB.presets.isEmpty()) {
+            logger.debug("One of the players does not have presets")
+            throw NoPresetsException()
+        }
+
         setRemainingHp(playerA)
         setRemainingHp(playerB)
 
