@@ -102,13 +102,17 @@ class CreateGameService {
         )
     }
 
-    fun setUpCharacters(characters: Map<Position, AppGameCharacterEntity>) {
-        validateStartPositions(characters.keys)
+    fun setUpCharacters(charactersId: Map<Position, Int>) {
+        validateStartPositions(charactersId.keys)
         val boardEntity = boardRepository.joinFetchSpots(
             boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }.id
         )
         val spots = boardEntity.toAppEntity().spots
         val editedSpots = mutableListOf<AppSpotEntity>()
+
+        val characters = charactersId.map {
+            it.key to gameCharacterRepository.getById(it.value).toAppEntity()
+        }.toMap()
 
         characters.forEach {
             spots[it.key]?.standingCharacter = AppCharacterPairEntity(

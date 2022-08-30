@@ -28,9 +28,6 @@ class CreateGameController {
     @Autowired
     private lateinit var createGameService: CreateGameService
 
-    @Autowired
-    private lateinit var presetRepository: PresetRepository
-
     @GetMapping("/api/v1/game/create")
     fun createToken(
         @RequestParam("height") height: Int,
@@ -44,23 +41,13 @@ class CreateGameController {
 
     @PostMapping("/api/v1/game/set/characters")
     fun setUpCharacters(
-        @RequestBody characters: Map<Position, RequestGameCharacterModel>
-    ) {
-        createGameService.setUpCharacters(
-            characters.map { it.key to it.value.toEntity() }.toMap()
-        )
-    }
+        @RequestBody characters: Map<Position, Int>
+    ) = createGameService.setUpCharacters(characters)
+
 
     @PutMapping("/api/v1/game/exit")
     fun exitGame() {
         createGameService.exitGame()
     }
-
-    private fun RequestGameCharacterModel.toEntity() =
-        AppGameCharacterEntity(
-            id, presetRepository.getById(presetId).toAppEntity(), name, remainingHp, currentEquippedItem,
-            CharacterClass.valueOf(characterClass), moved, stats.associate { Stat.valueOf(it.stat) to it.value },
-            equipment.map { it.toApp() }.toMutableList()
-        )
 
 }
