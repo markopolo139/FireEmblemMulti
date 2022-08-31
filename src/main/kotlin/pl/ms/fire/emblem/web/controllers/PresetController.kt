@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import pl.ms.fire.emblem.app.persistence.toEntity
 import pl.ms.fire.emblem.app.services.PlayerPresetService
 import pl.ms.fire.emblem.app.websocket.messages.models.toModel
 import pl.ms.fire.emblem.web.model.request.WebGameCharacterModel
@@ -47,6 +48,11 @@ class PresetController {
             index to appPresetEntity.gameCharacterEntities.map { it.toModel().toWebModel() }
         }.toMap()
     }
+
+    @GetMapping("/api/v1/preset/get/selected")
+    fun getSelectedPreset(): List<WebGameCharacterModel> =
+        playerPresetService.getSelectedPreset().gameCharacterEntities.map { it.toModel().toWebModel() }.toList()
+
 
     @PutMapping("/api/v1/preset/select")
     fun selectPreset(@RequestParam id: Int) = playerPresetService.selectPreset(id)

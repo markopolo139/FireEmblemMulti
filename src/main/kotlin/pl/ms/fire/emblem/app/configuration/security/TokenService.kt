@@ -91,10 +91,13 @@ class TokenService {
         }
         catch (e: ExpiredJwtException) {
             logger.debug("Token authentication failed due to expired token")
+            throw e
         } catch (e: SignatureException) {
             logger.warn("Token authentication failed due invalid signature")
+            throw e
         } catch (e: JwtException) {
             logger.debug("Token authentication failed due to exception: $e")
+            throw e
         }
 
         return null
@@ -113,10 +116,13 @@ class TokenService {
         }
         catch (e: ExpiredJwtException) {
             logger.debug("Token authentication failed due to expired token")
+            throw e
         } catch (e: SignatureException) {
             logger.warn("Token authentication failed due invalid signature")
+            throw e
         } catch (e: JwtException) {
             logger.debug("Token authentication failed due to exception: $e")
+            throw e
         }
 
         return false

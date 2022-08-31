@@ -97,6 +97,11 @@ class PlayerPresetService {
     fun getAllPresets(): List<AppPresetEntity> =
         playerRepository.joinFetchPresets(userId).presets.map { it.toAppEntity() }
 
+    fun getSelectedPreset(): AppPresetEntity =
+        playerRepository.joinFetchPresets(userId).presets.map { it.toAppEntity() }[
+                (SecurityContextHolder.getContext().authentication.principal as UserEntity).currentPreset
+        ]
+
     private fun getUserPresets(): Set<AppPresetEntity> =
         playerRepository.joinFetchPresets(userId).presets.map { it.toAppEntity() }.toSet()
 
