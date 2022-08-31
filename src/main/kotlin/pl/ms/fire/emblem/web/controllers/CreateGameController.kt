@@ -33,7 +33,7 @@ class CreateGameController {
 
     @PostMapping("/api/v1/game/set/characters")
     fun setUpCharacters(
-        @RequestBody characters: Map<Position, Int>
+        @RequestBody characters: Map<Int, Position>
     ) = createGameService.setUpCharacters(characters)
 
 
