@@ -86,4 +86,6 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
             httpStatus = HttpStatus.BAD_REQUEST
         )
     }
+
+    //TODO: add rest of exceptions
 }
