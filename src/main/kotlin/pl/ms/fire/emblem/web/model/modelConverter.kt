@@ -7,12 +7,16 @@ import pl.ms.fire.emblem.app.websocket.messages.models.CharacterPairModel
 import pl.ms.fire.emblem.app.websocket.messages.models.GameCharacterModel
 import pl.ms.fire.emblem.app.websocket.messages.models.SpotModel
 import pl.ms.fire.emblem.app.websocket.messages.models.toModel
+import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.category.AttackCategory
 import pl.ms.fire.emblem.business.values.category.WeaponCategory
 import pl.ms.fire.emblem.business.values.character.CharacterClass
 import pl.ms.fire.emblem.business.values.character.Stat
 import pl.ms.fire.emblem.business.values.items.Item
+import pl.ms.fire.emblem.web.model.request.PositionModel
 import pl.ms.fire.emblem.web.model.request.WebGameCharacterModel
+import pl.ms.fire.emblem.web.model.response.CharacterPairResponse
+import pl.ms.fire.emblem.web.model.response.SpotResponse
 
 fun ItemModel.toApp() =
     Item(name, mt, hitPercent, criticalPercent, range, AttackCategory.valueOf(attackCategory),
@@ -46,3 +50,16 @@ fun AppCharacterPairEntity.toModel() =
 
 fun AppSpotEntity.toModel() =
     SpotModel(position, terrain, (standingCharacter as? AppCharacterPairEntity)?.toModel())
+
+fun Position.toModel() = PositionModel(x,y)
+
+fun PositionModel.toBusiness() = Position(x,y)
+
+fun AppCharacterPairEntity.toWebModel() =
+    CharacterPairResponse(
+        (leadCharacter as AppGameCharacterEntity).toModel().toWebModel(),
+        (supportCharacter as? AppGameCharacterEntity)?.toModel()?.toWebModel(),
+    )
+
+fun AppSpotEntity.toWebModel() =
+    SpotResponse(position.toModel(), terrain, (standingCharacter as? AppCharacterPairEntity)?.toWebModel())
