@@ -23,14 +23,15 @@ import pl.ms.fire.emblem.business.values.character.OffensiveSkill
 import pl.ms.fire.emblem.business.values.character.Stat
 import pl.ms.fire.emblem.business.values.items.Item
 
+//TODO: Test battleForecast
 class BattleServiceTest {
 
     private val battleService = BattleService()
 
     @Test
     fun `test exceptions`() {
-        val attacker = GameCharacter(
-            "Test", 30, 0,
+        val invalidAttacker = GameCharacter(
+            "Test", 30, 1,
             mutableListOf(
                 Item("Sword", 10, 100, 10, 2, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
                 Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
@@ -51,7 +52,8 @@ class BattleServiceTest {
             CharacterClass.VALKYRIE,
             false
         )
-        val attackerSpot =  Spot(Position(1,1), Terrain.PLAIN, CharacterPair(attacker, null))
+
+        val invalidAttackerSpot =  Spot(Position(1,1), Terrain.PLAIN, CharacterPair(invalidAttacker, null))
 
         val defender = GameCharacter(
             "Test", 30, 0,
@@ -77,10 +79,34 @@ class BattleServiceTest {
         )
         val defenderSpot = Spot(Position(1,3), Terrain.PLAIN, CharacterPair(defender, null))
 
-        val invalidAttackerSpot =  Spot(Position(4,1), Terrain.PLAIN, CharacterPair(attacker, null))
+        val attacker = GameCharacter(
+            "Test", 30, 0,
+            mutableListOf(
+                Item("Sword", 10, 100, 10, 2, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+            ),
+            mapOf(
+                Stat.HEALTH to 30,
+                Stat.STRENGTH to 10,
+                Stat.MAGICK to 15,
+                Stat.DEFENSE to 5,
+                Stat.RESISTANCE to 5,
+                Stat.SKILL to 10,
+                Stat.LUCK to 18,
+                Stat.SPEED to 12
+            ),
+            CharacterClass.SWORDMASTER,
+            false
+        )
+
+        val invalidAttackerPositionSpot =  Spot(Position(4,1), Terrain.PLAIN, CharacterPair(attacker, null))
+        val attackerSpot =  Spot(Position(1,1), Terrain.PLAIN, CharacterPair(attacker, null))
 
         Assertions.assertThrows(OutOfRangeException::class.java) {
-            battleService.battle(invalidAttackerSpot, defenderSpot)
+            battleService.battle(invalidAttackerPositionSpot, defenderSpot)
         }
 
         attacker.currentEquippedItem = 5
@@ -88,13 +114,13 @@ class BattleServiceTest {
             battleService.battle(attackerSpot, defenderSpot)
         }
 
-        attacker.currentEquippedItem = 1
         Assertions.assertThrows(StaffInBattleException::class.java) {
-            battleService.battle(attackerSpot, defenderSpot)
+            battleService.battle(invalidAttackerSpot, defenderSpot)
         }
 
         attacker.currentEquippedItem = 0
         defender.currentEquippedItem = 5
+
         Assertions.assertDoesNotThrow {
             battleService.battle(attackerSpot, defenderSpot)
         }
@@ -218,6 +244,9 @@ class BattleServiceTest {
 
         defender.remainingHealth = 31
         defender.currentEquippedItem = 4
+
+        attackerSpot.standingCharacter?.leadCharacter?.moved = false
+
         Assertions.assertDoesNotThrow {
             battleService.battle(attackerSpot, defenderSpot)
         }
@@ -427,7 +456,7 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 31, 0,
             mutableListOf(
-                Item("Sword", 5, 500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Bow", 5, 500, 10, 2, AttackCategory.PHYSICAL, WeaponCategory.BOW, 1),
                 Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
                 Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
                 Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
@@ -544,7 +573,7 @@ class BattleServiceTest {
         val defender = GameCharacter(
             "Test", 16, 0,
             mutableListOf(
-                Item("Sword", 5, -500, 10, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Tome", 5, -500, 10, 1, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
                 Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
                 Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
                 Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),

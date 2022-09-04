@@ -94,6 +94,8 @@ class EquipmentManagementTest {
 
         tradeWithCharacter.equipment.removeAt(5)
 
+        gameCharacter.moved = false
+
         Assertions.assertDoesNotThrow {
             equipmentService.tradeEquipment(
                 gameCharacter, tradeWithCharacter, 1, null
