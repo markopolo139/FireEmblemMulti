@@ -99,8 +99,6 @@ class TokenService {
             logger.debug("Token authentication failed due to exception: $e")
             throw e
         }
-
-        return null
     }
 
     fun isPasswordRecoveryToken(): Boolean {
@@ -124,8 +122,6 @@ class TokenService {
             logger.debug("Token authentication failed due to exception: $e")
             throw e
         }
-
-        return false
     }
 
     fun getBoardConfigurationFromToken(token: String): BoardConfiguration? {
