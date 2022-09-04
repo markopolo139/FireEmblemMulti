@@ -1,5 +1,6 @@
 package pl.ms.fire.emblem.business.serices
 
+import pl.ms.fire.emblem.business.entities.CharacterPair
 import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
 import pl.ms.fire.emblem.business.exceptions.battle.StaffInBattleException
 import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
@@ -10,12 +11,15 @@ import pl.ms.fire.emblem.business.serices.battle.MissBattleCalculator
 import pl.ms.fire.emblem.business.utlis.BattleUtils
 import pl.ms.fire.emblem.business.utlis.Displayable
 import pl.ms.fire.emblem.business.utlis.getStat
+import pl.ms.fire.emblem.business.values.battle.BattleForecast
 import pl.ms.fire.emblem.business.values.battle.WeaponTriangle
 import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot
+import pl.ms.fire.emblem.business.values.category.AttackCategory
 import pl.ms.fire.emblem.business.values.category.WeaponCategory
 import pl.ms.fire.emblem.business.values.character.DefensiveSkill
 import pl.ms.fire.emblem.business.values.character.OffensiveSkill
+import pl.ms.fire.emblem.business.values.character.Stat
 
 class BattleService {
 
@@ -74,6 +78,44 @@ class BattleService {
         return battleCourse
 
     }
+
+    fun battleForecast(attacker: Spot, defender: Spot): BattleForecast {
+        preBattleValidation(attacker, defender)
+
+        val attackerPair = attacker.standingCharacter!!
+        val defenderPair = defender.standingCharacter!!
+
+        val attackerWeaponTriangle = checkWeaponTriangle(attacker, defender)
+
+        val attackerDmg = calcDmgNoCrit(attackerPair, defenderPair)
+        val attackerDouble = BattleUtils.isDoubleAttack(attackerPair, defenderPair)
+        val attackerHit = attackerPair.battleStat.hitRate + attackerWeaponTriangle.hitRateModifier -
+                defenderPair.battleStat.avoid + defender.terrain.avoidBoost
+        val attackerCrit = attackerPair.battleStat.critical - defenderPair.boostedStats.getStat(Stat.LUCK)
+
+        var defenderDmg = 0
+        var defenderDouble = false
+        var defenderHit = 0
+        var defenderCrit = 0
+
+        try {
+            preBattleValidation(defender, attacker)
+            defenderDmg = calcDmgNoCrit(defenderPair, attackerPair)
+            defenderDouble = BattleUtils.isDoubleAttack(defenderPair, attackerPair)
+            val defenderWeaponTriangle = checkWeaponTriangle(defender, attacker)
+            defenderHit = defenderPair.battleStat.hitRate + defenderWeaponTriangle.hitRateModifier -
+                    attackerPair.battleStat.avoid + attacker.terrain.avoidBoost
+            defenderCrit = defenderPair.battleStat.critical - attackerPair.boostedStats.getStat(Stat.LUCK)
+        }
+        catch (_: Exception) {}
+
+
+        return BattleForecast(
+            attackerDmg, attackerHit, attackerCrit, attackerDouble, defenderDmg, defenderHit, defenderCrit, defenderDouble
+        )
+    }
+
+
 
     private fun preBattleValidation(attacker: Spot, defender: Spot) {
         if(attacker.standingCharacter == null)
@@ -155,4 +197,17 @@ class BattleService {
 
         defender.standingCharacter!!.leadCharacter.remainingHealth -= trueDmgDealt
     }
+
+    private fun calcDmgNoCrit(playerPair: CharacterPair, enemyPair: CharacterPair): Int  {
+        val playerEquippedItem = playerPair.leadCharacter.equipment[playerPair.leadCharacter.currentEquippedItem]
+        val playerAttack = playerPair.battleStat.attack
+        val opponentDefense = if (playerEquippedItem.attackCategory == AttackCategory.MAGICAL) {
+            enemyPair.boostedStats.getStat(Stat.RESISTANCE)
+        } else {
+            enemyPair.boostedStats.getStat(Stat.DEFENSE)
+        }
+
+        return playerAttack - opponentDefense
+    }
+
 }
