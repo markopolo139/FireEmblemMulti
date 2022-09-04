@@ -42,7 +42,7 @@ class BattleService {
         }
 
         try {
-            preBattleValidation(defender, attacker)
+            preBattleValidationDefender(defender, attacker)
             val defenderWeaponTriangle = checkWeaponTriangle(defender, attacker)
             calculator = setUpBattleCalculator(defender, attacker, defenderWeaponTriangle)
             battleCourse.add(calculator as Displayable)
@@ -102,7 +102,7 @@ class BattleService {
         var defenderCrit = 0
 
         try {
-            preBattleForecastValidation(defender, attacker)
+            preBattleValidationDefender(defender, attacker)
             defenderDmg = calcDmgNoCrit(defenderPair, attackerPair)
             defenderDouble = BattleUtils.isDoubleAttack(defenderPair, attackerPair)
             val defenderWeaponTriangle = checkWeaponTriangle(defender, attacker)
@@ -144,7 +144,7 @@ class BattleService {
             throw OutOfRangeException()
     }
 
-    private fun preBattleForecastValidation(attacker: Spot, defender: Spot) {
+    private fun preBattleValidationDefender(attacker: Spot, defender: Spot) {
         if(attacker.standingCharacter == null)
             throw NoCharacterOnSpotException()
 
