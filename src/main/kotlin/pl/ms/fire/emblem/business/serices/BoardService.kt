@@ -2,6 +2,7 @@ package pl.ms.fire.emblem.business.serices
 
 import pl.ms.fire.emblem.business.entities.CharacterPair
 import pl.ms.fire.emblem.business.entities.GameBoard
+import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
 import pl.ms.fire.emblem.business.exceptions.battle.NotAllowedWeaponCategoryException
 import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
 import pl.ms.fire.emblem.business.exceptions.board.NotEnoughMovementException
@@ -25,6 +26,9 @@ class BoardService {
         if (pairSpot.standingCharacter == null)
             throw NoCharacterOnSpotException()
 
+        if (pairSpot.standingCharacter?.leadCharacter?.moved == true)
+            throw CharacterMovedException()
+
         routeValidation(pairSpot, mapPositionRouteToSpotRoute(route, gameBoard))
 
         val destination = gameBoard.getSpot(route.last())
@@ -46,6 +50,9 @@ class BoardService {
 
         if (staffUserSpot.standingCharacter == null || healedSpot.standingCharacter == null)
             throw NoCharacterOnSpotException()
+
+        if (staffUserSpot.standingCharacter?.leadCharacter?.moved == true)
+            throw CharacterMovedException()
 
         val staffUser = staffUserSpot.standingCharacter!!.leadCharacter
         val staff = staffUser.equipment.getOrNull(staffUser.currentEquippedItem) ?: throw ItemDoesNotExistsException()
@@ -72,6 +79,8 @@ class BoardService {
     }
 
     private fun routeValidation(pairSpot: Spot, route: Collection<Spot>) {
+
+        if (pairSpot == route.last()) return
 
         if (route.last().standingCharacter != null)
             throw PairAlreadyOnSpotException()

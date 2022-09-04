@@ -1,5 +1,6 @@
 package pl.ms.fire.emblem.business.serices
 
+import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
 import pl.ms.fire.emblem.business.exceptions.item.EquipmentLimitExceededException
 import pl.ms.fire.emblem.business.exceptions.item.ItemDoesNotExistsException
 import pl.ms.fire.emblem.business.exceptions.item.TradeEquippedItemException
@@ -16,6 +17,8 @@ class EquipmentManagementService {
     fun tradeEquipment(
         character: GameCharacter, tradeWithCharacter: GameCharacter, characterTradeItemIndex: Int, tradeWithEquipmentIndex: Int?
     ) {
+
+        if (character.moved) throw CharacterMovedException()
 
         if (character.currentEquippedItem == characterTradeItemIndex)
             throw TradeEquippedItemException()
@@ -52,6 +55,8 @@ class EquipmentManagementService {
     }
 
     fun equipItem(character: GameCharacter, equipItemIndex: Int) {
+
+        if (character.moved) throw CharacterMovedException()
 
         validateItemToEquip(character, character.equipment.getOrNull(equipItemIndex))
 

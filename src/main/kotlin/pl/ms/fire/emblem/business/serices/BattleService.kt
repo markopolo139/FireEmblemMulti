@@ -1,6 +1,8 @@
 package pl.ms.fire.emblem.business.serices
 
 import pl.ms.fire.emblem.business.entities.CharacterPair
+import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
+import pl.ms.fire.emblem.business.exceptions.battle.NotAllowedWeaponCategoryException
 import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
 import pl.ms.fire.emblem.business.exceptions.battle.StaffInBattleException
 import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
@@ -51,7 +53,8 @@ class BattleService {
         }
         catch (ex: Exception) {
             when(ex) {
-                is NoItemEquippedException, is OutOfRangeException -> Unit
+                is NoItemEquippedException, is OutOfRangeException,
+                is CharacterMovedException, is NotAllowedWeaponCategoryException -> Unit
                 else -> throw ex
             }
         }
@@ -99,7 +102,7 @@ class BattleService {
         var defenderCrit = 0
 
         try {
-            preBattleValidation(defender, attacker)
+            preBattleForecastValidation(defender, attacker)
             defenderDmg = calcDmgNoCrit(defenderPair, attackerPair)
             defenderDouble = BattleUtils.isDoubleAttack(defenderPair, attackerPair)
             val defenderWeaponTriangle = checkWeaponTriangle(defender, attacker)
@@ -115,9 +118,33 @@ class BattleService {
         )
     }
 
-
-
     private fun preBattleValidation(attacker: Spot, defender: Spot) {
+        if (attacker.standingCharacter == null)
+            throw NoCharacterOnSpotException()
+
+        if (defender.standingCharacter == null)
+            throw NoCharacterOnSpotException()
+
+        val standingPair = attacker.standingCharacter!!
+
+        if (standingPair.leadCharacter.moved)
+            throw CharacterMovedException()
+
+        val equippedWeapon =
+            standingPair.leadCharacter.equipment.getOrNull(standingPair.leadCharacter.currentEquippedItem)
+                ?: throw NoItemEquippedException()
+
+        if (!standingPair.leadCharacter.characterClass.allowedWeapons.contains(equippedWeapon.weaponCategory))
+            throw NotAllowedWeaponCategoryException(equippedWeapon.weaponCategory)
+
+        if (equippedWeapon.weaponCategory == WeaponCategory.STAFF)
+            throw StaffInBattleException()
+
+        if (Position.checkAbsolutePosition(attacker.position, defender.position) > equippedWeapon.range)
+            throw OutOfRangeException()
+    }
+
+    private fun preBattleForecastValidation(attacker: Spot, defender: Spot) {
         if(attacker.standingCharacter == null)
             throw NoCharacterOnSpotException()
 
@@ -128,6 +155,9 @@ class BattleService {
 
         val equippedWeapon = standingPair.leadCharacter.equipment.getOrNull(standingPair.leadCharacter.currentEquippedItem)
             ?: throw NoItemEquippedException()
+
+        if (!standingPair.leadCharacter.characterClass.allowedWeapons.contains(equippedWeapon.weaponCategory))
+            throw NotAllowedWeaponCategoryException(equippedWeapon.weaponCategory)
 
         if (equippedWeapon.weaponCategory == WeaponCategory.STAFF)
             throw StaffInBattleException()
