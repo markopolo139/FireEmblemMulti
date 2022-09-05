@@ -12,6 +12,7 @@ import pl.ms.fire.emblem.business.serices.battle.DefaultBattleCalculator
 import pl.ms.fire.emblem.business.serices.battle.MissBattleCalculator
 import pl.ms.fire.emblem.business.utlis.Displayable
 import pl.ms.fire.emblem.business.values.GameCharacter
+import pl.ms.fire.emblem.business.values.battle.BattleForecast
 import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot
 import pl.ms.fire.emblem.business.values.board.Terrain
@@ -483,6 +484,63 @@ class BattleServiceTest {
 
         Assertions.assertEquals(19, defender.remainingHealth)
         Assertions.assertNull(attackerSpot.standingCharacter)
+    }
+
+    @Test
+    fun `test battle forecast`() {
+        val attacker = GameCharacter(
+            "Test", 1, 0,
+            mutableListOf(
+                Item("Sword", 5, 100, 20, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Staff", 10, 100, 10, 1, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Physic", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.SWORD, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+            ),
+            mapOf(
+                Stat.HEALTH to 30,
+                Stat.STRENGTH to 0,
+                Stat.MAGICK to 15,
+                Stat.DEFENSE to 5,
+                Stat.RESISTANCE to 5,
+                Stat.SKILL to -11,
+                Stat.LUCK to 18,
+                Stat.SPEED to 12
+            ),
+            CharacterClass.SWORDMASTER,
+            false
+        )
+        val attackerSpot =  Spot(Position(1,1), Terrain.PLAIN, CharacterPair(attacker, null))
+
+        val defender = GameCharacter(
+            "Test", 31, 0,
+            mutableListOf(
+                Item("Bow", 5, 100, 30, 2, AttackCategory.PHYSICAL, WeaponCategory.BOW, 1),
+                Item("Staff", 25, 100, 110, 1, AttackCategory.PHYSICAL, WeaponCategory.STAFF, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.TOME, 1),
+                Item("Magical", 5, 100, 5, 2, AttackCategory.MAGICAL, WeaponCategory.STAFF, 1),
+                Item("Lance", 5, 100, 5, 2, AttackCategory.PHYSICAL, WeaponCategory.LANCE, 1),
+            ),
+            mapOf(
+                Stat.HEALTH to 30,
+                Stat.STRENGTH to 10,
+                Stat.MAGICK to 15,
+                Stat.DEFENSE to -7,
+                Stat.RESISTANCE to 5,
+                Stat.SKILL to -8,
+                Stat.LUCK to 18,
+                Stat.SPEED to 12
+            ),
+            CharacterClass.WARRIOR,
+            false
+        )
+        val defenderSpot = Spot(Position(1,2), Terrain.PLAIN, CharacterPair(defender, null))
+
+        val forecast = battleService.battleForecast(attackerSpot, defenderSpot)
+
+        Assertions.assertEquals(
+            BattleForecast(12,72,2,true,16,63,12,false), forecast
+        )
     }
 
     @Test

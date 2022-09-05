@@ -1,6 +1,6 @@
 package pl.ms.fire.emblem.business.values.battle
 
-class BattleForecast(
+data class BattleForecast(
     val attackerDmg: Int,
     val attackerHit: Int,
     val attackerCrit: Int,
