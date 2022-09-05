@@ -95,6 +95,8 @@ class CreateGameService {
         boardRepository.save(saveBoard)
     }
 
+    fun getBoardId() = boardRepository.findIdByPlayerId(userId)
+
     fun exitGame() {
         boardRepository.deleteById(
             boardRepository.findByPlayerId(userId).orElseThrow {

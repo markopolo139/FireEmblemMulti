@@ -36,10 +36,12 @@ class CreateGameController {
         @RequestBody characters: Map<Int, Position>
     ) = createGameService.setUpCharacters(characters)
 
-
     @PutMapping("/api/v1/game/exit")
     fun exitGame() {
         createGameService.exitGame()
     }
+
+    @GetMapping("/api/v1/game/id")
+    fun getBoardId() = createGameService.getBoardId()
 
 }
