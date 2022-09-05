@@ -24,6 +24,7 @@ import pl.ms.fire.emblem.business.values.board.Spot
 import pl.ms.fire.emblem.business.values.character.Stat
 import kotlin.random.Random
 
+//TODO: searching for random player (special table for random player queue)
 @Service
 class CreateGameService {
 

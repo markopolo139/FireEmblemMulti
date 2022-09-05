@@ -18,6 +18,8 @@ interface PlayerRepository: JpaRepository<PlayerEntity, Int> {
 
     fun findByGameToken(gameToken: String): Optional<PlayerEntity>
 
+    fun findUsernameByUserId(userId: Int): String
+
     @Query("select p from PlayerEntity p left join fetch p.presets where p.id = :playerId")
     fun joinFetchPresets(@Param("playerId") playerId: Int): PlayerEntity
 

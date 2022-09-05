@@ -1,6 +1,7 @@
 package pl.ms.fire.emblem.app.persistence.entities
 
 import javax.persistence.*
+
 @Entity
 @Table(name = "player_character_presets")
 class PlayerPresetEntity(
