@@ -1,7 +1,7 @@
 package pl.ms.fire.emblem.app.websocket.messages.board
 
-class WaitMessageModel(): BoardMessageModel {
-    override fun getDescription(): String {
-        TODO("Not yet implemented")
-    }
+import pl.ms.fire.emblem.business.values.board.Position
+
+class WaitMessageModel(val position: Position): BoardMessageModel {
+    override fun getDescription(): String = "End of turn (set true for character on $position"
 }

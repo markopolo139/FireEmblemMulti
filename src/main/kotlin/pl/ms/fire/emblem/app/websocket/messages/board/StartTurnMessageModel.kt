@@ -1,7 +1,7 @@
 package pl.ms.fire.emblem.app.websocket.messages.board
 
-class StartTurnMessageModel(): BoardMessageModel {
-    override fun getDescription(): String {
-        TODO("Not yet implemented")
-    }
+import pl.ms.fire.emblem.business.values.board.Position
+
+class StartTurnMessageModel(positions: List<Position>): BoardMessageModel {
+    override fun getDescription(): String = "Start of new turn (set every character moved to false)"
 }

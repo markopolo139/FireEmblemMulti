@@ -1,7 +1,7 @@
 package pl.ms.fire.emblem.app.websocket.messages.board
 
-class MoveMessageModel(): BoardMessageModel {
-    override fun getDescription(): String {
-        TODO("Not yet implemented")
-    }
+import pl.ms.fire.emblem.app.websocket.messages.models.SpotModel
+
+class MoveMessageModel(startSpot: SpotModel, lastSpot: SpotModel): BoardMessageModel {
+    override fun getDescription(): String = "Result of moving sequence"
 }
