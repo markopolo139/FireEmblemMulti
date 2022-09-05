@@ -45,12 +45,6 @@ fun GameCharacterModel.toWebModel() =
         stats.map { StatModel(it.key.name, it.value) }, equipment.map { it.toWeb() }
     )
 
-fun AppCharacterPairEntity.toModel() =
-    CharacterPairModel((leadCharacter as AppGameCharacterEntity).toModel(), (supportCharacter as? AppGameCharacterEntity)?.toModel())
-
-fun AppSpotEntity.toModel() =
-    SpotModel(position, terrain, (standingCharacter as? AppCharacterPairEntity)?.toModel())
-
 fun Position.toModel() = PositionModel(x,y)
 
 fun PositionModel.toBusiness() = Position(x,y)
