@@ -45,13 +45,13 @@ class PresetController {
     @GetMapping("/api/v1/preset/get")
     fun getPresets(): Map<Int, List<WebGameCharacterModel>> {
         return playerPresetService.getAllPresets().mapIndexed { index, appPresetEntity ->
-            index to appPresetEntity.gameCharacterEntities.map { it.toModel().toWebModel() }
+            index to appPresetEntity.gameCharacterEntities.map { it.toWebModel() }
         }.toMap()
     }
 
     @GetMapping("/api/v1/preset/get/selected")
     fun getSelectedPreset(): List<WebGameCharacterModel> =
-        playerPresetService.getSelectedPreset().gameCharacterEntities.map { it.toModel().toWebModel() }.toList()
+        playerPresetService.getSelectedPreset().gameCharacterEntities.map { it.toWebModel() }.toList()
 
 
     @PutMapping("/api/v1/preset/select")

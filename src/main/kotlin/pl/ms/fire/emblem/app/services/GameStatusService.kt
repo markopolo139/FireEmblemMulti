@@ -74,6 +74,20 @@ class GameStatusService {
             it.spot!!.toAppEntity()
         }
 
+    fun getEnemyAliveCharacters(): List<AppSpotEntity> {
+        val board = getBoard()
+
+        return getOnlyAliveCharacters(
+            if (board.playerA.id == userId) board.playerB!!.id else board.playerA.id
+        ).map {
+            if (it.spot == null) {
+                logger.debug("Character does not have spot (InvalidCharacterPair)")
+                throw InvalidCharacterPairException()
+            }
+            it.spot!!.toAppEntity()
+        }
+    }
+
     fun getAllCharacters(): List<AppSpotEntity> =
         characterPairRepository.getAllPlayerCharacters(userId).map {
             if (it.spot == null) {
@@ -93,5 +107,7 @@ class GameStatusService {
 
     private fun getAliveAndNotMovedCharacters(playerId: Int) =
         getOnlyNotMovedCharacters(playerId).filter { !it.leadCharacter.moved }.toSet()
+
+    private fun getBoard() = boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }
 
 }

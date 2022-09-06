@@ -24,7 +24,6 @@ import pl.ms.fire.emblem.business.values.character.OffensiveSkill
 import pl.ms.fire.emblem.business.values.character.Stat
 import pl.ms.fire.emblem.business.values.items.Item
 
-//TODO: Test battleForecast
 class BattleServiceTest {
 
     private val battleService = BattleService()

@@ -21,7 +21,6 @@ import pl.ms.fire.emblem.business.values.category.WeaponCategory
 import pl.ms.fire.emblem.business.values.character.CharacterClass
 import pl.ms.fire.emblem.business.values.character.Stat
 import pl.ms.fire.emblem.business.values.items.Item
-import java.util.LinkedList
 
 class BoardServiceTest {
 

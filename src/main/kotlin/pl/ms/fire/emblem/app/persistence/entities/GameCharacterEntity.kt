@@ -31,7 +31,7 @@ class GameCharacterEntity(
     val characterClass: CharacterClass,
 
     @Column(name = "moved", insertable = true, nullable = false, updatable = true)
-    val moved: Boolean,
+    var moved: Boolean,
 
     @ElementCollection
     @CollectionTable(name = "character_stats", joinColumns = [JoinColumn(name = "game_character_id")])

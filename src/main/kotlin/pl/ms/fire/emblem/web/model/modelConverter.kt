@@ -39,9 +39,9 @@ fun WebGameCharacterModel.toEntityNoPreset() =
         stats.associate { Stat.valueOf(it.stat) to it.value }, equipment.map { it.toApp() }.toMutableList()
     )
 
-fun GameCharacterModel.toWebModel() =
+fun AppGameCharacterEntity.toWebModel() =
     WebGameCharacterModel(
-        id, presetId, name, remainingHp, currentEquippedItem, characterClass.name, moved,
+        id, preset?.id!!, name, remainingHealth, currentEquippedItem, characterClass.name, moved,
         stats.map { StatModel(it.key.name, it.value) }, equipment.map { it.toWeb() }
     )
 
@@ -51,8 +51,8 @@ fun PositionModel.toBusiness() = Position(x,y)
 
 fun AppCharacterPairEntity.toWebModel() =
     CharacterPairResponse(
-        (leadCharacter as AppGameCharacterEntity).toModel().toWebModel(),
-        (supportCharacter as? AppGameCharacterEntity)?.toModel()?.toWebModel(),
+        (leadCharacter as AppGameCharacterEntity).toWebModel(),
+        (supportCharacter as? AppGameCharacterEntity)?.toWebModel(),
     )
 
 fun AppSpotEntity.toWebModel() =
