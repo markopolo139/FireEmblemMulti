@@ -38,10 +38,6 @@ class BoardService {
         return listOf(pairSpot, destination)
     }
 
-    fun startTurn(playerCharacters: Collection<CharacterPair>) {
-        playerCharacters.forEach { it.leadCharacter.moved = false }
-    }
-
     fun waitTurn(playerCharacter: GameCharacter) {
         playerCharacter.moved = true
     }

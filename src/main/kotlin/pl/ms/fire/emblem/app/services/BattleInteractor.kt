@@ -20,6 +20,7 @@ import pl.ms.fire.emblem.business.exceptions.battle.NotAllowedWeaponCategoryExce
 import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
 import pl.ms.fire.emblem.business.exceptions.battle.StaffInBattleException
 import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
+import pl.ms.fire.emblem.business.exceptions.item.ItemDoesNotExistsException
 import pl.ms.fire.emblem.business.exceptions.item.NoItemEquippedException
 import pl.ms.fire.emblem.business.serices.BattleService
 import pl.ms.fire.emblem.business.serices.BoardService
@@ -151,6 +152,10 @@ class BattleInteractor {
         }
         catch(e: OutOfRangeException) {
             logger.debug("Can't attack with equipped weapon (out of reach)")
+            throw e
+        }
+        catch (e: ItemDoesNotExistsException) {
+            logger.debug("Equipped item does not exists (null in equipment for character)")
             throw e
         }
         catch (e: Exception) {

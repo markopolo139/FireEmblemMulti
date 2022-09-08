@@ -17,10 +17,21 @@ import pl.ms.fire.emblem.app.websocket.messages.board.StaffHealMessageModel
 import pl.ms.fire.emblem.app.websocket.messages.board.StartTurnMessageModel
 import pl.ms.fire.emblem.app.websocket.messages.board.WaitMessageModel
 import pl.ms.fire.emblem.app.websocket.messages.models.toModel
+import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
+import pl.ms.fire.emblem.business.exceptions.battle.NotAllowedWeaponCategoryException
+import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
+import pl.ms.fire.emblem.business.exceptions.battle.StaffInBattleException
+import pl.ms.fire.emblem.business.exceptions.board.NotEnoughMovementException
+import pl.ms.fire.emblem.business.exceptions.board.PairOnRouteException
+import pl.ms.fire.emblem.business.exceptions.board.RouteNotConstantException
+import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
+import pl.ms.fire.emblem.business.exceptions.character.PairAlreadyOnSpotException
+import pl.ms.fire.emblem.business.exceptions.item.ItemDoesNotExistsException
+import pl.ms.fire.emblem.business.exceptions.item.NoItemEquippedException
+import pl.ms.fire.emblem.business.exceptions.item.NotStaffException
 import pl.ms.fire.emblem.business.serices.BoardService
 import pl.ms.fire.emblem.business.values.board.Position
 
-//TODO :add loggers
 @Service
 class BoardInteractor {
 
@@ -61,8 +72,38 @@ class BoardInteractor {
         }.toAppEntity()
         serviceUtils.validateCorrectPair((startingSpot.standingCharacter!! as AppCharacterPairEntity).id)
 
-        val result = boardService.movePair(startingSpot, linkedSetOf<Position>().apply { addAll(route) } , board.toAppEntity())
-            .map { (it as AppSpotEntity) }
+        val result = try {
+            boardService.movePair(startingSpot, linkedSetOf<Position>().apply { addAll(route) } , board.toAppEntity())
+                .map { (it as AppSpotEntity) }
+        }
+        catch(e: NoCharacterOnSpotException) {
+            logger.debug("No character on spot")
+            throw e
+        }
+        catch(e: CharacterMovedException) {
+            logger.debug("Selected character that moved")
+            throw e
+        }
+        catch(e: PairAlreadyOnSpotException) {
+            logger.debug("Last spot in route is occupied by another character pair")
+            throw e
+        }
+        catch(e:NotEnoughMovementException) {
+            logger.debug("Selected character does not have enough movement")
+            throw e
+        }
+        catch(e: PairOnRouteException) {
+            logger.debug("Route had pair (couldn't pass)")
+            throw e
+        }
+        catch(e: RouteNotConstantException) {
+            logger.debug("Selected route is not constant")
+            throw e
+        }
+        catch (e: Exception) {
+            logger.debug("Unexpected exception ${e.message}")
+            throw e
+        }
 
         spotRepository.saveAll(result.map { it.toEntity() })
         simpMessagingTemplate.convertAndSend(
@@ -125,7 +166,37 @@ class BoardInteractor {
         serviceUtils.validateCorrectPair((staffSpot.standingCharacter!! as AppCharacterPairEntity).id)
         serviceUtils.validateCorrectPair((healedSpot.standingCharacter!! as AppCharacterPairEntity).id)
 
-        boardService.staffHeal(staffSpot, healedSpot)
+        try {
+            boardService.staffHeal(staffSpot, healedSpot)
+        }
+        catch(e: NoCharacterOnSpotException) {
+            logger.debug("No character on spot")
+            throw e
+        }
+        catch(e: CharacterMovedException) {
+            logger.debug("Selected character that moved")
+            throw e
+        }
+        catch(e: NotAllowedWeaponCategoryException) {
+            logger.debug("Must be equipped staff")
+            throw e
+        }
+        catch(e: NotStaffException) {
+            logger.debug("Character equipped without staff (Can't heal without staff)")
+            throw e
+        }
+        catch(e: OutOfRangeException) {
+            logger.debug("Can't heal with equipped weapon (out of reach)")
+            throw e
+        }
+        catch (e: ItemDoesNotExistsException) {
+            logger.debug("Equipped item does not exists (null in equipment for character)")
+            throw e
+        }
+        catch (e: Exception) {
+            logger.debug("Unexpected exception ${e.message}")
+            throw e
+        }
 
         spotRepository.saveAll(listOf(staffSpot.toEntity(), healedSpot.toEntity()))
         simpMessagingTemplate.convertAndSend(
