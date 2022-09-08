@@ -10,6 +10,8 @@ import pl.ms.fire.emblem.app.persistence.entities.CharacterPairEntity
 @Repository
 interface CharacterPairRepository: JpaRepository<CharacterPairEntity, Int> {
 
+    //TODO: if want to play multiple games at the same time add board id
+
     @Query(
         "select * from character_pairs where lead_character_id in " +
                 "(select game_character_id from game_characters where preset_id in " +

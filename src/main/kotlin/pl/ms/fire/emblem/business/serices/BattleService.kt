@@ -53,7 +53,7 @@ class BattleService {
         }
         catch (ex: Exception) {
             when(ex) {
-                is NoItemEquippedException, is OutOfRangeException,
+                is NoItemEquippedException, is OutOfRangeException, is StaffInBattleException,
                 is CharacterMovedException, is NotAllowedWeaponCategoryException -> Unit
                 else -> throw ex
             }

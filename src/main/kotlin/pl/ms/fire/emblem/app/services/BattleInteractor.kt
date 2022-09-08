@@ -6,17 +6,21 @@ import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
+import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
 import pl.ms.fire.emblem.app.exceptions.BoardNotFoundException
 import pl.ms.fire.emblem.app.exceptions.InvalidPositionException
-import pl.ms.fire.emblem.app.persistence.repositories.BoardRepository
-import pl.ms.fire.emblem.app.persistence.repositories.GameCharacterRepository
-import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository
-import pl.ms.fire.emblem.app.persistence.repositories.SpotRepository
+import pl.ms.fire.emblem.app.persistence.repositories.*
 import pl.ms.fire.emblem.app.persistence.toAppEntity
 import pl.ms.fire.emblem.app.persistence.toEntity
 import pl.ms.fire.emblem.app.websocket.messages.battle.BattleForecastMessage
 import pl.ms.fire.emblem.app.websocket.messages.battle.BattleMessageModel
 import pl.ms.fire.emblem.app.websocket.messages.models.toModel
+import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
+import pl.ms.fire.emblem.business.exceptions.battle.NotAllowedWeaponCategoryException
+import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
+import pl.ms.fire.emblem.business.exceptions.battle.StaffInBattleException
+import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
+import pl.ms.fire.emblem.business.exceptions.item.NoItemEquippedException
 import pl.ms.fire.emblem.business.serices.BattleService
 import pl.ms.fire.emblem.business.serices.BoardService
 import pl.ms.fire.emblem.business.utlis.Displayable
@@ -41,26 +45,61 @@ class BattleInteractor {
     private lateinit var spotRepository: SpotRepository
 
     @Autowired
-    private lateinit var boardRepository: BoardRepository
+    private lateinit var serviceUtils: ServiceUtils
 
     private val userId: Int
         get() = (SecurityContextHolder.getContext().authentication.principal as UserEntity).id
 
     fun battle(attacker: Position, defender: Position): List<Displayable> {
-        val boardId = getBoardId()
+
+        serviceUtils.validateCurrentTurn()
+
+        val boardId = serviceUtils.getBoardId()
 
         val attackerSpot = spotRepository.getByBoardIdAndXAndY(boardId, attacker.x, attacker.y).orElseThrow {
              logger.debug("Given attacker position is invalid")
              InvalidPositionException()
         }.toAppEntity()
+        serviceUtils.validateCorrectPair((attackerSpot.standingCharacter!! as AppCharacterPairEntity).id)
 
         val defenderSpot = spotRepository.getByBoardIdAndXAndY(boardId, defender.x, defender.y).orElseThrow {
              logger.debug("Given defender position is invalid")
              InvalidPositionException()
         }.toAppEntity()
 
+        val course: List<Displayable> = try {
+            battleService.battle(attackerSpot, defenderSpot)
+        }
+        catch(e: NoCharacterOnSpotException) {
+            logger.debug("No character on spot")
+            throw e
+        }
+        catch(e: CharacterMovedException) {
+            logger.debug("Selected character that moved")
+            throw e
+        }
+        catch(e: NoItemEquippedException) {
+            logger.debug("Selected character without weapon equipped")
+            throw e
+        }
+        catch(e: NotAllowedWeaponCategoryException) {
+            logger.debug("Invalid equipped weapon")
+            throw e
+        }
+        catch(e: StaffInBattleException) {
+            logger.debug("Character equipped with staff (Can't use staff in battle)")
+            throw e
+        }
+        catch(e: OutOfRangeException) {
+            logger.debug("Can't attack with equipped weapon (out of reach)")
+            throw e
+        }
+        catch (e: Exception) {
+            logger.debug("Unexpected exception ${e.message}")
+            throw e
+        }
 
-        val course = battleService.battle(attackerSpot, defenderSpot)
+
         spotRepository.save(attackerSpot.toEntity())
         spotRepository.save(defenderSpot.toEntity())
 
@@ -73,26 +112,57 @@ class BattleInteractor {
     }
 
     fun battleForecast(attacker: Position, defender: Position): BattleForecast {
-        val attackerSpot = spotRepository.getByBoardIdAndXAndY(getBoardId(), attacker.x, attacker.y).orElseThrow {
+
+        serviceUtils.validateCurrentTurn()
+
+        val attackerSpot = spotRepository.getByBoardIdAndXAndY(serviceUtils.getBoardId(), attacker.x, attacker.y).orElseThrow {
             logger.debug("Given attacker position is invalid")
             InvalidPositionException()
         }.toAppEntity()
-        val defenderSpot = spotRepository.getByBoardIdAndXAndY(getBoardId(), defender.x, defender.y).orElseThrow {
+        serviceUtils.validateCorrectPair((attackerSpot.standingCharacter!! as AppCharacterPairEntity).id)
+
+        val defenderSpot = spotRepository.getByBoardIdAndXAndY(serviceUtils.getBoardId(), defender.x, defender.y).orElseThrow {
             logger.debug("Given defender position is invalid")
             InvalidPositionException()
         }.toAppEntity()
 
-        val forecast = battleService.battleForecast(attackerSpot, defenderSpot)
+        val forecast = try {
+            battleService.battleForecast(attackerSpot, defenderSpot)
+        }
+        catch(e: NoCharacterOnSpotException) {
+            logger.debug("No character on spot")
+            throw e
+        }
+        catch(e: CharacterMovedException) {
+            logger.debug("Selected character that moved")
+            throw e
+        }
+        catch(e: NoItemEquippedException) {
+            logger.debug("Selected character without weapon equipped")
+            throw e
+        }
+        catch(e: NotAllowedWeaponCategoryException) {
+            logger.debug("Invalid equipped weapon")
+            throw e
+        }
+        catch(e: StaffInBattleException) {
+            logger.debug("Character equipped with staff (Can't use staff in battle)")
+            throw e
+        }
+        catch(e: OutOfRangeException) {
+            logger.debug("Can't attack with equipped weapon (out of reach)")
+            throw e
+        }
+        catch (e: Exception) {
+            logger.debug("Unexpected exception ${e.message}")
+            throw e
+        }
 
         simpMessagingTemplate.convertAndSendToUser(
-            getUserUsername(), "/queue/battle/forecast",
+            serviceUtils.getUserUsername(), "/queue/battle/forecast",
             BattleForecastMessage(attackerSpot.toModel(), defenderSpot.toModel(), forecast)
         )
 
         return forecast
     }
-
-    private fun getBoardId() = boardRepository.findIdByPlayerId(userId)
-
-    private fun getUserUsername() = (SecurityContextHolder.getContext().authentication.principal as UserEntity).username
 }
