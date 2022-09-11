@@ -112,6 +112,11 @@ create table character_pairs (
         on update CASCADE
 );
 
+create table random_players(
+    random_id int not null primary key auto_increment,
+    token varchar(128) not null
+);
+
 insert into players values (1,'marek', '$2a$12$G//VXe476Iw53pjiWCOeTeYCbGUMGmOxu4HykQ7Q1ndjOzke5NMtu','marekseget@onet.pl',null, 0);
 insert into player_roles values (1,'ADMIN');
 
