@@ -1,5 +1,6 @@
 package pl.ms.fire.emblem.web.model
 
+import pl.ms.fire.emblem.app.entities.AppBoardConfiguration
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
 import pl.ms.fire.emblem.app.entities.AppGameCharacterEntity
 import pl.ms.fire.emblem.app.entities.AppSpotEntity
@@ -15,6 +16,7 @@ import pl.ms.fire.emblem.business.values.character.Stat
 import pl.ms.fire.emblem.business.values.items.Item
 import pl.ms.fire.emblem.web.model.request.PositionModel
 import pl.ms.fire.emblem.web.model.request.WebGameCharacterModel
+import pl.ms.fire.emblem.web.model.response.BoardConfigurationModel
 import pl.ms.fire.emblem.web.model.response.CharacterPairResponse
 import pl.ms.fire.emblem.web.model.response.SpotResponse
 
@@ -57,3 +59,5 @@ fun AppCharacterPairEntity.toWebModel() =
 
 fun AppSpotEntity.toWebModel() =
     SpotResponse(position.toModel(), terrain, (standingCharacter as? AppCharacterPairEntity)?.toWebModel())
+
+fun AppBoardConfiguration.toModel() = BoardConfigurationModel(opponentUsername, height, width)
