@@ -28,7 +28,7 @@ class TokenService {
     @Value("\${api.auth.token.join.game.height}")
     private lateinit var heightValue: String
     private var _height: Int? = null
-    private val height: Int
+    val height: Int
         get() {
             if (_height == null) initHeightValue(heightValue)
             return _height!!
@@ -37,7 +37,7 @@ class TokenService {
     @Value("\${api.auth.token.join.game.width}")
     private lateinit var widthValue: String
     private var _width: Int? = null
-    private val width: Int
+    val width: Int
         get() {
             if (_width == null) initWidthValue(widthValue)
             return _width!!

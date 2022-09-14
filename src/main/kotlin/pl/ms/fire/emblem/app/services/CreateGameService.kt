@@ -4,17 +4,18 @@ import org.apache.logging.log4j.LogManager
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import pl.ms.fire.emblem.app.configuration.security.JwtConf
 import pl.ms.fire.emblem.app.configuration.security.TokenService
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
+import pl.ms.fire.emblem.app.entities.AppBoardConfiguration
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
 import pl.ms.fire.emblem.app.entities.AppSpotEntity
+import pl.ms.fire.emblem.app.entities.BoardConfiguration
 import pl.ms.fire.emblem.app.exceptions.*
 import pl.ms.fire.emblem.app.persistence.entities.BoardEntity
 import pl.ms.fire.emblem.app.persistence.entities.PlayerEntity
-import pl.ms.fire.emblem.app.persistence.repositories.BoardRepository
-import pl.ms.fire.emblem.app.persistence.repositories.GameCharacterRepository
-import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository
-import pl.ms.fire.emblem.app.persistence.repositories.SpotRepository
+import pl.ms.fire.emblem.app.persistence.entities.RandomPlayer
+import pl.ms.fire.emblem.app.persistence.repositories.*
 import pl.ms.fire.emblem.app.persistence.toAppEntity
 import pl.ms.fire.emblem.app.persistence.toEntity
 import pl.ms.fire.emblem.business.entities.GameBoard
@@ -24,7 +25,6 @@ import pl.ms.fire.emblem.business.values.board.Spot
 import pl.ms.fire.emblem.business.values.character.Stat
 import kotlin.random.Random
 
-//TODO: searching for random player (special table for random player queue)
 @Service
 class CreateGameService {
 
@@ -51,6 +51,9 @@ class CreateGameService {
 
     @Autowired
     private lateinit var spotRepository: SpotRepository
+
+    @Autowired
+    private lateinit var randomRepository: RandomRepository
 
     private val userId: Int
         get() = (SecurityContextHolder.getContext().authentication.principal as UserEntity).id
@@ -96,7 +99,66 @@ class CreateGameService {
         boardRepository.save(saveBoard)
     }
 
+    @Synchronized
+    fun createJoinGameTokenForRandom() {
+        validateIfUserInGame(userId)
+
+        if(randomRepository.findAll().isNotEmpty()) {
+            joinGameRandom(randomRepository.findAll().random())
+            return
+        }
+
+        validateBoardSize(tokenService.height, tokenService.width)
+        val token = tokenService.createRandomJoinGameToken(userId)
+        randomRepository.save(RandomPlayer(0, token))
+    }
+
+    @Synchronized
+    private fun joinGameRandom(random: RandomPlayer) {
+        val playerA = playerRepository.joinFetchPresets(userId)
+        val playerB =
+            playerRepository.joinFetchPresets(tokenService.extractIdFromToken(random.token) ?: throw UserNotFoundException())
+        val boardConf = tokenService.getBoardConfigurationFromToken(random.token)
+        if (boardConf == null) {
+            logger.debug("Invalid board configuration from ${random.token} token")
+            throw BoardConfigurationException("Can't read board configuration from given join game token")
+        }
+
+        validateIfUserInGame(playerA.id)
+        validateIfUserInGame(playerB.id)
+
+        if(playerA.presets.isEmpty() || playerB.presets.isEmpty()) {
+            logger.debug("One of the players does not have presets")
+            throw NoPresetsException()
+        }
+
+        randomRepository.delete(random)
+
+        setRemainingHp(playerA)
+        setRemainingHp(playerB)
+
+        val spotGenerator = GameBoard(mutableMapOf(), boardConf.width, boardConf.height)
+        spotGenerator.generateField()
+
+        val saveBoard = BoardEntity(
+            0, boardConf.width, boardConf.height, playerA, playerB, if (random()) playerA else playerB, mutableSetOf()
+        )
+
+        val spots = spotGenerator.spots.values.map { it.toApp().toEntity().apply { board = saveBoard } }.toMutableSet()
+
+        saveBoard.spots.addAll(spots)
+
+        boardRepository.save(saveBoard)
+    }
+
     fun getBoardId() = boardRepository.findIdByPlayerId(userId)
+
+    fun getBoardConfiguration(boardId: Int): AppBoardConfiguration {
+
+        val board = boardRepository.getById(boardId)
+
+        return AppBoardConfiguration(if(isPlayerA()) board.playerB!!.username else board.playerA.username, board.height, board.width)
+    }
 
     fun exitGame() {
         boardRepository.deleteById(
