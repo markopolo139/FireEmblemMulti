@@ -3,6 +3,7 @@ package pl.ms.fire.emblem.app.configuration.security
 import io.jsonwebtoken.*
 import org.apache.logging.log4j.LogManager
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
@@ -17,10 +18,30 @@ class TokenService {
 
     companion object {
         private val logger = LogManager.getLogger()
+        private const val DEFAULT_HEIGHT = 10
+        private const val DEFAULT_WIDTH = 10
     }
 
     @Autowired
     private lateinit var jwtConf: JwtConf
+
+    @Value("\${api.auth.token.join.game.height}")
+    private lateinit var heightValue: String
+    private var _height: Int? = null
+    private val height: Int
+        get() {
+            if (_height == null) initHeightValue(heightValue)
+            return _height!!
+        }
+
+    @Value("\${api.auth.token.join.game.width}")
+    private lateinit var widthValue: String
+    private var _width: Int? = null
+    private val width: Int
+        get() {
+            if (_width == null) initWidthValue(widthValue)
+            return _width!!
+        }
 
     enum class Claims(val value: String) {
         PASSWORD_RECOVERY("pwr"),
@@ -45,6 +66,16 @@ class TokenService {
             .compact()
 
     fun createJoinGameToken(userId: Int, height: Int, width: Int): String =
+        Jwts
+            .builder()
+            .configure(jwtConf.joinGameValidity)
+            .setSubject(userId.toString())
+            .claim(Claims.JOIN_GAME.value, true)
+            .claim(Claims.BOARD_WIDTH.value, width)
+            .claim(Claims.BOARD_HEIGHT.value, height)
+            .compact()
+
+    fun createRandomJoinGameToken(userId: Int): String =
         Jwts
             .builder()
             .configure(jwtConf.joinGameValidity)
@@ -152,6 +183,28 @@ class TokenService {
         val authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION) ?: return null
 
         return if (authorizationHeader.startsWith("Bearer ")) authorizationHeader.substring(7) else null
+    }
+
+    private fun initHeightValue(value: String) {
+        try {
+            _height = value.toInt()
+            return
+        }
+        catch(e: Exception) {
+            logger.debug("Can't find height value using default")
+        }
+        _height = DEFAULT_HEIGHT
+    }
+
+    private fun initWidthValue(value: String) {
+        try {
+            _width = value.toInt()
+            return
+        }
+        catch(e: Exception) {
+            logger.debug("Can't find width value using default")
+        }
+        _width = DEFAULT_WIDTH
     }
 
     private fun JwtBuilder.configure(validity: Long): JwtBuilder {
