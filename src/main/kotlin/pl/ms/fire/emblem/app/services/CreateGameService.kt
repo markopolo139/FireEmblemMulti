@@ -74,12 +74,20 @@ class CreateGameService {
             throw BoardConfigurationException("Can't read board configuration from given join game token")
         }
 
-        validateIfUserInGame(playerA.id)
-        validateIfUserInGame(playerB.id)
-
         if(playerA.presets.isEmpty() || playerB.presets.isEmpty()) {
             logger.debug("One of the players does not have presets")
             throw NoPresetsException()
+        }
+
+        var saveBoard = BoardEntity(
+            0, boardConf.width, boardConf.height, playerA, playerB, if (random()) playerA else playerB, mutableSetOf()
+        )
+
+        validateIfUserInGame(playerA.id)
+        synchronized(this) {
+            validateIfUserInGame(playerB.id)
+
+            saveBoard = boardRepository.save(saveBoard)
         }
 
         setRemainingHp(playerA)
@@ -88,10 +96,6 @@ class CreateGameService {
         val spotGenerator = GameBoard(mutableMapOf(), boardConf.width, boardConf.height)
         spotGenerator.generateField()
 
-        val saveBoard = BoardEntity(
-            0, boardConf.width, boardConf.height, playerA, playerB, if (random()) playerA else playerB, mutableSetOf()
-        )
-
         val spots = spotGenerator.spots.values.map { it.toApp().toEntity().apply { board = saveBoard } }.toMutableSet()
 
         saveBoard.spots.addAll(spots)
@@ -99,7 +103,6 @@ class CreateGameService {
         boardRepository.save(saveBoard)
     }
 
-    @Synchronized
     fun createJoinGameTokenForRandom() {
         validateIfUserInGame(userId)
 
@@ -113,7 +116,6 @@ class CreateGameService {
         randomRepository.save(RandomPlayer(0, token))
     }
 
-    @Synchronized
     private fun joinGameRandom(random: RandomPlayer) {
         val playerA = playerRepository.joinFetchPresets(userId)
         val playerB =
@@ -124,25 +126,27 @@ class CreateGameService {
             throw BoardConfigurationException("Can't read board configuration from given join game token")
         }
 
-        validateIfUserInGame(playerA.id)
-        validateIfUserInGame(playerB.id)
-
         if(playerA.presets.isEmpty() || playerB.presets.isEmpty()) {
             logger.debug("One of the players does not have presets")
             throw NoPresetsException()
         }
 
-        randomRepository.delete(random)
+        var saveBoard = BoardEntity(
+            0, boardConf.width, boardConf.height, playerA, playerB, if (random()) playerA else playerB, mutableSetOf()
+        )
+
+        validateIfUserInGame(playerA.id)
+        synchronized(this) {
+            validateIfUserInGame(playerB.id)
+            randomRepository.delete(random)
+            saveBoard = boardRepository.save(saveBoard)
+        }
 
         setRemainingHp(playerA)
         setRemainingHp(playerB)
 
         val spotGenerator = GameBoard(mutableMapOf(), boardConf.width, boardConf.height)
         spotGenerator.generateField()
-
-        val saveBoard = BoardEntity(
-            0, boardConf.width, boardConf.height, playerA, playerB, if (random()) playerA else playerB, mutableSetOf()
-        )
 
         val spots = spotGenerator.spots.values.map { it.toApp().toEntity().apply { board = saveBoard } }.toMutableSet()
 
