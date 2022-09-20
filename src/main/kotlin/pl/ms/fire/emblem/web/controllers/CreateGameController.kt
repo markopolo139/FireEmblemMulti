@@ -44,4 +44,11 @@ class CreateGameController {
     @GetMapping("/api/v1/game/id")
     fun getBoardId() = createGameService.getBoardId()
 
+    @GetMapping("/api/v1/game/configuration")
+    fun getBoardConfiguration(@RequestParam("boardId") boardId: Int) = createGameService.getBoardConfiguration(boardId)
+
+    @PostMapping("/api/v1/game/join/random")
+    fun joinRandomGame() {
+        createGameService.createJoinGameTokenForRandom()
+    }
 }
