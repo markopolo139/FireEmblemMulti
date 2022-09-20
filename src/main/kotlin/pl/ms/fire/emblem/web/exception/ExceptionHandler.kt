@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
+import pl.ms.fire.emblem.app.exceptions.*
 import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
 import pl.ms.fire.emblem.business.exceptions.PositionOutOfBoundsException
 import pl.ms.fire.emblem.business.exceptions.battle.NotAllowedWeaponCategoryException
@@ -23,14 +24,17 @@ import pl.ms.fire.emblem.business.exceptions.character.*
 import pl.ms.fire.emblem.business.exceptions.item.*
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolationException
+typealias AppSpotDoesNotExists = pl.ms.fire.emblem.app.exceptions.SpotDoesNotExistsException
 
 @Suppress("UNCHECKED_CAST")
 @ControllerAdvice
 class ExceptionHandler: ResponseEntityExceptionHandler() {
 
+
     companion object {
         const val DEFAULT_ACTION = "Contact server admin"
         const val DEFAULT_ERROR_MESSAGE = "Unexpected error occurred"
+        const val DEFAULT_NULL_ERROR_MESSAGE = "No message"
         val DEFAULT_HTTP_STATUS = HttpStatus.INTERNAL_SERVER_ERROR
     }
 
@@ -41,11 +45,11 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
 
     private fun error(
         action: String = DEFAULT_ACTION,
-        errorMessage: String = DEFAULT_ERROR_MESSAGE,
+        errorMessage: String? = DEFAULT_ERROR_MESSAGE,
         subErrors: List<ApiSubError> = listOf(),
         httpStatus: HttpStatus = DEFAULT_HTTP_STATUS
     ): ResponseEntity<ApiError> =
-        ApiError(action, errorMessage, subErrors, httpStatus).toResponse()
+        ApiError(action, errorMessage ?: DEFAULT_NULL_ERROR_MESSAGE, subErrors, httpStatus).toResponse()
 
     override fun handleHttpMessageNotReadable(
         ex: HttpMessageNotReadableException,
@@ -102,7 +106,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun notAllowedWeaponCategoryExceptionHandler(e: NotAllowedWeaponCategoryException): ResponseEntity<ApiError> =
         error(
             "Select another weapon for character (which is in allowed weapons categories)",
-            errorMessage = e.message ?: "Selected character can't use selected weapon",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -110,7 +114,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun outOfRangeExceptionHandler(e: OutOfRangeException): ResponseEntity<ApiError> =
         error(
             "Select character in range of selected item",
-            errorMessage = e.message ?: "Selected character is out of range",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -118,7 +122,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun staffInBattleExceptionHandler(e: StaffInBattleException): ResponseEntity<ApiError> =
         error(
             "Select character without staff equipped or equip another weapon",
-            errorMessage = e.message ?: "Selected character with staff equipped for battle",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -126,7 +130,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun notEnoughMovementExceptionHandler(e: NotEnoughMovementException): ResponseEntity<ApiError> =
         error(
             "Select shorter route",
-            errorMessage = e.message ?: "Selected spot which is too far for selected character",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -134,7 +138,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun pairOnRouteExceptionHandler(e: PairOnRouteException): ResponseEntity<ApiError> =
         error(
             "Select another route",
-            errorMessage = e.message ?: "Pair on selected route (can't go through)",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -142,7 +146,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun routeNotConstantExceptionHandler(e: RouteNotConstantException): ResponseEntity<ApiError> =
         error(
             "Select constant route",
-            errorMessage = e.message ?: "Selected not constant route",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -150,7 +154,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun spotDoesNotExistsExceptionHandler(e: SpotDoesNotExistsException): ResponseEntity<ApiError> =
         error(
             "Select spot that is on board",
-            errorMessage = e.message ?: "Selected spot that does not exists",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -158,7 +162,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun noCharacterOnSpotExceptionHandler(e: NoCharacterOnSpotException): ResponseEntity<ApiError> =
         error(
             "Select spot with character",
-            errorMessage = e.message ?: "Selected spot without character",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -166,7 +170,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun noSupportCharacterExceptionHandler(e: NoSupportCharacterException): ResponseEntity<ApiError> =
         error(
             "Select pair with support",
-            errorMessage = e.message ?: "Pair does not have support character",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -174,7 +178,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun pairAlreadyHaveSupportExceptionHandler(e: PairAlreadyHaveSupportException): ResponseEntity<ApiError> =
         error(
             "Select pair without support",
-            errorMessage = e.message ?: "Selected pair without support",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -182,14 +186,14 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun pairAlreadyOnSpotExceptionHandler(e: PairAlreadyOnSpotException): ResponseEntity<ApiError> =
         error(
             "Select spot without pair",
-            errorMessage = e.message ?: "Selected spot with pair",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
     @ExceptionHandler(SeparatePairException::class)
     fun separatePairExceptionHandler(e: SeparatePairException): ResponseEntity<ApiError> =
         error(
-            errorMessage = e.message ?: "Error occurred during separation of pair",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -197,7 +201,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun equipmentLimitExceededExceptionHandler(e: EquipmentLimitExceededException): ResponseEntity<ApiError> =
         error(
             "Discard item because reached equipment limit",
-            errorMessage = e.message ?: "Exceeded equipment limit",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -205,7 +209,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun itemDoesNotExistsExceptionHandler(e: ItemDoesNotExistsException): ResponseEntity<ApiError> =
         error(
             "Select id in equipment which exists",
-            errorMessage = e.message ?: "Selected id that is not in equipment",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -213,7 +217,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun noItemEquippedExceptionHandler(e: NoItemEquippedException): ResponseEntity<ApiError> =
         error(
             "Equip item for selected character",
-            errorMessage = e.message ?: "No item equipped",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -221,7 +225,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun notStaffExceptionHandler(e: NotStaffException): ResponseEntity<ApiError> =
         error(
             "Select not a staff item",
-            errorMessage = e.message ?: "Selected item is not a staff",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -229,14 +233,14 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun tradeEquippedItemExceptionHandler(e: TradeEquippedItemException): ResponseEntity<ApiError> =
         error(
             "Selected not equipped weapon to trade",
-            errorMessage = e.message ?: "Selected equipped item to trade",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
     @ExceptionHandler(WeaponNotAllowedException::class)
     fun weaponNotAllowedExceptionHandler(e: WeaponNotAllowedException): ResponseEntity<ApiError> =
         error(
-            errorMessage = e.message ?: "",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -244,7 +248,7 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun characterMovedExceptionHandler(e: CharacterMovedException): ResponseEntity<ApiError> =
         error(
             "Select character not moved in this turn or end turn",
-            errorMessage = e.message ?: "Selected already moved character",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
@@ -252,7 +256,170 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
     fun positionOutOfBoundsExceptionHandler(e: PositionOutOfBoundsException): ResponseEntity<ApiError> =
         error(
             "Select position in bound",
-            errorMessage = e.message ?: "Selected incorrect position",
+            errorMessage = e.message,
             httpStatus = HttpStatus.BAD_REQUEST
         )
+
+    @ExceptionHandler(BoardConfigurationException::class)
+    fun boardConfigurationExceptionHandler(e: BoardConfigurationException): ResponseEntity<ApiError> =
+        error(
+            "Correct invalid values in board configuration",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(BoardNotFoundException::class)
+    fun boardNotFoundExceptionHandler(e: BoardNotFoundException): ResponseEntity<ApiError> =
+        error(
+            errorMessage = e.message,
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+        )
+
+    @ExceptionHandler(EmailNotFoundException::class)
+    fun emailNotFoundExceptionHandler(e: EmailNotFoundException): ResponseEntity<ApiError> =
+        error(
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(InvalidCharacterPairException::class)
+    fun invalidCharacterPairExceptionHandler(e: InvalidCharacterPairException): ResponseEntity<ApiError> =
+        error(
+            "Character pair does not have spot",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(InvalidNumberOfCharactersInPresetException::class)
+    fun invalidNumberOfCharactersInPresetExceptionHandler(e: InvalidNumberOfCharactersInPresetException): ResponseEntity<ApiError> =
+        error(
+            "Create correct number of characters for preset",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(InvalidPositionException::class)
+    fun invalidPositionExceptionHandler(e: InvalidPositionException): ResponseEntity<ApiError> =
+        error(
+            "Check log for specific place where error occurred",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(InvalidSpotException::class)
+    fun invalidSpotExceptionHandler(e: InvalidSpotException): ResponseEntity<ApiError> =
+        error(
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(InvalidStartPositionException::class)
+    fun invalidStartPositionExceptionHandler(e: InvalidStartPositionException): ResponseEntity<ApiError> =
+        error(
+            "Correct invalid position for set up characters",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(InvalidStatForCharacterException::class)
+    fun invalidStatForCharacterExceptionHandler(e: InvalidStatForCharacterException): ResponseEntity<ApiError> =
+        error(
+            "Correct invalid number of distributed stats for character",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(InvalidWebSocketTokenException::class)
+    fun invalidWebSocketTokenExceptionHandler(e: InvalidWebSocketTokenException): ResponseEntity<ApiError> =
+        error(
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(NoPresetsException::class)
+    fun noPresetsExceptionHandler(e: NoPresetsException): ResponseEntity<ApiError> =
+        error(
+            "Player must have at least one preset to start a game",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(NotCurrentTurnException::class)
+    fun notCurrentTurnExceptionHandler(e: NotCurrentTurnException): ResponseEntity<ApiError> =
+        error(
+            "Wait for your turn",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(NotPlayersPairException::class)
+    fun notPlayersPairExceptionHandler(e: NotPlayersPairException): ResponseEntity<ApiError> =
+        error(
+            "Select character pair that belong to current player",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(PasswordRecoveryTokenNotFoundException::class)
+    fun passwordRecoveryTokenNotFoundExceptionHandler(e: PasswordRecoveryTokenNotFoundException): ResponseEntity<ApiError> =
+        error(
+            "Type correct password recovery token",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(PresetDoesNotExistsException::class)
+    fun presetDoesNotExistsExceptionHandler(e: PresetDoesNotExistsException): ResponseEntity<ApiError> =
+        error(
+            "Select preset id that player have",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(PresetLimitExceededException::class)
+    fun presetLimitExceededExceptionHandler(e: PresetLimitExceededException): ResponseEntity<ApiError> =
+        error(
+            "Delete one of previous preset (reached the limit)",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(AppSpotDoesNotExists::class)
+    fun appSpotDoesNotExistsHandler(e: AppSpotDoesNotExists): ResponseEntity<ApiError> =
+        error(
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(UserEmailAlreadyExistsException::class)
+    fun userEmailAlreadyExistsExceptionHandler(e: UserEmailAlreadyExistsException): ResponseEntity<ApiError> =
+        error(
+            "Selected email already exists",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(UserInGameException::class)
+    fun userInGameExceptionHandler(e: UserInGameException): ResponseEntity<ApiError> =
+        error(
+            "End or exit current game",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(UsernameNotFoundException::class)
+    fun usernameNotFoundExceptionHandler(e: UsernameNotFoundException): ResponseEntity<ApiError> =
+        error(
+            "Type valid username",
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
+    @ExceptionHandler(UserNotFoundException::class)
+    fun userNotFoundExceptionHandler(e: UserNotFoundException): ResponseEntity<ApiError> =
+        error(
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
 }
