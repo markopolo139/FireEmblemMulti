@@ -22,12 +22,12 @@ class BattleController {
     @PostMapping("/api/v1/battle")
     fun battle(@RequestBody @Valid twoPositionRequest: TwoPositionRequest) =
         battleInteractor.battle(
-            twoPositionRequest.positionModel1.toBusiness(), twoPositionRequest.positionModel2.toBusiness()
+            twoPositionRequest.position1.toBusiness(), twoPositionRequest.position2.toBusiness()
         ).map { it.displayName }
 
     @PostMapping("/api/v1/battle/forecast")
     fun battleForecast(@RequestBody @Valid twoPositionRequest: TwoPositionRequest) =
         battleInteractor.battleForecast(
-            twoPositionRequest.positionModel1.toBusiness(), twoPositionRequest.positionModel2.toBusiness()
+            twoPositionRequest.position1.toBusiness(), twoPositionRequest.position2.toBusiness()
         )
 }

@@ -3,11 +3,6 @@ package pl.ms.fire.emblem.web.controllers.websocket
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.stereotype.Controller
-import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
 import pl.ms.fire.emblem.app.services.BattleInteractor
 import pl.ms.fire.emblem.web.model.request.TwoPositionRequest
 import pl.ms.fire.emblem.web.model.toBusiness
@@ -22,14 +17,14 @@ class BattleController {
     @MessageMapping("/battle")
     fun battle(@Valid twoPositionRequest: TwoPositionRequest) {
         battleInteractor.battle(
-            twoPositionRequest.positionModel1.toBusiness(), twoPositionRequest.positionModel2.toBusiness()
+            twoPositionRequest.position1.toBusiness(), twoPositionRequest.position2.toBusiness()
         )
     }
 
     @MessageMapping("/battle/forecast")
     fun battleForecast(@Valid twoPositionRequest: TwoPositionRequest) {
         battleInteractor.battleForecast(
-            twoPositionRequest.positionModel1.toBusiness(), twoPositionRequest.positionModel2.toBusiness()
+            twoPositionRequest.position1.toBusiness(), twoPositionRequest.position2.toBusiness()
         )
     }
 }

@@ -3,16 +3,10 @@ package pl.ms.fire.emblem.web.controllers.websocket
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.stereotype.Controller
-import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
 import pl.ms.fire.emblem.app.services.BoardInteractor
 import pl.ms.fire.emblem.web.model.request.MovePairRequest
 import pl.ms.fire.emblem.web.model.request.PositionModel
 import pl.ms.fire.emblem.web.model.request.TwoPositionRequest
-import pl.ms.fire.emblem.web.model.response.SpotResponse
 import pl.ms.fire.emblem.web.model.toBusiness
 import javax.validation.Valid
 
@@ -38,6 +32,6 @@ class BoardController {
 
     @MessageMapping("/board/heal/staff")
     fun staffHeal(@Valid twoPositionRequest: TwoPositionRequest) =
-        boardInteractor.staffHeal(twoPositionRequest.positionModel1.toBusiness(), twoPositionRequest.positionModel2.toBusiness())
+        boardInteractor.staffHeal(twoPositionRequest.position1.toBusiness(), twoPositionRequest.position2.toBusiness())
 
 }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import pl.ms.fire.emblem.app.services.BoardInteractor
-import pl.ms.fire.emblem.app.websocket.messages.models.SpotModel
 import pl.ms.fire.emblem.web.model.request.MovePairRequest
 import pl.ms.fire.emblem.web.model.request.PositionModel
 import pl.ms.fire.emblem.web.model.request.TwoPositionRequest
@@ -41,6 +40,6 @@ class BoardController {
 
     @PostMapping("/api/v1/board/heal/staff")
     fun staffHeal(@RequestBody @Valid twoPositionRequest: TwoPositionRequest) =
-        boardInteractor.staffHeal(twoPositionRequest.positionModel1.toBusiness(), twoPositionRequest.positionModel2.toBusiness())
+        boardInteractor.staffHeal(twoPositionRequest.position1.toBusiness(), twoPositionRequest.position2.toBusiness())
 
 }
