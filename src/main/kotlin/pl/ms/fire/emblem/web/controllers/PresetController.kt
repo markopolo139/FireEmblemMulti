@@ -3,6 +3,7 @@ package pl.ms.fire.emblem.web.controllers
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -36,10 +37,10 @@ class PresetController {
             charactersList.map { characterModels -> characterModels.map { it.toEntityNoPreset() }.toSet() }
         )
 
-    @PostMapping("/api/v1/preset/delete")
+    @DeleteMapping("/api/v1/preset/delete")
     fun deletePreset(@RequestParam id: Int) = playerPresetService.deletePreset(id)
 
-    @PostMapping("/api/v1/preset/list/delete")
+    @DeleteMapping("/api/v1/preset/list/delete")
     fun deleteAllPresets() = playerPresetService.deletePresets()
 
     @GetMapping("/api/v1/preset/get")
