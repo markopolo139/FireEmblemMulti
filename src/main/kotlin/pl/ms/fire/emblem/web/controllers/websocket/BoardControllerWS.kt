@@ -11,7 +11,7 @@ import pl.ms.fire.emblem.web.model.toBusiness
 import javax.validation.Valid
 
 @Controller
-class BoardController {
+class BoardControllerWS {
 
     @Autowired
     private lateinit var boardInteractor: BoardInteractor

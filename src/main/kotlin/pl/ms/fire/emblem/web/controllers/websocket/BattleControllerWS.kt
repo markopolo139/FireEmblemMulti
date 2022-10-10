@@ -9,7 +9,7 @@ import pl.ms.fire.emblem.web.model.toBusiness
 import javax.validation.Valid
 
 @Controller
-class BattleController {
+class BattleControllerWS {
 
     @Autowired
     private lateinit var battleInteractor: BattleInteractor
