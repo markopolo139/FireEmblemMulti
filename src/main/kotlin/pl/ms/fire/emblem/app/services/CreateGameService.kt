@@ -230,7 +230,7 @@ class CreateGameService {
         boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }.height - PLAYER_Y_LIMIT
 
     private fun getYRange(): IntRange =
-        if (isPlayerA()) 0..1 else (getPlayerByLimit() + 1)..getPlayerByLimit() + PLAYER_Y_LIMIT
+        if (isPlayerA()) 1..2 else (getPlayerByLimit() + 1)..getPlayerByLimit() + PLAYER_Y_LIMIT
 
     private fun getXRange(): IntRange {
         val width = boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }.width
