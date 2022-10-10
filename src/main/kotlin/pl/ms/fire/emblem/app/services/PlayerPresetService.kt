@@ -72,9 +72,10 @@ class PlayerPresetService {
 
     fun deletePreset(id: Int) {
         validatePresetExists(id)
-        presetRepository.delete(getAllPresets().elementAt(id).toEntity())
-
         val player = playerRepository.getById(userId)
+        player.presets.remove(player.presets.elementAt(id))
+        playerRepository.save(player)
+
         if (player.currentPreset == id) {
             player.currentPreset = 0
             playerRepository.save(player)
@@ -97,8 +98,7 @@ class PlayerPresetService {
     fun getAllPresets(): List<AppPresetEntity> =
         playerRepository.joinFetchPresets(userId).presets.map { it.toAppEntity() }
 
-    fun getSelectedPreset(): AppPresetEntity =
-        playerRepository.joinFetchPresets(userId).presets.map { it.toAppEntity() }[
+    fun getSelectedPreset(): AppPresetEntity = getAllPresets()[
                 (SecurityContextHolder.getContext().authentication.principal as UserEntity).currentPreset
         ]
 
