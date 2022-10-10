@@ -422,4 +422,11 @@ class ExceptionHandler: ResponseEntityExceptionHandler() {
             httpStatus = HttpStatus.BAD_REQUEST
         )
 
+    @ExceptionHandler(InvalidSetUpIdsException::class)
+    fun invalidSetUpIdsExceptionHandler(e: InvalidSetUpIdsException): ResponseEntity<ApiError> =
+        error(
+            errorMessage = e.message,
+            httpStatus = HttpStatus.BAD_REQUEST
+        )
+
 }

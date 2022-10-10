@@ -174,6 +174,7 @@ class CreateGameService {
     }
 
     fun setUpCharacters(charactersId: Map<Int, Position>) {
+        validateIfCorrectSetUpCharacters(charactersId.keys.toSet())
         validateStartPositions(charactersId.values.toSet())
         val boardEntity = boardRepository.joinFetchSpots(
             boardRepository.findByPlayerId(userId).orElseThrow { BoardNotFoundException() }.id
@@ -213,6 +214,22 @@ class CreateGameService {
     private fun random() = Random.nextBoolean()
 
     private fun Spot.toApp() = AppSpotEntity(0, null, position, terrain, standingCharacter as AppCharacterPairEntity?)
+
+    private fun validateIfCorrectSetUpCharacters(ids: Set<Int>) {
+        if (ids.size != PlayerPresetService.CHARACTER_IN_PRESET) {
+            logger.debug("Invalid set up characters")
+            throw InvalidSetUpIdsException()
+        }
+
+        if (
+            !playerRepository.joinFetchPresets(userId).presets.elementAt(
+                (SecurityContextHolder.getContext().authentication.principal as UserEntity).currentPreset
+            ).gameCharacters.map { it.id }.containsAll(ids)
+        ) {
+            logger.debug("Invalid set up characters")
+            throw InvalidSetUpIdsException()
+        }
+    }
 
     private fun setRemainingHp(player: PlayerEntity) {
         val characters = player.presets.elementAt(player.currentPreset).gameCharacters

@@ -21,9 +21,10 @@ import pl.ms.fire.emblem.app.persistence.toEntity
 class PlayerPresetService {
 
     companion object {
+        const val CHARACTER_IN_PRESET = 5
+
         private val logger = LogManager.getLogger()
         private const val PRESET_LIMIT = 5
-        private const val CHARACTER_IN_PRESET = 5
         private const val CHARACTER_STAT_VALUE_LIMIT = 25
     }
 
