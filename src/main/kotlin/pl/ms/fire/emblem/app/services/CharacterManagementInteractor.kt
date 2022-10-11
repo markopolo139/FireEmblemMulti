@@ -7,6 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
+import pl.ms.fire.emblem.app.entities.AppGameCharacterEntity
+import pl.ms.fire.emblem.app.entities.AppSpotEntity
 import pl.ms.fire.emblem.app.exceptions.InvalidPositionException
 import pl.ms.fire.emblem.app.persistence.repositories.SpotRepository
 import pl.ms.fire.emblem.app.persistence.toAppEntity
@@ -149,8 +151,18 @@ class CharacterManagementInteractor {
             InvalidPositionException()
         }.toAppEntity()
 
+        val separateCopy = AppSpotEntity(
+            separateSpot.id, separateSpot.board, separateSpot.position, separateSpot.terrain,
+            (separateSpot.standingCharacter as?  AppCharacterPairEntity)
+        )
+
+        val pairCopy = AppSpotEntity(
+            pairSpot.id, pairSpot.board, pairSpot.position, pairSpot.terrain,
+            (pairSpot.standingCharacter as?  AppCharacterPairEntity)
+        )
+
         try {
-            characterService.separatePair(pairSpot, separateSpot)
+            characterService.separatePair(pairSpot, separateCopy)
         }
         catch(e: NoCharacterOnSpotException) {
             logger.debug("No character on spot")
@@ -172,6 +184,10 @@ class CharacterManagementInteractor {
             logger.debug("Unexpected exception ${e.message}")
             throw e
         }
+
+        separateSpot.standingCharacter = AppCharacterPairEntity(
+            0, (pairCopy.standingCharacter?.supportCharacter as AppGameCharacterEntity), null, separateSpot
+        )
 
         spotRepository.saveAll(listOf(pairSpot.toEntity(), separateSpot.toEntity()))
 
