@@ -10,7 +10,7 @@ fun AppGameCharacterEntity.toModel(): GameCharacterModel = GameCharacterModel(
 
 fun AppCharacterPairEntity.toModel(): CharacterPairModel =
     CharacterPairModel(
-        (leadCharacter as AppGameCharacterEntity).toModel(), (supportCharacter as AppGameCharacterEntity).toModel()
+        (leadCharacter as AppGameCharacterEntity).toModel(), (supportCharacter as? AppGameCharacterEntity)?.toModel()
     )
 
 fun AppSpotEntity.toModel(): SpotModel =
