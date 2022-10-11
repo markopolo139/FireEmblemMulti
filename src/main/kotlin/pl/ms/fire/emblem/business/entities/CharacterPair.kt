@@ -75,7 +75,11 @@ open class CharacterPair(
         if (supportCharacter != null || characterPair.supportCharacter != null)
             throw PairAlreadyHaveSupportException()
 
-        return CharacterPair(leadCharacter, characterPair.leadCharacter)
+        supportCharacter = characterPair.leadCharacter
+        updateBoostedStats()
+        updateBattleStat()
+
+        return this
     }
 
     fun tradeSupportCharacter(characterPair: CharacterPair) {
@@ -93,8 +97,18 @@ open class CharacterPair(
         updateBattleStat()
     }
 
-    fun deadOfLeadCharacter() =
-        if (supportCharacter == null) null else CharacterPair(supportCharacter as GameCharacter, null)
+    fun deadOfLeadCharacter(): CharacterPair? {
+        return if (supportCharacter != null) {
+            leadCharacter = supportCharacter as GameCharacter
+            supportCharacter = null
+            updateBoostedStats()
+            updateBattleStat()
+            this
+        }
+        else {
+            null
+        }
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

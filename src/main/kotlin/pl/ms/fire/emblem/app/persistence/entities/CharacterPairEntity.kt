@@ -18,7 +18,7 @@ class CharacterPairEntity(
     @JoinColumn(name = "support_character_id", nullable = true)
     val supportCharacter: GameCharacterEntity?,
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "spot_id", nullable = false)
     var spot: SpotEntity?
 
