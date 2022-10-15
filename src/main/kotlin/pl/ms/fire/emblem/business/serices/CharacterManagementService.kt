@@ -1,8 +1,10 @@
 package pl.ms.fire.emblem.business.serices
 
 import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
+import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
 import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
 import pl.ms.fire.emblem.business.exceptions.character.SeparatePairException
+import pl.ms.fire.emblem.business.values.board.Position
 import pl.ms.fire.emblem.business.values.board.Spot
 
 class CharacterManagementService {
@@ -11,7 +13,7 @@ class CharacterManagementService {
         if (characterSpot.standingCharacter == null || joinToSpot.standingCharacter == null)
             throw NoCharacterOnSpotException()
 
-        if (joinToSpot.standingCharacter?.leadCharacter?.moved == true)
+        if (characterSpot.standingCharacter?.leadCharacter?.moved == true)
             throw CharacterMovedException()
 
         joinToSpot.standingCharacter =
@@ -39,6 +41,10 @@ class CharacterManagementService {
 
         if (characterSpot.standingCharacter?.leadCharacter?.moved == true)
             throw CharacterMovedException()
+
+        if (Position.checkAbsolutePosition(characterSpot.position, separateToSpot.position) != 1) {
+            throw OutOfRangeException()
+        }
 
         separateToSpot.standingCharacter = characterSpot.standingCharacter!!.separatePair()
         characterSpot.standingCharacter!!.leadCharacter.moved = true

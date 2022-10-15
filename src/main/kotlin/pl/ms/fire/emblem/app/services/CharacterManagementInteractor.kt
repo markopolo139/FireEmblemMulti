@@ -19,6 +19,7 @@ import pl.ms.fire.emblem.app.websocket.messages.pair.JoinPairMessageModel
 import pl.ms.fire.emblem.app.websocket.messages.pair.SeparatePairMessageModel
 import pl.ms.fire.emblem.app.websocket.messages.pair.TradeSupportMessageModel
 import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
+import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
 import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
 import pl.ms.fire.emblem.business.exceptions.character.NoSupportCharacterException
 import pl.ms.fire.emblem.business.exceptions.character.PairAlreadyHaveSupportException
@@ -153,12 +154,12 @@ class CharacterManagementInteractor {
 
         val separateCopy = AppSpotEntity(
             separateSpot.id, separateSpot.board, separateSpot.position, separateSpot.terrain,
-            (separateSpot.standingCharacter as?  AppCharacterPairEntity)
+            (separateSpot.standingCharacter as? AppCharacterPairEntity)
         )
 
         val pairCopy = AppSpotEntity(
             pairSpot.id, pairSpot.board, pairSpot.position, pairSpot.terrain,
-            (pairSpot.standingCharacter as?  AppCharacterPairEntity)
+            (pairSpot.standingCharacter as? AppCharacterPairEntity)?.deepCopy()
         )
 
         try {
@@ -180,13 +181,19 @@ class CharacterManagementInteractor {
             logger.debug("Selected pair does not have support character")
             throw e
         }
+        catch (e: OutOfRangeException) {
+            logger.debug("Selected separate to spot is out of range")
+            throw e
+        }
         catch (e: Exception) {
             logger.debug("Unexpected exception ${e.message}")
             throw e
         }
 
         separateSpot.standingCharacter = AppCharacterPairEntity(
-            0, (pairCopy.standingCharacter?.supportCharacter as AppGameCharacterEntity), null, separateSpot
+            0, (pairCopy.standingCharacter?.supportCharacter!!.apply {
+                moved = true
+            } as AppGameCharacterEntity), null, separateSpot
         )
 
         spotRepository.saveAll(listOf(pairSpot.toEntity(), separateSpot.toEntity()))

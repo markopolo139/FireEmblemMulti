@@ -7,4 +7,10 @@ class AppCharacterPairEntity(
     leadCharacter: AppGameCharacterEntity,
     supportCharacter: AppGameCharacterEntity?,
     var spot: AppSpotEntity?
-): CharacterPair(leadCharacter, supportCharacter)
+): CharacterPair(leadCharacter, supportCharacter) {
+
+    fun deepCopy(): AppCharacterPairEntity =
+        AppCharacterPairEntity(
+            id, leadCharacter as AppGameCharacterEntity, supportCharacter as AppGameCharacterEntity?, spot
+        )
+}
