@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
 import pl.ms.fire.emblem.app.entities.AppSpotEntity
-import pl.ms.fire.emblem.app.exceptions.InvalidPositionException
+import pl.ms.fire.emblem.app.exceptions.board.InvalidPositionException
 import pl.ms.fire.emblem.app.persistence.repositories.*
 import pl.ms.fire.emblem.app.persistence.toAppEntity
 import pl.ms.fire.emblem.app.persistence.toEntity
@@ -20,14 +20,12 @@ import pl.ms.fire.emblem.app.websocket.messages.models.toModel
 import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
 import pl.ms.fire.emblem.business.exceptions.battle.NotAllowedWeaponCategoryException
 import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
-import pl.ms.fire.emblem.business.exceptions.battle.StaffInBattleException
 import pl.ms.fire.emblem.business.exceptions.board.NotEnoughMovementException
 import pl.ms.fire.emblem.business.exceptions.board.PairOnRouteException
 import pl.ms.fire.emblem.business.exceptions.board.RouteNotConstantException
 import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
 import pl.ms.fire.emblem.business.exceptions.character.PairAlreadyOnSpotException
 import pl.ms.fire.emblem.business.exceptions.item.ItemDoesNotExistsException
-import pl.ms.fire.emblem.business.exceptions.item.NoItemEquippedException
 import pl.ms.fire.emblem.business.exceptions.item.NotStaffException
 import pl.ms.fire.emblem.business.serices.BoardService
 import pl.ms.fire.emblem.business.values.board.Position

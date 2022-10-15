@@ -6,8 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
-import pl.ms.fire.emblem.app.exceptions.NotCurrentTurnException
-import pl.ms.fire.emblem.app.exceptions.NotPlayersPairException
+import pl.ms.fire.emblem.app.exceptions.board.NotCurrentTurnException
+import pl.ms.fire.emblem.app.exceptions.board.NotPlayersPairException
 import pl.ms.fire.emblem.app.persistence.repositories.BoardRepository
 import pl.ms.fire.emblem.app.persistence.repositories.CharacterPairRepository
 import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository

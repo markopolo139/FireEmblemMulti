@@ -7,13 +7,12 @@ import org.springframework.mail.MailException
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.context.Context
 import pl.ms.fire.emblem.app.configuration.security.TokenService
-import pl.ms.fire.emblem.app.exceptions.EmailNotFoundException
-import pl.ms.fire.emblem.app.exceptions.PasswordRecoveryTokenNotFoundException
+import pl.ms.fire.emblem.app.exceptions.user.EmailNotFoundException
+import pl.ms.fire.emblem.app.exceptions.token.PasswordRecoveryTokenNotFoundException
 import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository
 import java.io.File
 

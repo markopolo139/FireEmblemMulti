@@ -9,15 +9,14 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
-import pl.ms.fire.emblem.app.exceptions.EmailNotFoundException
-import pl.ms.fire.emblem.app.exceptions.UserEmailAlreadyExistsException
-import pl.ms.fire.emblem.app.exceptions.UserInGameException
-import pl.ms.fire.emblem.app.exceptions.UsernameNotFoundException
+import pl.ms.fire.emblem.app.exceptions.user.EmailNotFoundException
+import pl.ms.fire.emblem.app.exceptions.user.UserEmailAlreadyExistsException
+import pl.ms.fire.emblem.app.exceptions.create.game.UserInGameException
+import pl.ms.fire.emblem.app.exceptions.user.UsernameNotFoundException
 import pl.ms.fire.emblem.app.persistence.entities.PlayerEntity
 import pl.ms.fire.emblem.app.persistence.repositories.BoardRepository
 import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository
 import pl.ms.fire.emblem.app.persistence.toUserEntity
-import pl.ms.fire.emblem.web.model.request.RegistryModel
 
 @Service
 class UserService: UserDetailsService{

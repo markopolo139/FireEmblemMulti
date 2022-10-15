@@ -1,6 +1,5 @@
 package pl.ms.fire.emblem.app.exceptions
 
-//TODO: Organize exceptions
 open class AppException: Exception {
     constructor() : super()
     constructor(message: String?) : super(message)

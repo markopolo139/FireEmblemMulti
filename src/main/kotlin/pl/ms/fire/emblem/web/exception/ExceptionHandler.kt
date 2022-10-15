@@ -11,6 +11,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import pl.ms.fire.emblem.app.exceptions.*
+import pl.ms.fire.emblem.app.exceptions.board.*
+import pl.ms.fire.emblem.app.exceptions.create.game.InvalidSetUpIdsException
+import pl.ms.fire.emblem.app.exceptions.create.game.InvalidStartPositionException
+import pl.ms.fire.emblem.app.exceptions.create.game.UserInGameException
+import pl.ms.fire.emblem.app.exceptions.preset.*
+import pl.ms.fire.emblem.app.exceptions.token.InvalidWebSocketTokenException
+import pl.ms.fire.emblem.app.exceptions.token.PasswordRecoveryTokenNotFoundException
+import pl.ms.fire.emblem.app.exceptions.user.*
 import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
 import pl.ms.fire.emblem.business.exceptions.PositionOutOfBoundsException
 import pl.ms.fire.emblem.business.exceptions.battle.NotAllowedWeaponCategoryException
@@ -24,7 +32,7 @@ import pl.ms.fire.emblem.business.exceptions.character.*
 import pl.ms.fire.emblem.business.exceptions.item.*
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolationException
-typealias AppSpotDoesNotExists = pl.ms.fire.emblem.app.exceptions.SpotDoesNotExistsException
+typealias AppSpotDoesNotExists = pl.ms.fire.emblem.app.exceptions.board.SpotDoesNotExistsException
 
 @Suppress("UNCHECKED_CAST")
 @ControllerAdvice

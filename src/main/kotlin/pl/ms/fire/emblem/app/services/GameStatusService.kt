@@ -6,15 +6,13 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppSpotEntity
-import pl.ms.fire.emblem.app.exceptions.BoardNotFoundException
-import pl.ms.fire.emblem.app.exceptions.InvalidCharacterPairException
-import pl.ms.fire.emblem.app.exceptions.UsernameNotFoundException
+import pl.ms.fire.emblem.app.exceptions.board.BoardNotFoundException
+import pl.ms.fire.emblem.app.exceptions.board.InvalidCharacterPairException
+import pl.ms.fire.emblem.app.exceptions.user.UsernameNotFoundException
 import pl.ms.fire.emblem.app.persistence.repositories.BoardRepository
 import pl.ms.fire.emblem.app.persistence.repositories.CharacterPairRepository
 import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository
 import pl.ms.fire.emblem.app.persistence.toAppEntity
-import pl.ms.fire.emblem.app.websocket.messages.models.SpotModel
-import pl.ms.fire.emblem.web.model.toModel
 
 @Service
 class GameStatusService {

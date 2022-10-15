@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
-import pl.ms.fire.emblem.app.exceptions.InvalidPositionException
+import pl.ms.fire.emblem.app.exceptions.board.InvalidPositionException
 import pl.ms.fire.emblem.app.persistence.repositories.SpotRepository
 import pl.ms.fire.emblem.app.persistence.toAppEntity
 import pl.ms.fire.emblem.app.persistence.toEntity
@@ -13,8 +13,6 @@ import pl.ms.fire.emblem.app.websocket.messages.equipment.EquipMessageModel
 import pl.ms.fire.emblem.app.websocket.messages.equipment.TradeMessageModel
 import pl.ms.fire.emblem.app.websocket.messages.models.toModel
 import pl.ms.fire.emblem.business.exceptions.CharacterMovedException
-import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
-import pl.ms.fire.emblem.business.exceptions.character.PairAlreadyHaveSupportException
 import pl.ms.fire.emblem.business.exceptions.item.EquipmentLimitExceededException
 import pl.ms.fire.emblem.business.exceptions.item.ItemDoesNotExistsException
 import pl.ms.fire.emblem.business.exceptions.item.TradeEquippedItemException

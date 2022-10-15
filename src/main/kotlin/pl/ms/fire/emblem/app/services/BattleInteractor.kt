@@ -7,8 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
-import pl.ms.fire.emblem.app.exceptions.BoardNotFoundException
-import pl.ms.fire.emblem.app.exceptions.InvalidPositionException
+import pl.ms.fire.emblem.app.exceptions.board.InvalidPositionException
 import pl.ms.fire.emblem.app.persistence.repositories.*
 import pl.ms.fire.emblem.app.persistence.toAppEntity
 import pl.ms.fire.emblem.app.persistence.toEntity
@@ -23,11 +22,9 @@ import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotExceptio
 import pl.ms.fire.emblem.business.exceptions.item.ItemDoesNotExistsException
 import pl.ms.fire.emblem.business.exceptions.item.NoItemEquippedException
 import pl.ms.fire.emblem.business.serices.BattleService
-import pl.ms.fire.emblem.business.serices.BoardService
 import pl.ms.fire.emblem.business.utlis.Displayable
 import pl.ms.fire.emblem.business.values.battle.BattleForecast
 import pl.ms.fire.emblem.business.values.board.Position
-import pl.ms.fire.emblem.web.model.toModel
 
 @Service
 class BattleInteractor {
@@ -51,6 +48,7 @@ class BattleInteractor {
     private val userId: Int
         get() = (SecurityContextHolder.getContext().authentication.principal as UserEntity).id
 
+    //TODO: check if defender is enemy( or leave for tactical aspect) !THINK!
     fun battle(attacker: Position, defender: Position): List<Displayable> {
 
         serviceUtils.validateCurrentTurn()

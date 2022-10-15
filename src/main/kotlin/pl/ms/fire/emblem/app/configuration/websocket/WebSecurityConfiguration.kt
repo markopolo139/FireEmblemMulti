@@ -19,7 +19,7 @@ import org.springframework.security.web.csrf.DefaultCsrfToken
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
-import pl.ms.fire.emblem.app.exceptions.InvalidWebSocketTokenException
+import pl.ms.fire.emblem.app.exceptions.token.InvalidWebSocketTokenException
 
 @EnableWebSocketMessageBroker
 @Configuration

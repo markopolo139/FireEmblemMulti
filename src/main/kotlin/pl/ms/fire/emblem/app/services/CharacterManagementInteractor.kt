@@ -9,7 +9,7 @@ import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
 import pl.ms.fire.emblem.app.entities.AppGameCharacterEntity
 import pl.ms.fire.emblem.app.entities.AppSpotEntity
-import pl.ms.fire.emblem.app.exceptions.InvalidPositionException
+import pl.ms.fire.emblem.app.exceptions.board.InvalidPositionException
 import pl.ms.fire.emblem.app.persistence.repositories.SpotRepository
 import pl.ms.fire.emblem.app.persistence.toAppEntity
 import pl.ms.fire.emblem.app.persistence.toEntity

@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
 import pl.ms.fire.emblem.app.entities.AppGameCharacterEntity
 import pl.ms.fire.emblem.app.entities.AppPresetEntity
-import pl.ms.fire.emblem.app.exceptions.InvalidNumberOfCharactersInPresetException
-import pl.ms.fire.emblem.app.exceptions.InvalidStatForCharacterException
-import pl.ms.fire.emblem.app.exceptions.PresetDoesNotExistsException
-import pl.ms.fire.emblem.app.exceptions.PresetLimitExceededException
+import pl.ms.fire.emblem.app.exceptions.preset.InvalidNumberOfCharactersInPresetException
+import pl.ms.fire.emblem.app.exceptions.preset.InvalidStatForCharacterException
+import pl.ms.fire.emblem.app.exceptions.preset.PresetDoesNotExistsException
+import pl.ms.fire.emblem.app.exceptions.preset.PresetLimitExceededException
 import pl.ms.fire.emblem.app.persistence.entities.PlayerPresetEntity
 import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository
 import pl.ms.fire.emblem.app.persistence.repositories.PresetRepository
