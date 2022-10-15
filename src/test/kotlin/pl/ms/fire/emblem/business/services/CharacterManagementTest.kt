@@ -3,6 +3,7 @@ package pl.ms.fire.emblem.business.services
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.ms.fire.emblem.business.entities.CharacterPair
+import pl.ms.fire.emblem.business.exceptions.battle.OutOfRangeException
 import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
 import pl.ms.fire.emblem.business.exceptions.character.NoSupportCharacterException
 import pl.ms.fire.emblem.business.exceptions.character.SeparatePairException
@@ -144,22 +145,27 @@ class CharacterManagementTest {
         val spot1 = Spot(Position(1,1), Terrain.PLAIN, characterPair)
         val spot2 = Spot(Position(1,1), Terrain.PLAIN, separate)
         val spotNull = Spot(Position(1,1), Terrain.PLAIN, null)
+        val spotNoCharacterOnSpot= Spot(Position(1,2), Terrain.PLAIN, null)
 
         Assertions.assertThrows(SeparatePairException::class.java) {
             characterManagementService.separatePair(spot1, spot2)
         }
 
-        Assertions.assertThrows(NoSupportCharacterException::class.java) {
+        Assertions.assertThrows(OutOfRangeException::class.java) {
             characterManagementService.separatePair(spot1, spotNull)
+        }
+
+        Assertions.assertThrows(NoSupportCharacterException::class.java) {
+            characterManagementService.separatePair(spot1, spotNoCharacterOnSpot)
         }
 
         spot1.standingCharacter = copy
 
         Assertions.assertDoesNotThrow {
-            characterManagementService.separatePair(spot1, spotNull)
+            characterManagementService.separatePair(spot1, spotNoCharacterOnSpot)
         }
 
-        Assertions.assertEquals(separate, spotNull.standingCharacter)
+        Assertions.assertEquals(separate, spotNoCharacterOnSpot.standingCharacter)
 
     }
 
