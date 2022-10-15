@@ -50,7 +50,7 @@ class EquipmentManagementInteractor {
                 InvalidPositionException()
             }.toAppEntity()
 
-        serviceUtils.validateCorrectPair((pairSpot.standingCharacter as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((pairSpot.standingCharacter as? AppCharacterPairEntity))
 
         try {
             equipmentService.equipItem(pairSpot.standingCharacter!!.leadCharacter, itemId)
@@ -88,7 +88,7 @@ class EquipmentManagementInteractor {
                 InvalidPositionException()
             }.toAppEntity()
 
-        serviceUtils.validateCorrectPair((pairSpot.standingCharacter as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((pairSpot.standingCharacter as? AppCharacterPairEntity))
 
         val tradeWithSpot = spotRepository.getByBoardIdAndXAndY(serviceUtils.getBoardId(), tradeWithPosition.x, tradeWithPosition.y)
             .orElseThrow {
@@ -96,7 +96,7 @@ class EquipmentManagementInteractor {
                 InvalidPositionException()
             }.toAppEntity()
 
-        serviceUtils.validateCorrectPair((tradeWithSpot.standingCharacter as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((tradeWithSpot.standingCharacter as? AppCharacterPairEntity))
 
         try {
             equipmentService.tradeEquipment(

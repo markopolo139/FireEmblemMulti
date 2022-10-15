@@ -70,7 +70,7 @@ class BoardInteractor {
             logger.debug("Invalid position in move pair")
             InvalidPositionException()
         }.toAppEntity()
-        serviceUtils.validateCorrectPair((startingSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((startingSpot.standingCharacter as? AppCharacterPairEntity))
 
         val result = try {
             boardService.movePair(startingSpot, linkedSetOf<Position>().apply { addAll(route) } , board.toAppEntity())
@@ -124,7 +124,7 @@ class BoardInteractor {
             characterPair!!.leadCharacter.moved = true
             characterPair!!.supportCharacter?.moved = true
         }
-        serviceUtils.validateCorrectPair(pairSpot.characterPair!!.id)
+        serviceUtils.validateCorrectPair(pairSpot.toAppEntity().standingCharacter as? AppCharacterPairEntity)
 
         spotRepository.save(pairSpot)
         simpMessagingTemplate.convertAndSend(
@@ -163,8 +163,8 @@ class BoardInteractor {
             InvalidPositionException()
         }.toAppEntity()
 
-        serviceUtils.validateCorrectPair((staffSpot.standingCharacter!! as AppCharacterPairEntity).id)
-        serviceUtils.validateCorrectPair((healedSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((staffSpot.standingCharacter as? AppCharacterPairEntity))
+        serviceUtils.validateCorrectPair((healedSpot.standingCharacter as? AppCharacterPairEntity))
 
         try {
             boardService.staffHeal(staffSpot, healedSpot)

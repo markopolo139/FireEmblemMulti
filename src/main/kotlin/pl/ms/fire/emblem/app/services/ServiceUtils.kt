@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import pl.ms.fire.emblem.app.configuration.security.UserEntity
+import pl.ms.fire.emblem.app.entities.AppCharacterPairEntity
 import pl.ms.fire.emblem.app.exceptions.NotCurrentTurnException
 import pl.ms.fire.emblem.app.exceptions.NotPlayersPairException
 import pl.ms.fire.emblem.app.persistence.repositories.BoardRepository
 import pl.ms.fire.emblem.app.persistence.repositories.CharacterPairRepository
 import pl.ms.fire.emblem.app.persistence.repositories.PlayerRepository
+import pl.ms.fire.emblem.business.exceptions.character.NoCharacterOnSpotException
 
 @Component
 class ServiceUtils {
@@ -51,7 +53,14 @@ class ServiceUtils {
         }
     }
 
-    fun validateCorrectPair(pairId: Int) {
+    fun validateCorrectPair(pair: AppCharacterPairEntity?) {
+        if (pair == null) {
+            logger.debug("Selected spot does not have pair")
+            throw NoCharacterOnSpotException()
+        }
+
+        val pairId = pair.id
+
         if (pairRepository.getAllPlayerCharacters(userId).map { it.id }.none { it == pairId }) {
             logger.debug("Selected pair does not belong to current player")
             throw NotPlayersPairException()

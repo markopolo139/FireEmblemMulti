@@ -57,7 +57,7 @@ class CharacterManagementInteractor {
             logger.debug("Invalid position for join into pair");
             InvalidPositionException()
         }.toAppEntity()
-        serviceUtils.validateCorrectPair((pairSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((pairSpot.standingCharacter as? AppCharacterPairEntity))
 
         val joinToSpot = spotRepository.getByBoardIdAndXAndY(
             serviceUtils.getBoardId(), joinToPosition.x, joinToPosition.y
@@ -65,7 +65,7 @@ class CharacterManagementInteractor {
             logger.debug("Invalid position for join into pair")
             InvalidPositionException()
         }.toAppEntity()
-        serviceUtils.validateCorrectPair((joinToSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((joinToSpot.standingCharacter as? AppCharacterPairEntity))
 
         try {
             characterService.joinIntoPair(pairSpot, joinToSpot)
@@ -103,7 +103,7 @@ class CharacterManagementInteractor {
             logger.debug("Invalid position for change support")
             InvalidPositionException()
         }.toAppEntity()
-        serviceUtils.validateCorrectPair((pairSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((pairSpot.standingCharacter as? AppCharacterPairEntity))
 
         try {
             characterService.changeSupport(pairSpot)
@@ -142,7 +142,7 @@ class CharacterManagementInteractor {
             logger.debug("Invalid position for separate pair");
             InvalidPositionException()
         }.toAppEntity()
-        serviceUtils.validateCorrectPair((pairSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((pairSpot.standingCharacter as? AppCharacterPairEntity))
 
         val separateSpot = spotRepository.getByBoardIdAndXAndY(
             serviceUtils.getBoardId(), separatePosition.x, separatePosition.y
@@ -206,7 +206,7 @@ class CharacterManagementInteractor {
             logger.debug("Invalid position for trade support");
             InvalidPositionException()
         }.toAppEntity()
-        serviceUtils.validateCorrectPair((pairSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((pairSpot.standingCharacter as? AppCharacterPairEntity))
 
         val tradeSpot = spotRepository.getByBoardIdAndXAndY(
             serviceUtils.getBoardId(), tradePosition.x, tradePosition.y
@@ -214,7 +214,7 @@ class CharacterManagementInteractor {
             logger.debug("Invalid position for trade support")
             InvalidPositionException()
         }.toAppEntity()
-        serviceUtils.validateCorrectPair((tradeSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((tradeSpot.standingCharacter as? AppCharacterPairEntity))
 
         try {
             characterService.tradeSupport(pairSpot, tradeSpot)

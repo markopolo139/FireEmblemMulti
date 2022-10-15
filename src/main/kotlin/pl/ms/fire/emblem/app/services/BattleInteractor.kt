@@ -61,7 +61,7 @@ class BattleInteractor {
              logger.debug("Given attacker position is invalid")
              InvalidPositionException()
         }.toAppEntity()
-        serviceUtils.validateCorrectPair((attackerSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((attackerSpot.standingCharacter as? AppCharacterPairEntity))
 
         val defenderSpot = spotRepository.getByBoardIdAndXAndY(boardId, defender.x, defender.y).orElseThrow {
              logger.debug("Given defender position is invalid")
@@ -120,7 +120,7 @@ class BattleInteractor {
             logger.debug("Given attacker position is invalid")
             InvalidPositionException()
         }.toAppEntity()
-        serviceUtils.validateCorrectPair((attackerSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((attackerSpot.standingCharacter as? AppCharacterPairEntity))
 
         val defenderSpot = spotRepository.getByBoardIdAndXAndY(serviceUtils.getBoardId(), defender.x, defender.y).orElseThrow {
             logger.debug("Given defender position is invalid")
