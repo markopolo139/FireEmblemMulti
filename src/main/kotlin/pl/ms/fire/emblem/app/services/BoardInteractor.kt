@@ -105,6 +105,7 @@ class BoardInteractor {
             throw e
         }
 
+        (result.last().standingCharacter as? AppCharacterPairEntity)?.spot = result.last()
         spotRepository.saveAll(result.map { it.toEntity() })
         simpMessagingTemplate.convertAndSend(
             "/topic/board-${board.id}/move", MoveMessageModel(result.first().toModel(), result.last().toModel())

@@ -95,7 +95,6 @@ fun AppCharacterPairEntity.toEntity(): CharacterPairEntity {
     return pair
 }
 
-
 fun BoardEntity.toSimpleAppEntity() =
     AppBoardEntity(id, height, width, playerA.toUserEntity(), playerB?.toUserEntity(), currentPlayer?.toUserEntity(), mutableMapOf())
 
