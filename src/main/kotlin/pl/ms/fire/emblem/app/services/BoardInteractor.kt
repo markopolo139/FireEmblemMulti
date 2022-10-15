@@ -60,6 +60,7 @@ class BoardInteractor {
     private val userId: Int
         get() = (SecurityContextHolder.getContext().authentication.principal as UserEntity).id
 
+    //TODO: read if this is correct(read how work one-to-one, saving entity that is in one to one, to another entity, later saving with null(deleting link)))
     fun movePair(startingPosition: Position, route: List<Position>): List<AppSpotEntity> {
 
         serviceUtils.validateCurrentTurn()
@@ -106,7 +107,11 @@ class BoardInteractor {
         }
 
         (result.last().standingCharacter as? AppCharacterPairEntity)?.spot = result.last()
-        spotRepository.saveAll(result.map { it.toEntity() })
+
+        val entities = result.map { it.toEntity() }
+        spotRepository.save(entities.first())
+        spotRepository.save(entities.last())
+
         simpMessagingTemplate.convertAndSend(
             "/topic/board-${board.id}/move", MoveMessageModel(result.first().toModel(), result.last().toModel())
         )
