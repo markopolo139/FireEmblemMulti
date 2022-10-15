@@ -90,7 +90,7 @@ class BattleService {
 
         val attackerWeaponTriangle = checkWeaponTriangle(attacker, defender)
 
-        val attackerDmg = calcDmgNoCrit(attackerPair, defenderPair)
+        val attackerDmg = calcDmgNoCrit(attackerPair, defenderPair) + attackerWeaponTriangle.dmgDealtModifier
         val attackerDouble = BattleUtils.isDoubleAttack(attackerPair, defenderPair)
         val attackerHit = attackerPair.battleStat.hitRate + attackerWeaponTriangle.hitRateModifier -
                 defenderPair.battleStat.avoid + defender.terrain.avoidBoost
@@ -103,15 +103,14 @@ class BattleService {
 
         try {
             preBattleValidationDefender(defender, attacker)
-            defenderDmg = calcDmgNoCrit(defenderPair, attackerPair)
-            defenderDouble = BattleUtils.isDoubleAttack(defenderPair, attackerPair)
             val defenderWeaponTriangle = checkWeaponTriangle(defender, attacker)
+            defenderDmg = calcDmgNoCrit(defenderPair, attackerPair) + defenderWeaponTriangle.dmgDealtModifier
+            defenderDouble = BattleUtils.isDoubleAttack(defenderPair, attackerPair)
             defenderHit = defenderPair.battleStat.hitRate + defenderWeaponTriangle.hitRateModifier -
                     attackerPair.battleStat.avoid + attacker.terrain.avoidBoost
             defenderCrit = defenderPair.battleStat.critical - attackerPair.boostedStats.getStat(Stat.LUCK)
         }
         catch (_: Exception) {}
-
 
         return BattleForecast(
             attackerDmg, attackerHit, attackerCrit, attackerDouble, defenderDmg, defenderHit, defenderCrit, defenderDouble

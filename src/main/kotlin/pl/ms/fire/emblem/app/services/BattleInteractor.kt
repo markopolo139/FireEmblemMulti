@@ -100,7 +100,6 @@ class BattleInteractor {
             throw e
         }
 
-
         spotRepository.save(attackerSpot.toEntity())
         spotRepository.save(defenderSpot.toEntity())
 
