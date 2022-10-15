@@ -48,7 +48,7 @@ class CharacterManagementInteractor {
     private val userId: Int
         get() = (SecurityContextHolder.getContext().authentication.principal as UserEntity).id
 
-    fun joinIntoPair(pairPosition: Position, joinWithPosition: Position) {
+    fun joinIntoPair(pairPosition: Position, joinToPosition: Position) {
         serviceUtils.validateCurrentTurn()
 
         val pairSpot = spotRepository.getByBoardIdAndXAndY(
@@ -59,16 +59,16 @@ class CharacterManagementInteractor {
         }.toAppEntity()
         serviceUtils.validateCorrectPair((pairSpot.standingCharacter!! as AppCharacterPairEntity).id)
 
-        val joinWithSpot = spotRepository.getByBoardIdAndXAndY(
-            serviceUtils.getBoardId(), joinWithPosition.x, joinWithPosition.y
+        val joinToSpot = spotRepository.getByBoardIdAndXAndY(
+            serviceUtils.getBoardId(), joinToPosition.x, joinToPosition.y
         ).orElseThrow {
             logger.debug("Invalid position for join into pair")
             InvalidPositionException()
         }.toAppEntity()
-        serviceUtils.validateCorrectPair((joinWithSpot.standingCharacter!! as AppCharacterPairEntity).id)
+        serviceUtils.validateCorrectPair((joinToSpot.standingCharacter!! as AppCharacterPairEntity).id)
 
         try {
-            characterService.joinIntoPair(pairSpot, joinWithSpot)
+            characterService.joinIntoPair(pairSpot, joinToSpot)
         }
         catch(e: NoCharacterOnSpotException) {
             logger.debug("No character on spot")
@@ -87,10 +87,10 @@ class CharacterManagementInteractor {
             throw e
         }
 
-        spotRepository.saveAll(listOf(pairSpot.toEntity(), joinWithSpot.toEntity()))
+        spotRepository.saveAll(listOf(pairSpot.toEntity(), joinToSpot.toEntity()))
         simpMessagingTemplate.convertAndSend(
             "/topic/board-${serviceUtils.getBoardId()}/pair/join",
-            JoinPairMessageModel(pairSpot.toModel(), joinWithSpot.toModel())
+            JoinPairMessageModel(joinToSpot.toModel(), pairSpot.toModel())
         )
     }
 

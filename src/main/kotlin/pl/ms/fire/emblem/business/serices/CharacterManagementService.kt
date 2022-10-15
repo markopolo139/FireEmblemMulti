@@ -7,17 +7,17 @@ import pl.ms.fire.emblem.business.values.board.Spot
 
 class CharacterManagementService {
 
-    fun joinIntoPair(characterSpot: Spot, joinWithSpot: Spot) {
-        if (characterSpot.standingCharacter == null || joinWithSpot.standingCharacter == null)
+    fun joinIntoPair(characterSpot: Spot, joinToSpot: Spot) {
+        if (characterSpot.standingCharacter == null || joinToSpot.standingCharacter == null)
             throw NoCharacterOnSpotException()
 
-        if (characterSpot.standingCharacter?.leadCharacter?.moved == true)
+        if (joinToSpot.standingCharacter?.leadCharacter?.moved == true)
             throw CharacterMovedException()
 
-        characterSpot.standingCharacter =
-            characterSpot.standingCharacter!!.joinWithAnotherCharacter(joinWithSpot.standingCharacter!!)
+        joinToSpot.standingCharacter =
+            joinToSpot.standingCharacter!!.joinWithAnotherCharacter(characterSpot.standingCharacter!!)
 
-        joinWithSpot.standingCharacter = null
+        characterSpot.standingCharacter = null
     }
 
     fun changeSupport(characterSpot: Spot) {

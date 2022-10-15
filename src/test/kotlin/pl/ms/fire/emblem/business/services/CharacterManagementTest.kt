@@ -68,7 +68,7 @@ class CharacterManagementTest {
             )
         )
 
-        val copy = CharacterPair(characterPair.leadCharacter, characterPair.supportCharacter)
+        val copy = CharacterPair(characterPair.supportCharacter!!, characterPair.leadCharacter)
         val separate = characterPair.separatePair()
 
         val spot1 = Spot(Position(1,1), Terrain.PLAIN, characterPair)
@@ -83,10 +83,10 @@ class CharacterManagementTest {
             characterManagementService.joinIntoPair(spot1, spot2)
         }
 
-        Assertions.assertNull(spot2.standingCharacter)
+        Assertions.assertNull(spot1.standingCharacter)
 
         Assertions.assertEquals(
-            copy, spot1.standingCharacter
+            copy, spot2.standingCharacter
         )
 
     }
