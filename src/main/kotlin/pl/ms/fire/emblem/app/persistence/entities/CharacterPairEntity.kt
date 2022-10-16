@@ -33,7 +33,6 @@ class CharacterPairEntity(
         if (id != other.id) return false
         if (leadCharacter != other.leadCharacter) return false
         if (supportCharacter != other.supportCharacter) return false
-        if (spot != other.spot) return false
 
         return true
     }

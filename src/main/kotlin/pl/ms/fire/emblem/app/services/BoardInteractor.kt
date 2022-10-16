@@ -103,11 +103,9 @@ class BoardInteractor {
             throw e
         }
 
-        (result.last().standingCharacter as? AppCharacterPairEntity)?.spot = result.last()
-
-        val entities = result.map { it.toEntity() }
-        spotRepository.save(entities.first())
-        spotRepository.save(entities.last())
+        val saveSpot = result.last()
+        (saveSpot.standingCharacter as? AppCharacterPairEntity)?.spot = result.last()
+        spotRepository.save(saveSpot.toEntity())
 
         simpMessagingTemplate.convertAndSend(
             "/topic/board-${board.id}/move", MoveMessageModel(result.first().toModel(), result.last().toModel())
