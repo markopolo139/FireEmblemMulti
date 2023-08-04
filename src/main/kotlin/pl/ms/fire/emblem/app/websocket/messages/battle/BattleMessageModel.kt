@@ -7,6 +7,4 @@ import pl.ms.fire.emblem.business.utlis.Displayable
 
 class BattleMessageModel(
     val attackerSpot: SpotModel, val defenderSpot: SpotModel, val battleCourse: List<String>
-): MessageModel {
-    override fun getDescription(): String = "Have all info about battle"
-}
+): MessageModel

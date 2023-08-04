@@ -8,6 +8,4 @@ import pl.ms.fire.emblem.business.values.board.Spot
 
 class BattleForecastMessage(
     val attackerSpot: SpotModel, val defenderSpot: SpotModel, val battleForecast: BattleForecast
-): MessageModel {
-    override fun getDescription(): String = "Have details about battle forecast"
-}
+): MessageModel
